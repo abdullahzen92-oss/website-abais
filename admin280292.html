@@ -55,6 +55,14 @@
       <div class="admin__tab" id="tab-beranda">
         <div class="admin__header"><h2>🏠 Beranda</h2><button class="btn btn--accent" id="saveHeroBtn">💾 Simpan Beranda</button></div>
 
+        <!-- Dashboard Stats -->
+        <div class="admin__stats" id="dashStats">
+          <div class="admin__stat-card"><div class="admin__stat-icon admin__stat-icon--blue">🖼️</div><div><div class="admin__stat-value" id="statGallery">0</div><div class="admin__stat-label">Foto Galeri</div></div></div>
+          <div class="admin__stat-card"><div class="admin__stat-icon admin__stat-icon--green">📅</div><div><div class="admin__stat-value" id="statEvents">0</div><div class="admin__stat-label">Event Kalender</div></div></div>
+          <div class="admin__stat-card"><div class="admin__stat-icon admin__stat-icon--orange">💬</div><div><div class="admin__stat-value" id="statChats">0</div><div class="admin__stat-label">Total Chat</div></div></div>
+          <div class="admin__stat-card"><div class="admin__stat-icon admin__stat-icon--purple">📝</div><div><div class="admin__stat-value" id="statTestimonials">0</div><div class="admin__stat-label">Testimoni</div></div></div>
+        </div>
+
         <div class="admin__section">
           <h3>Hero Section</h3>
           <div class="admin__form-row">
@@ -219,10 +227,10 @@
           </div>
         </div>
 
-        <div class="admin__section" style="border-top:2px solid #e74c3c;padding-top:1rem;">
-          <h3 style="color:#e74c3c;">⚠️ Reset Data</h3>
-          <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Klik untuk mengembalikan konten halaman ke default. Galeri & Kalender tidak terpengaruh.</p>
-          <button class="btn btn--ghost" style="color:#e74c3c;border:1px solid #e74c3c;" id="resetContentBtn">Reset Semua Konten</button>
+        <div class="admin__section" style="border-top:2px solid var(--admin-danger);">
+          <h3 style="color:var(--admin-danger);">⚠️ Reset Data</h3>
+          <p style="font-size:0.85rem;color:var(--admin-text-dim);margin-bottom:1rem;">Klik untuk mengembalikan konten halaman ke default. Galeri & Kalender tidak terpengaruh.</p>
+          <button class="btn btn--outline" style="color:var(--admin-danger);border-color:var(--admin-danger);" id="resetContentBtn">Reset Semua Konten</button>
         </div>
       </div>
 
@@ -287,6 +295,11 @@
       loadGallery();
       loadCalendar();
       loadChat();
+      // Update stat cards
+      document.getElementById('statGallery').textContent = getGallery().length;
+      document.getElementById('statEvents').textContent = getCalendarEvents().length;
+      document.getElementById('statChats').textContent = getChatSessions().length;
+      document.getElementById('statTestimonials').textContent = (data.testimonials || []).length;
     }
 
     // ========================================
@@ -327,11 +340,11 @@
 
     function renderTestimoni(testimonials) {
       document.getElementById('testimoniEditor').innerHTML = testimonials.map((t, i) => `
-        <div class="admin__repeat-item admin__section" style="background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:0.5rem;">
+        <div class="admin__repeat-item admin__section" style="background:var(--admin-surface-2);padding:1rem;border-radius:12px;margin-bottom:0.5rem;">
           <div class="admin__form-row" style="align-items:end;">
             <div class="admin__form-group"><label>Nama</label><input class="form-input testi-name" value="${escAttr(t.name)}" /></div>
             <div class="admin__form-group"><label>Role</label><input class="form-input testi-role" value="${escAttr(t.role)}" /></div>
-            <button class="btn btn--ghost btn--sm" style="color:#e74c3c;margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+            <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
           </div>
           <div class="admin__form-group"><label>Teks Testimoni</label><textarea class="form-input testi-text" rows="2">${escHtml(t.text)}</textarea></div>
         </div>
@@ -341,11 +354,11 @@
     document.getElementById('addTestimoniBtn').addEventListener('click', () => {
       const container = document.getElementById('testimoniEditor');
       container.insertAdjacentHTML('beforeend', `
-        <div class="admin__repeat-item admin__section" style="background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:0.5rem;">
+        <div class="admin__repeat-item admin__section" style="background:var(--admin-surface-2);padding:1rem;border-radius:12px;margin-bottom:0.5rem;">
           <div class="admin__form-row" style="align-items:end;">
             <div class="admin__form-group"><label>Nama</label><input class="form-input testi-name" value="" /></div>
             <div class="admin__form-group"><label>Role</label><input class="form-input testi-role" value="" /></div>
-            <button class="btn btn--ghost btn--sm" style="color:#e74c3c;margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+            <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
           </div>
           <div class="admin__form-group"><label>Teks Testimoni</label><textarea class="form-input testi-text" rows="2"></textarea></div>
         </div>
@@ -411,7 +424,7 @@
       document.getElementById('missionEditor').innerHTML = missions.map((m, i) => `
         <div class="admin__form-row admin__repeat-item" style="align-items:center;">
           <div class="admin__form-group" style="flex:1;"><input class="form-input mission-item" value="${escAttr(m)}" /></div>
-          <button class="btn btn--ghost btn--sm" style="color:#e74c3c;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
         </div>
       `).join('');
     }
@@ -420,7 +433,7 @@
       document.getElementById('missionEditor').insertAdjacentHTML('beforeend', `
         <div class="admin__form-row admin__repeat-item" style="align-items:center;">
           <div class="admin__form-group" style="flex:1;"><input class="form-input mission-item" value="" placeholder="Misi baru..." /></div>
-          <button class="btn btn--ghost btn--sm" style="color:#e74c3c;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
         </div>
       `);
     });
@@ -500,16 +513,16 @@
     function loadGallery() {
       const items = getGallery();
       document.getElementById('galleryTbody').innerHTML = items.length === 0
-        ? '<tr><td colspan="5" style="text-align:center;color:#999;padding:2rem;">Belum ada foto di galeri.</td></tr>'
+        ? '<tr><td colspan="5" style="text-align:center;color:var(--admin-text-dim);padding:2rem;">Belum ada foto di galeri.</td></tr>'
         : items.map(item => `
         <tr>
-          <td>${item.image_url ? `<img src="${item.image_url}" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" />` : '<div style="width:48px;height:48px;background:#f1f3f5;border-radius:6px;display:flex;align-items:center;justify-content:center;">📷</div>'}</td>
-          <td><strong>${escHtml(item.title)}</strong><br/><small style="color:#999">${escHtml(item.description || '')}</small></td>
+          <td>${item.image_url ? `<img src="${item.image_url}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;" />` : '<div style="width:48px;height:48px;background:var(--admin-surface-2);border-radius:8px;display:flex;align-items:center;justify-content:center;">📷</div>'}</td>
+          <td><strong>${escHtml(item.title)}</strong><br/><small style="color:var(--admin-text-dim)">${escHtml(item.description || '')}</small></td>
           <td><span class="admin__badge-unit">${(item.unit || '').toUpperCase()}</span></td>
           <td>${item.category}</td>
           <td>
             <button class="btn btn--sm btn--outline" onclick="editGallery('${item.id}')">Edit</button>
-            <button class="btn btn--sm btn--ghost" style="color:#e74c3c;" onclick="delGallery('${item.id}')">Hapus</button>
+            <button class="btn btn--sm btn--ghost" style="color:var(--admin-danger);" onclick="delGallery('${item.id}')">Hapus</button>
           </td>
         </tr>
       `).join('');
@@ -564,7 +577,7 @@
     function loadCalendar() {
       const items = getCalendarEvents();
       document.getElementById('calendarTbody').innerHTML = items.length === 0
-        ? '<tr><td colspan="5" style="text-align:center;color:#999;padding:2rem;">Belum ada event.</td></tr>'
+        ? '<tr><td colspan="5" style="text-align:center;color:var(--admin-text-dim);padding:2rem;">Belum ada event.</td></tr>'
         : items.map(item => `
         <tr>
           <td><strong>${escHtml(item.title)}</strong></td>
@@ -573,7 +586,7 @@
           <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.color || '#2B8FBD'};margin-right:4px;vertical-align:middle;"></span>${item.category}</td>
           <td>
             <button class="btn btn--sm btn--outline" onclick="editCalendar('${item.id}')">Edit</button>
-            <button class="btn btn--sm btn--ghost" style="color:#e74c3c;" onclick="delCalendar('${item.id}')">Hapus</button>
+            <button class="btn btn--sm btn--ghost" style="color:var(--admin-danger);" onclick="delCalendar('${item.id}')">Hapus</button>
           </td>
         </tr>
       `).join('');
@@ -628,7 +641,7 @@
       else { badge.style.display = 'none'; }
 
       document.getElementById('chatList').innerHTML = sessions.length === 0
-        ? '<p style="text-align:center;color:#999;padding:2rem;">Belum ada chat.</p>'
+        ? '<p style="text-align:center;color:var(--admin-text-dim);padding:2rem;">Belum ada chat.</p>'
         : sessions.map(s => `
           <div class="admin__chat-item ${s.session_id === activeSession ? 'admin__chat-item--active' : ''}" data-session="${s.session_id}">
             <div class="admin__chat-item-avatar">${(s.visitor_name || '?')[0].toUpperCase()}</div>
