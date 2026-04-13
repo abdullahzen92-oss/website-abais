@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Galeri Kegiatan — ABAIS</title>
-  <meta name="description" content="Galeri foto kegiatan Abdurrahman Bin Auf Islamic School. Tahfidz, Entrepreneur, Beladiri, dan kegiatan Islam lainnya." />
+  <title>Galeri Kegiatan — ABAIS | Abdurrahman Bin Auf Islamic School</title>
+  <meta name="description" content="Galeri foto kegiatan Abdurrahman Bin Auf Islamic School (ABAIS) — Tahfidz, Entrepreneur, Beladiri, dan kegiatan sekolah lainnya." />
   <link rel="icon" type="image/png" href="/assets/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,144 +19,140 @@
     <div id="navbarSlot"></div>
     <main>
       <section class="page-hero">
-        <h1 data-i18n="gallery.title">Galeri Kegiatan</h1>
-        <p data-i18n="gallery.subtitle">Momen berharga kegiatan siswa ABAIS</p>
+        <h1>Galeri Kegiatan</h1>
+        <p>Momen-momen berharga kegiatan di Abdurrahman Bin Auf Islamic School</p>
       </section>
 
       <section class="section" id="gallerySection">
         <div class="container">
-          <!-- Filter Tabs -->
-          <div class="filter-tabs reveal" id="galleryFilters">
-            <button class="filter-tab filter-tab--active" data-filter="all">Semua</button>
-            <button class="filter-tab" data-filter="sdit">🏫 SDIT</button>
-            <button class="filter-tab" data-filter="smp-sma">🎓 SMP-SMA</button>
+          <!-- Unit Filter -->
+          <div class="filter-tabs" id="unitFilter">
+            <button class="filter-tab filter-tab--active" data-unit="all">Semua</button>
+            <button class="filter-tab" data-unit="sdit">SDIT</button>
+            <button class="filter-tab" data-unit="smp-sma">SMP-SMA</button>
           </div>
-
-          <div class="filter-tabs filter-tabs--sub reveal" id="categoryFilters">
+          <!-- Category Filter -->
+          <div class="filter-tabs filter-tabs--sub" id="categoryFilter">
             <button class="filter-tab filter-tab--sm filter-tab--active" data-cat="all">Semua</button>
             <button class="filter-tab filter-tab--sm" data-cat="tahfidz">📖 Tahfidz</button>
-            <button class="filter-tab filter-tab--sm" data-cat="entrepreneur">💡 Entrepreneur</button>
+            <button class="filter-tab filter-tab--sm" data-cat="entrepreneur">💼 Entrepreneur</button>
             <button class="filter-tab filter-tab--sm" data-cat="beladiri">🥋 Beladiri</button>
             <button class="filter-tab filter-tab--sm" data-cat="umum">🏫 Umum</button>
           </div>
 
-          <!-- Gallery Grid -->
-          <div class="gallery-grid" id="galleryGrid">
-            <!-- Filled by JS -->
-          </div>
-
-          <div class="gallery-empty" id="galleryEmpty" style="display:none;">
-            <div style="font-size:3rem;">📷</div>
-            <p>Belum ada foto di kategori ini.</p>
-          </div>
+          <div class="gallery-grid" id="galleryGrid"></div>
         </div>
       </section>
-
-      <!-- Lightbox Modal -->
-      <div class="lightbox" id="lightbox">
-        <button class="lightbox__close" id="lightboxClose">✕</button>
-        <div class="lightbox__content">
-          <img id="lightboxImg" src="" alt="" />
-          <div class="lightbox__caption" id="lightboxCaption"></div>
-        </div>
-      </div>
     </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lightbox__close" id="lightboxClose">✕</button>
+      <div class="lightbox__content">
+        <img id="lightboxImg" src="" alt="" />
+        <p class="lightbox__caption" id="lightboxCaption"></p>
+      </div>
+    </div>
+
     <div id="footerSlot"></div>
     <div id="waSlot"></div>
   </div>
   <script type="module">
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
-    import { getGallery, seedInitialData } from '/js/data-manager.js';
+    import { seedInitialData, getGallery } from '/js/data-manager.js';
     import { initChat } from '/js/chat.js';
-    import { initI18n } from '/js/i18n.js';
-    import { initAnimations } from '/js/animations.js';
 
     document.getElementById('navbarSlot').innerHTML = getNavbar('gallery');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
-
     seedInitialData();
-
-    // Init modules
     import('/js/main.js');
-    initI18n();
-    initAnimations();
     initChat();
 
-    // Gallery logic
+    // Gallery Logic
     let currentUnit = 'all';
     let currentCat = 'all';
 
+    const categoryColors = {
+      tahfidz: '#2B8FBD',
+      entrepreneur: '#f39c12',
+      beladiri: '#e74c3c',
+      umum: '#27ae60'
+    };
+
+    const categoryEmoji = {
+      tahfidz: '📖',
+      entrepreneur: '💼',
+      beladiri: '🥋',
+      umum: '🏫'
+    };
+
     function renderGallery() {
-      const gallery = getGallery();
-      let filtered = gallery;
-      if (currentUnit !== 'all') filtered = filtered.filter(g => g.unit === currentUnit);
-      if (currentCat !== 'all') filtered = filtered.filter(g => g.category === currentCat);
-
       const grid = document.getElementById('galleryGrid');
-      const empty = document.getElementById('galleryEmpty');
+      let items = getGallery();
 
-      if (filtered.length === 0) {
-        grid.innerHTML = '';
-        empty.style.display = 'block';
+      if (currentUnit !== 'all') items = items.filter(i => i.unit === currentUnit);
+      if (currentCat !== 'all') items = items.filter(i => i.category === currentCat);
+
+      if (items.length === 0) {
+        grid.innerHTML = '<div class="gallery-empty"><p>📷</p><p>Belum ada foto untuk kategori ini.</p><p>Foto akan ditambahkan oleh admin.</p></div>';
         return;
       }
 
-      empty.style.display = 'none';
-      grid.innerHTML = filtered.map(item => `
-        <div class="gallery-item reveal" data-img="${item.image_url || ''}" data-title="${item.title}">
-          <div class="gallery-item__img" style="background:${item.image_url ? `url(${item.image_url}) center/cover` : 'var(--gradient-primary)'};">
-            ${!item.image_url ? `<span style="color:white;font-size:2rem;">📷</span>` : ''}
+      grid.innerHTML = items.map(item => `
+        <div class="gallery-item" data-id="${item.id}" style="background:${item.image_url ? `url(${item.image_url}) center/cover` : `linear-gradient(135deg, ${categoryColors[item.category] || '#2B8FBD'}33, ${categoryColors[item.category] || '#2B8FBD'}11)`};">
+          <div class="gallery-item__img" style="${item.image_url ? 'display:none' : ''}">
+            <span style="font-size:3rem;">${categoryEmoji[item.category] || '📷'}</span>
           </div>
           <div class="gallery-item__overlay">
             <h4>${item.title}</h4>
             <p>${item.description || ''}</p>
-            <span class="gallery-item__badge">${item.unit === 'sdit' ? 'SDIT' : 'SMP-SMA'}</span>
+            <span class="gallery-item__badge">${(item.unit || '').toUpperCase()} • ${item.category}</span>
           </div>
         </div>
       `).join('');
-
-      // Lightbox click
-      grid.querySelectorAll('.gallery-item').forEach(el => {
-        el.addEventListener('click', () => {
-          const img = el.dataset.img;
-          const title = el.dataset.title;
-          if (img) {
-            document.getElementById('lightboxImg').src = img;
-            document.getElementById('lightboxCaption').textContent = title;
-            document.getElementById('lightbox').classList.add('lightbox--open');
-          }
-        });
-      });
-
-      initAnimations();
     }
 
     // Filter events
-    document.getElementById('galleryFilters').addEventListener('click', (e) => {
+    document.getElementById('unitFilter').addEventListener('click', e => {
       const btn = e.target.closest('.filter-tab');
       if (!btn) return;
-      document.querySelectorAll('#galleryFilters .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
+      document.querySelectorAll('#unitFilter .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
       btn.classList.add('filter-tab--active');
-      currentUnit = btn.dataset.filter;
+      currentUnit = btn.dataset.unit;
       renderGallery();
     });
 
-    document.getElementById('categoryFilters').addEventListener('click', (e) => {
+    document.getElementById('categoryFilter').addEventListener('click', e => {
       const btn = e.target.closest('.filter-tab');
       if (!btn) return;
-      document.querySelectorAll('#categoryFilters .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
+      document.querySelectorAll('#categoryFilter .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
       btn.classList.add('filter-tab--active');
       currentCat = btn.dataset.cat;
       renderGallery();
     });
 
-    // Lightbox close
+    // Lightbox
+    document.getElementById('galleryGrid').addEventListener('click', e => {
+      const item = e.target.closest('.gallery-item');
+      if (!item) return;
+      const id = item.dataset.id;
+      const data = getGallery().find(g => g.id === id);
+      if (!data) return;
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightboxImg').src = data.image_url || '';
+      document.getElementById('lightboxCaption').textContent = data.title;
+      if (data.image_url) lb.classList.add('lightbox--open');
+    });
+
     document.getElementById('lightboxClose').addEventListener('click', () => {
       document.getElementById('lightbox').classList.remove('lightbox--open');
     });
-    document.getElementById('lightbox').addEventListener('click', (e) => {
-      if (e.target.id === 'lightbox') e.currentTarget.classList.remove('lightbox--open');
+
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === e.currentTarget) {
+        e.currentTarget.classList.remove('lightbox--open');
+      }
     });
 
     renderGallery();

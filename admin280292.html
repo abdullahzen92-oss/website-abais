@@ -3,194 +3,366 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel — ABAIS</title>
+  <title>Admin Dashboard — ABAIS</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" href="/assets/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/admin.css" />
 </head>
 <body>
-  <!-- LOGIN SCREEN -->
-  <div class="admin-login" id="adminLogin">
+  <!-- Login Screen -->
+  <div id="loginScreen" class="admin-login">
     <div class="admin-login__card">
-      <img src="/assets/images/logo.png" alt="ABAIS" class="admin-login__logo" />
-      <h2>Admin Panel</h2>
-      <p>Abdurrahman Bin Auf Islamic School</p>
+      <img src="/assets/images/logo.png" alt="ABAIS Logo" class="admin-login__logo" />
+      <h2>Admin Dashboard</h2>
+      <p>Masukkan password untuk mengakses dashboard</p>
       <form id="loginForm">
-        <div class="admin-form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" class="admin-input" placeholder="Masukkan password..." required />
-        </div>
-        <button type="submit" class="admin-btn admin-btn--primary admin-btn--full">Masuk</button>
-        <p class="admin-login__error" id="loginError" style="display:none;">Password salah!</p>
+        <input type="password" id="loginPassword" class="form-input" placeholder="Password..." autocomplete="off" />
+        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:var(--space-md);">Masuk</button>
+        <p id="loginError" style="color:var(--clr-error);font-size:var(--fs-caption);margin-top:var(--space-sm);display:none;">Password salah!</p>
       </form>
     </div>
   </div>
 
-  <!-- DASHBOARD -->
-  <div class="admin-dashboard" id="adminDashboard" style="display:none;">
-    <!-- Sidebar -->
-    <aside class="admin-sidebar" id="adminSidebar">
-      <div class="admin-sidebar__header">
+  <!-- Admin Panel -->
+  <div id="adminPanel" class="admin" style="display:none;">
+    <aside class="admin__sidebar">
+      <div class="admin__sidebar-header">
         <img src="/assets/images/logo.png" alt="ABAIS" />
-        <span>ABAIS Admin</span>
+        <div><strong>ABAIS</strong><br/><small>Admin Panel</small></div>
       </div>
-      <nav class="admin-sidebar__nav">
-        <button class="admin-nav-item admin-nav-item--active" data-tab="dashboard"><span class="admin-nav-icon">📊</span>Dashboard</button>
-        <button class="admin-nav-item" data-tab="gallery"><span class="admin-nav-icon">🖼️</span>Galeri</button>
-        <button class="admin-nav-item" data-tab="calendar"><span class="admin-nav-icon">📅</span>Kalender</button>
-        <button class="admin-nav-item" data-tab="chat"><span class="admin-nav-icon">💬</span>Live Chat <span class="admin-badge" id="chatBadge"></span></button>
-        <button class="admin-nav-item" data-tab="settings"><span class="admin-nav-icon">⚙️</span>Settings</button>
+      <nav class="admin__nav">
+        <button class="admin__nav-btn admin__nav-btn--active" data-tab="gallery">🖼️ Galeri</button>
+        <button class="admin__nav-btn" data-tab="calendar">📅 Kalender</button>
+        <button class="admin__nav-btn" data-tab="chat">💬 Live Chat <span id="chatBadgeSidebar" class="admin__badge" style="display:none;">0</span></button>
+        <button class="admin__nav-btn" data-tab="content">📝 Konten</button>
       </nav>
-      <div class="admin-sidebar__footer">
-        <a href="/" target="_blank" class="admin-nav-item">🌐 Lihat Website</a>
-        <button class="admin-nav-item admin-nav-item--danger" id="adminLogout">🚪 Logout</button>
+      <div class="admin__sidebar-footer">
+        <a href="/" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website</a>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:var(--space-sm);">Logout</button>
       </div>
     </aside>
 
-    <!-- Mobile Header -->
-    <div class="admin-mobile-header" id="adminMobileHeader">
-      <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
-      <span>ABAIS Admin</span>
-      <div></div>
-    </div>
-
-    <!-- Content Area -->
-    <main class="admin-content" id="adminContent">
-      <!-- TAB: Dashboard -->
-      <div class="admin-tab" id="tab-dashboard">
-        <h2>Dashboard</h2>
-        <p style="color:var(--clr-text-muted);">Selamat datang di Admin Panel ABAIS</p>
-        <div class="admin-stats" id="dashStats"></div>
-
-        <div class="admin-card" style="margin-top:var(--space-lg);">
-          <h3>🕐 Aktivitas Chat Terbaru</h3>
-          <div id="recentChats"></div>
+    <main class="admin__main">
+      <!-- ========== GALLERY TAB ========== -->
+      <div class="admin__tab" id="tab-gallery">
+        <div class="admin__header">
+          <h2>Manajemen Galeri</h2>
+          <button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button>
         </div>
-      </div>
-
-      <!-- TAB: Gallery -->
-      <div class="admin-tab" id="tab-gallery" style="display:none;">
-        <div class="admin-tab__header">
-          <h2>🖼️ Kelola Galeri</h2>
-          <button class="admin-btn admin-btn--primary" id="addGalleryBtn">+ Tambah Foto</button>
-        </div>
-        <div class="admin-table-wrapper">
-          <table class="admin-table" id="galleryTable">
-            <thead><tr><th>Foto</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
-            <tbody id="galleryTableBody"></tbody>
+        <div class="admin__table-wrap">
+          <table class="admin__table" id="galleryTable">
+            <thead><tr><th>Judul</th><th>Unit</th><th>Kategori</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <tbody id="galleryTbody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- TAB: Calendar -->
-      <div class="admin-tab" id="tab-calendar" style="display:none;">
-        <div class="admin-tab__header">
-          <h2>📅 Kelola Kalender</h2>
-          <button class="admin-btn admin-btn--primary" id="addCalendarBtn">+ Tambah Event</button>
+      <!-- ========== CALENDAR TAB ========== -->
+      <div class="admin__tab" id="tab-calendar" style="display:none;">
+        <div class="admin__header">
+          <h2>Manajemen Kalender</h2>
+          <button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button>
         </div>
-        <div class="admin-table-wrapper">
-          <table class="admin-table" id="calendarTable">
-            <thead><tr><th>Tanggal</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
-            <tbody id="calendarTableBody"></tbody>
+        <div class="admin__table-wrap">
+          <table class="admin__table" id="calendarTable">
+            <thead><tr><th>Judul</th><th>Tanggal</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
+            <tbody id="calendarTbody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- TAB: Chat -->
-      <div class="admin-tab" id="tab-chat" style="display:none;">
-        <h2>💬 Live Chat</h2>
-        <div class="admin-chat-layout">
-          <div class="admin-chat-list" id="chatSessionList"></div>
-          <div class="admin-chat-window" id="chatWindowAdmin">
-            <div class="admin-chat-placeholder">
-              <div style="font-size:3rem;">💬</div>
-              <p>Pilih chat untuk memulai percakapan</p>
+      <!-- ========== CHAT TAB ========== -->
+      <div class="admin__tab" id="tab-chat" style="display:none;">
+        <div class="admin__header"><h2>Live Chat</h2></div>
+        <div class="admin__chat">
+          <div class="admin__chat-list" id="chatList"></div>
+          <div class="admin__chat-window" id="chatWindow">
+            <div class="admin__chat-empty" id="chatEmpty">
+              <p>💬</p>
+              <p>Pilih percakapan dari daftar di samping untuk memulai membalas.</p>
+            </div>
+            <div class="admin__chat-messages" id="chatMessages" style="display:none;"></div>
+            <div class="admin__chat-reply" id="chatReply" style="display:none;">
+              <input type="text" id="adminChatInput" class="form-input" placeholder="Ketik balasan..." />
+              <button id="adminChatSend" class="btn btn--primary">Kirim</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- TAB: Settings -->
-      <div class="admin-tab" id="tab-settings" style="display:none;">
-        <h2>⚙️ Pengaturan</h2>
-        <div class="admin-card">
-          <h3>Informasi Kontak</h3>
-          <p style="color:var(--clr-text-muted);margin-bottom:var(--space-md);">WhatsApp: 0856-5611-7777</p>
-          <h3>Data Backup</h3>
-          <p style="color:var(--clr-text-muted);margin-bottom:var(--space-md);">Export/Import data website untuk backup</p>
-          <div style="display:flex;gap:var(--space-sm);">
-            <button class="admin-btn admin-btn--primary" id="exportDataBtn">📤 Export Data</button>
-            <button class="admin-btn admin-btn--outline" id="importDataBtn">📥 Import Data</button>
-            <input type="file" id="importDataFile" style="display:none;" accept=".json" />
-          </div>
+      <!-- ========== CONTENT TAB ========== -->
+      <div class="admin__tab" id="tab-content" style="display:none;">
+        <div class="admin__header"><h2>Manajemen Konten</h2></div>
+        <div class="admin__content-editor">
+          <p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-2xl);">
+            🚧 Fitur editor konten halaman akan segera hadir.<br/>
+            Untuk saat ini, konten dapat diubah langsung di file HTML.
+          </p>
         </div>
       </div>
     </main>
   </div>
 
-  <!-- MODALS -->
-  <div class="admin-modal" id="galleryModal" style="display:none;">
-    <div class="admin-modal__content">
-      <div class="admin-modal__header">
-        <h3 id="galleryModalTitle">Tambah Foto</h3>
-        <button class="admin-modal__close" data-close="galleryModal">✕</button>
-      </div>
-      <form id="galleryForm">
-        <input type="hidden" id="galleryId" />
-        <div class="admin-form-group"><label>Judul</label><input type="text" id="galleryTitle" class="admin-input" required /></div>
-        <div class="admin-form-group"><label>Deskripsi</label><textarea id="galleryDesc" class="admin-input" rows="3"></textarea></div>
-        <div class="admin-form-group"><label>URL Gambar</label><input type="url" id="galleryUrl" class="admin-input" placeholder="https://..." required /></div>
-        <div class="admin-form-row">
-          <div class="admin-form-group"><label>Unit</label>
-            <select id="galleryUnit" class="admin-input"><option value="sdit">SDIT</option><option value="smp-sma">SMP-SMA</option></select>
-          </div>
-          <div class="admin-form-group"><label>Kategori</label>
-            <select id="galleryCat" class="admin-input"><option value="tahfidz">Tahfidz</option><option value="entrepreneur">Entrepreneur</option><option value="beladiri">Beladiri</option><option value="umum">Umum</option></select>
-          </div>
-        </div>
-        <div style="display:flex;gap:var(--space-sm);justify-content:flex-end;margin-top:var(--space-lg);">
-          <button type="button" class="admin-btn admin-btn--outline" data-close="galleryModal">Batal</button>
-          <button type="submit" class="admin-btn admin-btn--primary">Simpan</button>
-        </div>
-      </form>
-    </div>
+  <!-- Modal -->
+  <div class="admin__modal" id="adminModal" style="display:none;">
+    <div class="admin__modal-content" id="adminModalContent"></div>
   </div>
 
-  <div class="admin-modal" id="calendarModal" style="display:none;">
-    <div class="admin-modal__content">
-      <div class="admin-modal__header">
-        <h3 id="calendarModalTitle">Tambah Event</h3>
-        <button class="admin-modal__close" data-close="calendarModal">✕</button>
-      </div>
-      <form id="calendarForm">
-        <input type="hidden" id="calEventId" />
-        <div class="admin-form-group"><label>Judul Event</label><input type="text" id="calEventTitle" class="admin-input" required /></div>
-        <div class="admin-form-group"><label>Deskripsi</label><textarea id="calEventDesc" class="admin-input" rows="2"></textarea></div>
-        <div class="admin-form-row">
-          <div class="admin-form-group"><label>Tanggal Mulai</label><input type="date" id="calEventDate" class="admin-input" required /></div>
-          <div class="admin-form-group"><label>Tanggal Selesai (opsional)</label><input type="date" id="calEventEnd" class="admin-input" /></div>
-        </div>
-        <div class="admin-form-row">
-          <div class="admin-form-group"><label>Unit</label>
-            <select id="calEventUnit" class="admin-input"><option value="sdit">SDIT</option><option value="smp-sma">SMP-SMA</option></select>
-          </div>
-          <div class="admin-form-group"><label>Kategori</label>
-            <select id="calEventCat" class="admin-input"><option value="akademik">Akademik</option><option value="ujian">Ujian</option><option value="kegiatan">Kegiatan</option><option value="libur">Libur</option></select>
-          </div>
-        </div>
-        <div class="admin-form-group"><label>Warna</label><input type="color" id="calEventColor" class="admin-input" value="#2B8FBD" style="height:48px;" /></div>
-        <div style="display:flex;gap:var(--space-sm);justify-content:flex-end;margin-top:var(--space-lg);">
-          <button type="button" class="admin-btn admin-btn--outline" data-close="calendarModal">Batal</button>
-          <button type="submit" class="admin-btn admin-btn--primary">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
+  <script type="module">
+    import {
+      adminLogin, isAdminLoggedIn, adminLogout,
+      getGallery, saveGalleryItem, deleteGalleryItem,
+      getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
+      getChatSessions, addChatMessage, markChatRead, getChats
+    } from '/js/data-manager.js';
 
-  <script type="module" src="/js/admin.js"></script>
+    // ===== Auth =====
+    if (isAdminLoggedIn()) showDashboard();
+
+    document.getElementById('loginForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const pw = document.getElementById('loginPassword').value;
+      if (adminLogin(pw)) {
+        showDashboard();
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      adminLogout();
+      location.reload();
+    });
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'flex';
+      loadGallery();
+      loadCalendar();
+      loadChat();
+      startChatPolling();
+    }
+
+    // ===== Tab Navigation =====
+    document.querySelectorAll('.admin__nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin__nav-btn').forEach(b => b.classList.remove('admin__nav-btn--active'));
+        btn.classList.add('admin__nav-btn--active');
+        document.querySelectorAll('.admin__tab').forEach(t => t.style.display = 'none');
+        document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+      });
+    });
+
+    // ===== Gallery Management =====
+    function loadGallery() {
+      const items = getGallery();
+      document.getElementById('galleryTbody').innerHTML = items.map(item => `
+        <tr>
+          <td><strong>${item.title}</strong><br/><small style="color:var(--clr-text-muted)">${item.description || ''}</small></td>
+          <td><span class="admin__badge-unit">${(item.unit || '').toUpperCase()}</span></td>
+          <td>${item.category}</td>
+          <td>${new Date(item.created_at).toLocaleDateString('id-ID')}</td>
+          <td>
+            <button class="btn btn--sm btn--outline" onclick="editGallery('${item.id}')">Edit</button>
+            <button class="btn btn--sm btn--ghost" style="color:var(--clr-error);" onclick="delGallery('${item.id}')">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.editGallery = (id) => {
+      const item = id ? getGallery().find(g => g.id === id) : {};
+      showModal('Galeri', `
+        <div class="form-group"><label class="form-label">Judul *</label><input class="form-input" id="mTitle" value="${item.title || ''}" /></div>
+        <div class="form-group"><label class="form-label">Deskripsi</label><input class="form-input" id="mDesc" value="${item.description || ''}" /></div>
+        <div class="form-group"><label class="form-label">URL Gambar</label><input class="form-input" id="mImg" value="${item.image_url || ''}" placeholder="https://..." /></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Unit</label>
+            <select class="form-select" id="mUnit"><option value="sdit" ${item.unit === 'sdit' ? 'selected' : ''}>SDIT</option><option value="smp-sma" ${item.unit === 'smp-sma' ? 'selected' : ''}>SMP-SMA</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Kategori</label>
+            <select class="form-select" id="mCat"><option value="tahfidz" ${item.category === 'tahfidz' ? 'selected' : ''}>Tahfidz</option><option value="entrepreneur" ${item.category === 'entrepreneur' ? 'selected' : ''}>Entrepreneur</option><option value="beladiri" ${item.category === 'beladiri' ? 'selected' : ''}>Beladiri</option><option value="umum" ${item.category === 'umum' ? 'selected' : ''}>Umum</option></select>
+          </div>
+        </div>
+      `, () => {
+        saveGalleryItem({
+          ...(id ? { id } : {}),
+          title: document.getElementById('mTitle').value,
+          description: document.getElementById('mDesc').value,
+          image_url: document.getElementById('mImg').value,
+          unit: document.getElementById('mUnit').value,
+          category: document.getElementById('mCat').value,
+        });
+        closeModal();
+        loadGallery();
+      });
+    };
+
+    window.delGallery = (id) => {
+      if (confirm('Hapus item galeri ini?')) { deleteGalleryItem(id); loadGallery(); }
+    };
+
+    document.getElementById('addGalleryBtn').addEventListener('click', () => window.editGallery(null));
+
+    // ===== Calendar Management =====
+    function loadCalendar() {
+      const items = getCalendarEvents();
+      document.getElementById('calendarTbody').innerHTML = items.map(item => `
+        <tr>
+          <td><strong>${item.title}</strong></td>
+          <td>${item.event_date}${item.end_date ? ' — ' + item.end_date : ''}</td>
+          <td><span class="admin__badge-unit">${(item.unit || '').toUpperCase()}</span></td>
+          <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.color || '#2B8FBD'};margin-right:4px;"></span>${item.category}</td>
+          <td>
+            <button class="btn btn--sm btn--outline" onclick="editCalendar('${item.id}')">Edit</button>
+            <button class="btn btn--sm btn--ghost" style="color:var(--clr-error);" onclick="delCalendar('${item.id}')">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.editCalendar = (id) => {
+      const item = id ? getCalendarEvents().find(e => e.id === id) : {};
+      showModal('Event Kalender', `
+        <div class="form-group"><label class="form-label">Judul *</label><input class="form-input" id="mEvTitle" value="${item.title || ''}" /></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Tanggal Mulai *</label><input type="date" class="form-input" id="mEvDate" value="${item.event_date || ''}" /></div>
+          <div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-input" id="mEvEnd" value="${item.end_date || ''}" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Unit</label>
+            <select class="form-select" id="mEvUnit"><option value="sdit" ${item.unit === 'sdit' ? 'selected' : ''}>SDIT</option><option value="smp-sma" ${item.unit === 'smp-sma' ? 'selected' : ''}>SMP-SMA</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Kategori</label>
+            <select class="form-select" id="mEvCat"><option value="akademik" ${item.category === 'akademik' ? 'selected' : ''}>Akademik</option><option value="ujian" ${item.category === 'ujian' ? 'selected' : ''}>Ujian</option><option value="kegiatan" ${item.category === 'kegiatan' ? 'selected' : ''}>Kegiatan</option><option value="libur" ${item.category === 'libur' ? 'selected' : ''}>Libur</option></select>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Warna</label><input type="color" id="mEvColor" value="${item.color || '#2B8FBD'}" style="width:60px;height:36px;border:none;cursor:pointer;" /></div>
+      `, () => {
+        saveCalendarEvent({
+          ...(id ? { id } : {}),
+          title: document.getElementById('mEvTitle').value,
+          event_date: document.getElementById('mEvDate').value,
+          end_date: document.getElementById('mEvEnd').value || undefined,
+          unit: document.getElementById('mEvUnit').value,
+          category: document.getElementById('mEvCat').value,
+          color: document.getElementById('mEvColor').value,
+        });
+        closeModal();
+        loadCalendar();
+      });
+    };
+
+    window.delCalendar = (id) => {
+      if (confirm('Hapus event ini?')) { deleteCalendarEvent(id); loadCalendar(); }
+    };
+
+    document.getElementById('addCalendarBtn').addEventListener('click', () => window.editCalendar(null));
+
+    // ===== Chat Management =====
+    let activeSession = null;
+
+    function loadChat() {
+      const sessions = getChatSessions();
+      const totalUnread = sessions.reduce((s, c) => s + c.unread, 0);
+      const badge = document.getElementById('chatBadgeSidebar');
+      if (totalUnread > 0) { badge.textContent = totalUnread; badge.style.display = 'inline-flex'; }
+      else { badge.style.display = 'none'; }
+
+      document.getElementById('chatList').innerHTML = sessions.length === 0
+        ? '<p style="text-align:center;color:var(--clr-text-muted);padding:var(--space-xl);">Belum ada chat masuk.</p>'
+        : sessions.map(s => `
+          <div class="admin__chat-item ${s.session_id === activeSession ? 'admin__chat-item--active' : ''}" data-session="${s.session_id}">
+            <div class="admin__chat-item-avatar">${(s.visitor_name || '?')[0].toUpperCase()}</div>
+            <div class="admin__chat-item-info">
+              <strong>${s.visitor_name || 'Visitor'}</strong>
+              <small>${s.last_message.substring(0, 40)}${s.last_message.length > 40 ? '...' : ''}</small>
+            </div>
+            ${s.unread > 0 ? `<span class="admin__badge">${s.unread}</span>` : ''}
+          </div>
+        `).join('');
+
+      document.querySelectorAll('.admin__chat-item').forEach(el => {
+        el.addEventListener('click', () => {
+          activeSession = el.dataset.session;
+          markChatRead(activeSession);
+          loadChat();
+          loadChatMessages();
+        });
+      });
+
+      if (activeSession) loadChatMessages();
+    }
+
+    function loadChatMessages() {
+      const msgs = getChats().filter(c => c.session_id === activeSession);
+      document.getElementById('chatEmpty').style.display = 'none';
+      document.getElementById('chatMessages').style.display = 'flex';
+      document.getElementById('chatReply').style.display = 'flex';
+
+      document.getElementById('chatMessages').innerHTML = msgs.map(m => `
+        <div class="admin__chat-msg admin__chat-msg--${m.sender}">
+          <div class="admin__chat-bubble">${escapeHtml(m.message)}</div>
+          <small>${new Date(m.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</small>
+        </div>
+      `).join('');
+
+      const el = document.getElementById('chatMessages');
+      el.scrollTop = el.scrollHeight;
+    }
+
+    document.getElementById('adminChatSend').addEventListener('click', sendAdminReply);
+    document.getElementById('adminChatInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendAdminReply();
+    });
+
+    function sendAdminReply() {
+      const input = document.getElementById('adminChatInput');
+      if (!input.value.trim() || !activeSession) return;
+      const sessions = getChatSessions();
+      const session = sessions.find(s => s.session_id === activeSession);
+      addChatMessage({
+        session_id: activeSession,
+        visitor_name: session?.visitor_name || 'Visitor',
+        message: input.value.trim(),
+        sender: 'admin',
+      });
+      input.value = '';
+      loadChatMessages();
+    }
+
+    function startChatPolling() {
+      setInterval(() => { loadChat(); }, 3000);
+    }
+
+    // ===== Modal =====
+    function showModal(title, bodyHtml, onSave) {
+      document.getElementById('adminModalContent').innerHTML = `
+        <div class="admin__modal-header"><h3>${title}</h3><button class="admin__modal-close" onclick="document.getElementById('adminModal').style.display='none'">✕</button></div>
+        <div class="admin__modal-body">${bodyHtml}</div>
+        <div class="admin__modal-footer"><button class="btn btn--ghost" onclick="document.getElementById('adminModal').style.display='none'">Batal</button><button class="btn btn--accent" id="modalSaveBtn">Simpan</button></div>
+      `;
+      document.getElementById('adminModal').style.display = 'flex';
+      document.getElementById('modalSaveBtn').addEventListener('click', onSave);
+    }
+
+    window.closeModal = () => { document.getElementById('adminModal').style.display = 'none'; };
+
+    document.getElementById('adminModal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+
+    function escapeHtml(text) {
+      const el = document.createElement('div');
+      el.textContent = text;
+      return el.innerHTML;
+    }
+  </script>
 </body>
 </html>

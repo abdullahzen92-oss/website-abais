@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kalender Akademik — ABAIS</title>
-  <meta name="description" content="Kalender akademik Abdurrahman Bin Auf Islamic School untuk SDIT dan SMP-SMA." />
+  <title>Kalender Akademik — ABAIS | Abdurrahman Bin Auf Islamic School</title>
+  <meta name="description" content="Kalender akademik SDIT dan SMP-SMA Abdurrahman Bin Auf Islamic School Bogor." />
   <link rel="icon" type="image/png" href="/assets/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,44 +20,40 @@
     <main>
       <section class="page-hero">
         <h1>Kalender Akademik</h1>
-        <p>Jadwal kegiatan dan agenda penting tahun ajaran 2026/2027</p>
+        <p>Jadwal kegiatan dan event penting di Abdurrahman Bin Auf Islamic School</p>
       </section>
 
-      <section class="section">
+      <section class="section" id="calendarSection">
         <div class="container">
-          <!-- Unit Tabs -->
-          <div class="filter-tabs reveal" id="calendarUnit">
-            <button class="filter-tab filter-tab--active" data-unit="sdit">🏫 SDIT</button>
-            <button class="filter-tab" data-unit="smp-sma">🎓 SMP-SMA</button>
+          <!-- Unit Filter -->
+          <div class="filter-tabs" id="calUnitFilter">
+            <button class="filter-tab filter-tab--active" data-unit="sdit">SDIT</button>
+            <button class="filter-tab" data-unit="smp-sma">SMP-SMA</button>
           </div>
 
-          <!-- Calendar Navigation -->
-          <div class="cal-nav reveal">
-            <button class="cal-nav__btn" id="calPrev">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <h3 class="cal-nav__title" id="calTitle">Juli 2026</h3>
-            <button class="cal-nav__btn" id="calNext">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
+          <!-- Month Navigation -->
+          <div class="cal-nav">
+            <button class="cal-nav__btn" id="prevMonth">❮</button>
+            <h3 class="cal-nav__title" id="monthTitle"></h3>
+            <button class="cal-nav__btn" id="nextMonth">❯</button>
           </div>
 
           <!-- Calendar Grid -->
-          <div class="cal-grid reveal" id="calGrid"></div>
+          <div class="cal-grid" id="calGrid"></div>
 
-          <!-- Event List -->
-          <div class="cal-events reveal" id="calEvents">
-            <h3>📋 Agenda Bulan Ini</h3>
-            <div id="calEventList"></div>
+          <!-- Events for selected month -->
+          <div class="cal-events" id="calEvents">
+            <h3>Event Bulan Ini</h3>
+            <div id="calEventsList"></div>
           </div>
 
-          <!-- Category Legend -->
-          <div class="cal-legend reveal">
-            <span class="cal-legend__item"><span class="cal-legend__dot" style="background:#2B8FBD"></span> Akademik</span>
-            <span class="cal-legend__item"><span class="cal-legend__dot" style="background:#E07B6A"></span> Ujian</span>
-            <span class="cal-legend__item"><span class="cal-legend__dot" style="background:#27ae60"></span> Kegiatan</span>
-            <span class="cal-legend__item"><span class="cal-legend__dot" style="background:#f39c12"></span> Event</span>
-            <span class="cal-legend__item"><span class="cal-legend__dot" style="background:#95a5a6"></span> Libur</span>
+          <!-- Legend -->
+          <div class="cal-legend">
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#2B8FBD;"></span>Akademik</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#E07B6A;"></span>Ujian</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#27ae60;"></span>Kegiatan</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#f39c12;"></span>Event</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#95a5a6;"></span>Libur</div>
           </div>
         </div>
       </section>
@@ -67,73 +63,82 @@
   </div>
   <script type="module">
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
-    import { getCalendarEvents, seedInitialData } from '/js/data-manager.js';
+    import { seedInitialData, getCalendarEvents } from '/js/data-manager.js';
     import { initChat } from '/js/chat.js';
-    import { initAnimations } from '/js/animations.js';
 
     document.getElementById('navbarSlot').innerHTML = getNavbar('calendar');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
     seedInitialData();
     import('/js/main.js');
-    initAnimations();
     initChat();
 
-    let currentUnit = 'sdit';
-    let currentMonth = new Date().getMonth();
-    let currentYear = new Date().getFullYear();
+    // Calendar Logic
     const DAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-    const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const MONTHS = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    let currentDate = new Date();
+    let currentUnit = 'sdit';
 
     function renderCalendar() {
-      document.getElementById('calTitle').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
-
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
       const today = new Date();
+
+      document.getElementById('monthTitle').textContent = `${MONTHS[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
       const events = getCalendarEvents().filter(e => e.unit === currentUnit);
 
       let html = DAYS.map(d => `<div class="cal-cell cal-cell--header">${d}</div>`).join('');
 
-      for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell cal-cell--empty"></div>`;
+      // Empty cells
+      for (let i = 0; i < firstDay; i++) {
+        html += '<div class="cal-cell cal-cell--empty"></div>';
+      }
 
+      // Day cells
       for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
         const dayEvents = events.filter(e => {
           const start = e.event_date;
           const end = e.end_date || e.event_date;
           return dateStr >= start && dateStr <= end;
         });
-        const isToday = today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
-        const dots = dayEvents.map(e => `<span class="cal-dot" style="background:${e.color}"></span>`).join('');
 
-        html += `<div class="cal-cell ${isToday ? 'cal-cell--today' : ''} ${dayEvents.length ? 'cal-cell--event' : ''}" data-date="${dateStr}">
-          <span class="cal-cell__num">${day}</span>
-          <div class="cal-cell__dots">${dots}</div>
-        </div>`;
+        const hasEvent = dayEvents.length > 0;
+        const dots = dayEvents.map(e => `<span class="cal-dot" style="background:${e.color || '#2B8FBD'}"></span>`).join('');
+
+        html += `
+          <div class="cal-cell ${isToday ? 'cal-cell--today' : ''} ${hasEvent ? 'cal-cell--event' : ''}">
+            <span class="cal-cell__num">${day}</span>
+            ${dots ? `<div class="cal-cell__dots">${dots}</div>` : ''}
+          </div>`;
       }
 
       document.getElementById('calGrid').innerHTML = html;
 
-      // Event list
+      // Events list
       const monthEvents = events.filter(e => {
         const d = new Date(e.event_date);
-        return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-      }).sort((a, b) => a.event_date.localeCompare(b.event_date));
+        return d.getFullYear() === year && d.getMonth() === month;
+      });
 
-      const listHtml = monthEvents.length === 0
-        ? '<p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-lg);">Tidak ada agenda di bulan ini.</p>'
-        : monthEvents.map(e => `
+      if (monthEvents.length === 0) {
+        document.getElementById('calEventsList').innerHTML = '<p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-lg);">Tidak ada event di bulan ini.</p>';
+      } else {
+        document.getElementById('calEventsList').innerHTML = monthEvents.map(e => `
           <div class="cal-event-item">
-            <div class="cal-event-item__color" style="background:${e.color}"></div>
+            <div class="cal-event-item__color" style="background:${e.color || '#2B8FBD'}"></div>
             <div>
               <strong>${e.title}</strong>
-              <div style="font-size:var(--fs-caption);color:var(--clr-text-muted);">${formatDate(e.event_date)}${e.end_date ? ' — ' + formatDate(e.end_date) : ''}</div>
+              <p style="font-size:var(--fs-caption);color:var(--clr-text-muted);">${formatDate(e.event_date)}${e.end_date ? ' — ' + formatDate(e.end_date) : ''}</p>
             </div>
           </div>
         `).join('');
-
-      document.getElementById('calEventList').innerHTML = listHtml;
+      }
     }
 
     function formatDate(str) {
@@ -142,14 +147,21 @@
     }
 
     // Navigation
-    document.getElementById('calPrev').addEventListener('click', () => { currentMonth--; if (currentMonth < 0) { currentMonth = 11; currentYear--; } renderCalendar(); });
-    document.getElementById('calNext').addEventListener('click', () => { currentMonth++; if (currentMonth > 11) { currentMonth = 0; currentYear++; } renderCalendar(); });
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar();
+    });
 
-    // Unit toggle
-    document.getElementById('calendarUnit').addEventListener('click', (e) => {
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    // Unit filter
+    document.getElementById('calUnitFilter').addEventListener('click', e => {
       const btn = e.target.closest('.filter-tab');
       if (!btn) return;
-      document.querySelectorAll('#calendarUnit .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
+      document.querySelectorAll('#calUnitFilter .filter-tab').forEach(b => b.classList.remove('filter-tab--active'));
       btn.classList.add('filter-tab--active');
       currentUnit = btn.dataset.unit;
       renderCalendar();
