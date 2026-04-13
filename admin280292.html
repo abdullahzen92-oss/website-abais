@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — ABAIS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/assets/images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <!-- LOGIN SCREEN -->
+  <div class="admin-login" id="adminLogin">
+    <div class="admin-login__card">
+      <img src="/assets/images/logo.png" alt="ABAIS" class="admin-login__logo" />
+      <h2>Admin Panel</h2>
+      <p>Abdurrahman Bin Auf Islamic School</p>
+      <form id="loginForm">
+        <div class="admin-form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="admin-input" placeholder="Masukkan password..." required />
+        </div>
+        <button type="submit" class="admin-btn admin-btn--primary admin-btn--full">Masuk</button>
+        <p class="admin-login__error" id="loginError" style="display:none;">Password salah!</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="admin-dashboard" id="adminDashboard" style="display:none;">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-sidebar__header">
+        <img src="/assets/images/logo.png" alt="ABAIS" />
+        <span>ABAIS Admin</span>
+      </div>
+      <nav class="admin-sidebar__nav">
+        <button class="admin-nav-item admin-nav-item--active" data-tab="dashboard"><span class="admin-nav-icon">📊</span>Dashboard</button>
+        <button class="admin-nav-item" data-tab="gallery"><span class="admin-nav-icon">🖼️</span>Galeri</button>
+        <button class="admin-nav-item" data-tab="calendar"><span class="admin-nav-icon">📅</span>Kalender</button>
+        <button class="admin-nav-item" data-tab="chat"><span class="admin-nav-icon">💬</span>Live Chat <span class="admin-badge" id="chatBadge"></span></button>
+        <button class="admin-nav-item" data-tab="settings"><span class="admin-nav-icon">⚙️</span>Settings</button>
+      </nav>
+      <div class="admin-sidebar__footer">
+        <a href="/" target="_blank" class="admin-nav-item">🌐 Lihat Website</a>
+        <button class="admin-nav-item admin-nav-item--danger" id="adminLogout">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <!-- Mobile Header -->
+    <div class="admin-mobile-header" id="adminMobileHeader">
+      <button class="admin-mobile-toggle" id="sidebarToggle">☰</button>
+      <span>ABAIS Admin</span>
+      <div></div>
+    </div>
+
+    <!-- Content Area -->
+    <main class="admin-content" id="adminContent">
+      <!-- TAB: Dashboard -->
+      <div class="admin-tab" id="tab-dashboard">
+        <h2>Dashboard</h2>
+        <p style="color:var(--clr-text-muted);">Selamat datang di Admin Panel ABAIS</p>
+        <div class="admin-stats" id="dashStats"></div>
+
+        <div class="admin-card" style="margin-top:var(--space-lg);">
+          <h3>🕐 Aktivitas Chat Terbaru</h3>
+          <div id="recentChats"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Gallery -->
+      <div class="admin-tab" id="tab-gallery" style="display:none;">
+        <div class="admin-tab__header">
+          <h2>🖼️ Kelola Galeri</h2>
+          <button class="admin-btn admin-btn--primary" id="addGalleryBtn">+ Tambah Foto</button>
+        </div>
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="galleryTable">
+            <thead><tr><th>Foto</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
+            <tbody id="galleryTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: Calendar -->
+      <div class="admin-tab" id="tab-calendar" style="display:none;">
+        <div class="admin-tab__header">
+          <h2>📅 Kelola Kalender</h2>
+          <button class="admin-btn admin-btn--primary" id="addCalendarBtn">+ Tambah Event</button>
+        </div>
+        <div class="admin-table-wrapper">
+          <table class="admin-table" id="calendarTable">
+            <thead><tr><th>Tanggal</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
+            <tbody id="calendarTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: Chat -->
+      <div class="admin-tab" id="tab-chat" style="display:none;">
+        <h2>💬 Live Chat</h2>
+        <div class="admin-chat-layout">
+          <div class="admin-chat-list" id="chatSessionList"></div>
+          <div class="admin-chat-window" id="chatWindowAdmin">
+            <div class="admin-chat-placeholder">
+              <div style="font-size:3rem;">💬</div>
+              <p>Pilih chat untuk memulai percakapan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: Settings -->
+      <div class="admin-tab" id="tab-settings" style="display:none;">
+        <h2>⚙️ Pengaturan</h2>
+        <div class="admin-card">
+          <h3>Informasi Kontak</h3>
+          <p style="color:var(--clr-text-muted);margin-bottom:var(--space-md);">WhatsApp: 0856-5611-7777</p>
+          <h3>Data Backup</h3>
+          <p style="color:var(--clr-text-muted);margin-bottom:var(--space-md);">Export/Import data website untuk backup</p>
+          <div style="display:flex;gap:var(--space-sm);">
+            <button class="admin-btn admin-btn--primary" id="exportDataBtn">📤 Export Data</button>
+            <button class="admin-btn admin-btn--outline" id="importDataBtn">📥 Import Data</button>
+            <input type="file" id="importDataFile" style="display:none;" accept=".json" />
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+  <div class="admin-modal" id="galleryModal" style="display:none;">
+    <div class="admin-modal__content">
+      <div class="admin-modal__header">
+        <h3 id="galleryModalTitle">Tambah Foto</h3>
+        <button class="admin-modal__close" data-close="galleryModal">✕</button>
+      </div>
+      <form id="galleryForm">
+        <input type="hidden" id="galleryId" />
+        <div class="admin-form-group"><label>Judul</label><input type="text" id="galleryTitle" class="admin-input" required /></div>
+        <div class="admin-form-group"><label>Deskripsi</label><textarea id="galleryDesc" class="admin-input" rows="3"></textarea></div>
+        <div class="admin-form-group"><label>URL Gambar</label><input type="url" id="galleryUrl" class="admin-input" placeholder="https://..." required /></div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Unit</label>
+            <select id="galleryUnit" class="admin-input"><option value="sdit">SDIT</option><option value="smp-sma">SMP-SMA</option></select>
+          </div>
+          <div class="admin-form-group"><label>Kategori</label>
+            <select id="galleryCat" class="admin-input"><option value="tahfidz">Tahfidz</option><option value="entrepreneur">Entrepreneur</option><option value="beladiri">Beladiri</option><option value="umum">Umum</option></select>
+          </div>
+        </div>
+        <div style="display:flex;gap:var(--space-sm);justify-content:flex-end;margin-top:var(--space-lg);">
+          <button type="button" class="admin-btn admin-btn--outline" data-close="galleryModal">Batal</button>
+          <button type="submit" class="admin-btn admin-btn--primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal" id="calendarModal" style="display:none;">
+    <div class="admin-modal__content">
+      <div class="admin-modal__header">
+        <h3 id="calendarModalTitle">Tambah Event</h3>
+        <button class="admin-modal__close" data-close="calendarModal">✕</button>
+      </div>
+      <form id="calendarForm">
+        <input type="hidden" id="calEventId" />
+        <div class="admin-form-group"><label>Judul Event</label><input type="text" id="calEventTitle" class="admin-input" required /></div>
+        <div class="admin-form-group"><label>Deskripsi</label><textarea id="calEventDesc" class="admin-input" rows="2"></textarea></div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Tanggal Mulai</label><input type="date" id="calEventDate" class="admin-input" required /></div>
+          <div class="admin-form-group"><label>Tanggal Selesai (opsional)</label><input type="date" id="calEventEnd" class="admin-input" /></div>
+        </div>
+        <div class="admin-form-row">
+          <div class="admin-form-group"><label>Unit</label>
+            <select id="calEventUnit" class="admin-input"><option value="sdit">SDIT</option><option value="smp-sma">SMP-SMA</option></select>
+          </div>
+          <div class="admin-form-group"><label>Kategori</label>
+            <select id="calEventCat" class="admin-input"><option value="akademik">Akademik</option><option value="ujian">Ujian</option><option value="kegiatan">Kegiatan</option><option value="libur">Libur</option></select>
+          </div>
+        </div>
+        <div class="admin-form-group"><label>Warna</label><input type="color" id="calEventColor" class="admin-input" value="#2B8FBD" style="height:48px;" /></div>
+        <div style="display:flex;gap:var(--space-sm);justify-content:flex-end;margin-top:var(--space-lg);">
+          <button type="button" class="admin-btn admin-btn--outline" data-close="calendarModal">Batal</button>
+          <button type="submit" class="admin-btn admin-btn--primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

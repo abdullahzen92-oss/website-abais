@@ -1,0 +1,237 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "admissions": "Admissions",
+    "contact": "Contact",
+    "wa": "Contact via WhatsApp"
+  },
+  "hero": {
+    "badge": "PPDB 2026/2027 Registration Open",
+    "title1": "Educating a Generation",
+    "title2": "Qur'anic & Noble Character",
+    "subtitle": "A Sunnah-based Fullday School with Tahfidz Al-Qur'an, Entrepreneurship, and Martial Arts curriculum. Building a foundation of faith and independence from an early age in Bogor City.",
+    "cta1": "Register Now",
+    "cta2": "Learn More",
+    "scroll": "Scroll down"
+  },
+  "keunggulan": {
+    "title": "Why Choose ABAIS?",
+    "subtitle": "We are committed to producing a generation that memorizes the Qur'an, is independent, and ready to be future leaders",
+    "tahfidz": {
+      "title": "Tahfidz Program",
+      "desc": "A flagship Qur'an memorization program with talaqqi and muraja'ah methods integrated into daily activities."
+    },
+    "entrepreneur": {
+      "title": "Entrepreneurship",
+      "desc": "Nurturing an entrepreneurial spirit from an early age through programs inspired by Abdurrahman bin Auf (may Allah be pleased with him)."
+    },
+    "beladiri": {
+      "title": "Martial Arts",
+      "desc": "Martial arts program to build tough, disciplined, and confident character according to the Prophet's (ﷺ) teachings."
+    },
+    "sunnah": {
+      "title": "Sunnah-Based",
+      "desc": "All activities are guided by the Qur'an and Sunnah with the understanding of the Salaf."
+    }
+  },
+  "counter": {
+    "siswa": "Active Students",
+    "pengajar": "Teaching Staff",
+    "tahun": "Years Established",
+    "hafiz": "Average Juz"
+  },
+  "testimoni": {
+    "title": "What They Say",
+    "subtitle": "The trust of parents and students is our greatest motivation",
+    "1": {
+      "text": "Alhamdulillah, my child has memorized 10 juz since attending ABAIS. Besides memorization, their character has also improved. Jazakumullahu khairan.",
+      "name": "Ummu Fatimah",
+      "role": "Parent of Grade 5 Student"
+    },
+    "2": {
+      "text": "I am very impressed with the entrepreneurship program at ABAIS. My child has become independent and has an entrepreneurial spirit. MasyaaAllah barakallah.",
+      "name": "Abu Hamzah",
+      "role": "Parent of Grade 4 Student"
+    },
+    "3": {
+      "text": "The Islamic school environment and competent teachers make us confident in entrusting our child to ABAIS. Alhamdulillah for everything.",
+      "name": "Ummu Khadijah",
+      "role": "Parent of Grade 3 Student"
+    }
+  },
+  "cta": {
+    "title": "Ready to Join the ABAIS Family?",
+    "subtitle": "Give your children the best education. PPDB 2026/2027 registration is now open.",
+    "btn": "Register for PPDB Now"
+  },
+  "footer": {
+    "tagline": "Sunnah Fullday School — Tahfidz, Entrepreneurship, Martial Arts. Educating a Qur'anic generation with noble character in Bogor City.",
+    "links": "Navigation",
+    "programs": "Programs",
+    "tahfidz": "Tahfidz Al-Qur'an",
+    "entrepreneur": "Entrepreneurship",
+    "beladiri": "Martial Arts",
+    "fullday": "Fullday School",
+    "contact": { "title": "Contact" },
+    "address": "Jl. Raya Bogor, Bogor City, West Java"
+  },
+  "wa": {
+    "tooltip": "Chat PPDB Admin"
+  },
+  "about": {
+    "hero": {
+      "title": "About Us",
+      "subtitle": "Get to know Abdurrahman Bin Auf Islamic School"
+    },
+    "visimisi": {
+      "title": "Vision & Mission",
+      "subtitle": "Our foundation in educating the best generation"
+    },
+    "visi": {
+      "label": "Vision",
+      "title": "Our Vision",
+      "text": "To become a leading Islamic educational institution that produces a Qur'anic generation that is independent, has noble character, and is globally competitive based on the Qur'an and Sunnah."
+    },
+    "misi": {
+      "label": "Mission",
+      "title": "Our Mission",
+      "1": "Organizing a quality and structured Tahfidz Al-Qur'an program",
+      "2": "Building student character based on Sunnah values",
+      "3": "Developing entrepreneurship and independence",
+      "4": "Forming a physically healthy generation through martial arts programs",
+      "5": "Creating a safe, enjoyable, and Islamic learning environment"
+    },
+    "kurikulum": {
+      "title": "Our Curriculum",
+      "subtitle": "A blend of religious and general knowledge to produce a comprehensive generation",
+      "tahfidz": {
+        "title": "Tahfidz Al-Qur'an",
+        "text": "Daily intensive Qur'an memorization program using talaqqi and muraja'ah methods"
+      },
+      "nasional": {
+        "title": "National Curriculum",
+        "text": "Following national curriculum standards enriched with Islamic content"
+      },
+      "bahasa": {
+        "title": "Arabic & English",
+        "text": "Bilingual program to prepare students for global communication"
+      },
+      "entrepre": {
+        "title": "Entrepreneurship",
+        "text": "Business learning and financial independence inspired by Abdurrahman bin Auf"
+      },
+      "beladiri": {
+        "title": "Martial Arts & Sports",
+        "text": "Training strong physical and mental fitness as recommended by the Prophet (ﷺ)"
+      },
+      "adab": {
+        "title": "Ethics & Character",
+        "text": "Noble character building and Islamic etiquette in every aspect of life"
+      }
+    },
+    "kepsek": {
+      "section_title": "Principal's Welcome",
+      "quote": "\"Assalamu'alaikum warahmatullahi wabarakatuh. Welcome to Abdurrahman Bin Auf Islamic School. We are committed to educating the best children of the ummah with the foundation of the Qur'an and Sunnah, equipping them with knowledge, character, and skills to become future leaders.\"",
+      "name": "Ustadz Ahmad Fadhil, S.Pd.I",
+      "role": "Principal of ABAIS"
+    }
+  },
+  "admissions": {
+    "badge": "Registration Open",
+    "hero": {
+      "title": "Student Admissions",
+      "subtitle": "PPDB Academic Year 2026/2027 — Abdurrahman Bin Auf Islamic School"
+    },
+    "alur": {
+      "title": "Registration Process",
+      "subtitle": "4 easy steps to register your children"
+    },
+    "step1": {
+      "title": "📋 Fill Online Form",
+      "desc": "Complete the online registration form below or contact admin via WhatsApp."
+    },
+    "step2": {
+      "title": "📄 Prepare Documents",
+      "desc": "Gather the required documents: birth certificate, family card, report card, photos, and health certificate."
+    },
+    "step3": {
+      "title": "🧪 Selection Test & Interview",
+      "desc": "Prospective students take a basic skills test and interview with the school."
+    },
+    "step4": {
+      "title": "✅ Announcement & Re-registration",
+      "desc": "Selection results are announced. Accepted students complete re-registration and payment."
+    },
+    "persyaratan": {
+      "title": "Registration Requirements",
+      "subtitle": "Documents needed for the registration process"
+    },
+    "req": {
+      "1": "Copy of Birth Certificate",
+      "2": "Copy of Family Card (KK)",
+      "3": "Latest report card (2 semesters)",
+      "4": "3x4 color passport photos (4 copies)",
+      "5": "Health Certificate from Doctor",
+      "6": "Good Conduct Certificate"
+    },
+    "biaya": {
+      "label": "Registration Fee",
+      "nominal": "Contact Admin",
+      "note": "Detailed registration and monthly tuition fees can be found in the brochure or contact admin directly via WhatsApp",
+      "wa": "Ask via WhatsApp"
+    },
+    "form": {
+      "title": "Registration Form",
+      "subtitle": "Fill in the form below to start the registration process. Your data will be sent directly to admin via WhatsApp."
+    }
+  },
+  "form": {
+    "namaAnak": "Child's Full Name *",
+    "tempatLahir": "Place & Date of Birth *",
+    "jenisKelamin": "Gender *",
+    "select": "-- Select --",
+    "laki": "Male",
+    "perempuan": "Female",
+    "asalSekolah": "Previous School",
+    "namaOrtu": "Parent/Guardian Name *",
+    "noHP": "Phone / WhatsApp Number *",
+    "email": "Email",
+    "pesan": "Message / Additional Notes",
+    "submit": "Submit Form via WhatsApp",
+    "error": {
+      "required": "Required",
+      "phone": "Invalid phone number"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Contact & Location",
+      "subtitle": "We're ready to help you. Don't hesitate to reach out."
+    },
+    "phone": { "title": "Phone" },
+    "email": { "title": "Email" },
+    "hours": {
+      "title": "Operating Hours",
+      "text": "Monday – Friday\n07:00 – 16:00 WIB"
+    },
+    "wa": {
+      "title": "WhatsApp",
+      "text": "Chat Directly →",
+      "btn": "Chat via WhatsApp Now"
+    },
+    "location": {
+      "title": "Our Location",
+      "subtitle": "Visit us directly at the following address"
+    },
+    "address": {
+      "label": "Address",
+      "text": "Jl. Raya Bogor\nKota Bogor, West Java 16xxx\nIndonesia"
+    },
+    "map": { "btn": "Open in Google Maps" },
+    "social": {
+      "title": "Follow Us",
+      "subtitle": "Get the latest information about ABAIS on social media"
+    }
+  }
+}

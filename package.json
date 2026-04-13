@@ -1,0 +1,16 @@
+{
+  "name": "abais-website",
+  "version": "1.0.0",
+  "description": "Abdurrahman Bin Auf Islamic School - Official Website",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.103.0"
+  }
+}
