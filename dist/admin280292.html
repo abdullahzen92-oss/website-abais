@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — ABAIS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" href="/assets/logo-D9dbpCsm.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/admin-CsERGrio.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/data-manager-B6icRUjF.js">
+  <link rel="stylesheet" crossorigin href="/assets/data-manager-DlmTtlIV.css">
+  <link rel="stylesheet" crossorigin href="/assets/admin-Cwxf7vSN.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="admin-login">
+    <div class="admin-login__card">
+      <img src="/assets/logo-D9dbpCsm.png" alt="ABAIS Logo" class="admin-login__logo" />
+      <h2>Admin Dashboard</h2>
+      <p>Masukkan password untuk mengakses dashboard</p>
+      <form id="loginForm">
+        <input type="password" id="loginPassword" class="form-input" placeholder="Password..." autocomplete="off" />
+        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:var(--space-md);">Masuk</button>
+        <p id="loginError" style="color:var(--clr-error);font-size:var(--fs-caption);margin-top:var(--space-sm);display:none;">Password salah!</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel" class="admin" style="display:none;">
+    <aside class="admin__sidebar">
+      <div class="admin__sidebar-header">
+        <img src="/assets/logo-D9dbpCsm.png" alt="ABAIS" />
+        <div><strong>ABAIS</strong><br/><small>Admin Panel</small></div>
+      </div>
+      <nav class="admin__nav">
+        <button class="admin__nav-btn admin__nav-btn--active" data-tab="gallery">🖼️ Galeri</button>
+        <button class="admin__nav-btn" data-tab="calendar">📅 Kalender</button>
+        <button class="admin__nav-btn" data-tab="chat">💬 Live Chat <span id="chatBadgeSidebar" class="admin__badge" style="display:none;">0</span></button>
+        <button class="admin__nav-btn" data-tab="content">📝 Konten</button>
+      </nav>
+      <div class="admin__sidebar-footer">
+        <a href="/" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website</a>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:var(--space-sm);">Logout</button>
+      </div>
+    </aside>
+
+    <main class="admin__main">
+      <!-- ========== GALLERY TAB ========== -->
+      <div class="admin__tab" id="tab-gallery">
+        <div class="admin__header">
+          <h2>Manajemen Galeri</h2>
+          <button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button>
+        </div>
+        <div class="admin__table-wrap">
+          <table class="admin__table" id="galleryTable">
+            <thead><tr><th>Judul</th><th>Unit</th><th>Kategori</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <tbody id="galleryTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========== CALENDAR TAB ========== -->
+      <div class="admin__tab" id="tab-calendar" style="display:none;">
+        <div class="admin__header">
+          <h2>Manajemen Kalender</h2>
+          <button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button>
+        </div>
+        <div class="admin__table-wrap">
+          <table class="admin__table" id="calendarTable">
+            <thead><tr><th>Judul</th><th>Tanggal</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
+            <tbody id="calendarTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ========== CHAT TAB ========== -->
+      <div class="admin__tab" id="tab-chat" style="display:none;">
+        <div class="admin__header"><h2>Live Chat</h2></div>
+        <div class="admin__chat">
+          <div class="admin__chat-list" id="chatList"></div>
+          <div class="admin__chat-window" id="chatWindow">
+            <div class="admin__chat-empty" id="chatEmpty">
+              <p>💬</p>
+              <p>Pilih percakapan dari daftar di samping untuk memulai membalas.</p>
+            </div>
+            <div class="admin__chat-messages" id="chatMessages" style="display:none;"></div>
+            <div class="admin__chat-reply" id="chatReply" style="display:none;">
+              <input type="text" id="adminChatInput" class="form-input" placeholder="Ketik balasan..." />
+              <button id="adminChatSend" class="btn btn--primary">Kirim</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== CONTENT TAB ========== -->
+      <div class="admin__tab" id="tab-content" style="display:none;">
+        <div class="admin__header"><h2>Manajemen Konten</h2></div>
+        <div class="admin__content-editor">
+          <p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-2xl);">
+            🚧 Fitur editor konten halaman akan segera hadir.<br/>
+            Untuk saat ini, konten dapat diubah langsung di file HTML.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="admin__modal" id="adminModal" style="display:none;">
+    <div class="admin__modal-content" id="adminModalContent"></div>
+  </div>
+
+</body>
+</html>

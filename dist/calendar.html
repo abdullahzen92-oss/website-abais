@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalender Akademik — ABAIS | Abdurrahman Bin Auf Islamic School</title>
+  <meta name="description" content="Kalender akademik SDIT dan SMP-SMA Abdurrahman Bin Auf Islamic School Bogor." />
+  <link rel="icon" type="image/png" href="/assets/logo-D9dbpCsm.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/calendar-B2y8hu9z.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/data-manager-B6icRUjF.js">
+  <link rel="modulepreload" crossorigin href="/assets/chat-YOMSzVo0.js">
+  <link rel="stylesheet" crossorigin href="/assets/data-manager-DlmTtlIV.css">
+  <link rel="stylesheet" crossorigin href="/assets/chat-Xu5dR7-d.css">
+</head>
+<body>
+  <div class="page-wrapper">
+    <div id="navbarSlot"></div>
+    <main>
+      <section class="page-hero">
+        <h1>Kalender Akademik</h1>
+        <p>Jadwal kegiatan dan event penting di Abdurrahman Bin Auf Islamic School</p>
+      </section>
+
+      <section class="section" id="calendarSection">
+        <div class="container">
+          <!-- Unit Filter -->
+          <div class="filter-tabs" id="calUnitFilter">
+            <button class="filter-tab filter-tab--active" data-unit="sdit">SDIT</button>
+            <button class="filter-tab" data-unit="smp-sma">SMP-SMA</button>
+          </div>
+
+          <!-- Month Navigation -->
+          <div class="cal-nav">
+            <button class="cal-nav__btn" id="prevMonth">❮</button>
+            <h3 class="cal-nav__title" id="monthTitle"></h3>
+            <button class="cal-nav__btn" id="nextMonth">❯</button>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="cal-grid" id="calGrid"></div>
+
+          <!-- Events for selected month -->
+          <div class="cal-events" id="calEvents">
+            <h3>Event Bulan Ini</h3>
+            <div id="calEventsList"></div>
+          </div>
+
+          <!-- Legend -->
+          <div class="cal-legend">
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#2B8FBD;"></span>Akademik</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#E07B6A;"></span>Ujian</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#27ae60;"></span>Kegiatan</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#f39c12;"></span>Event</div>
+            <div class="cal-legend__item"><span class="cal-legend__dot" style="background:#95a5a6;"></span>Libur</div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div id="footerSlot"></div>
+    <div id="waSlot"></div>
+  </div>
+</body>
+</html>
