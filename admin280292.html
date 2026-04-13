@@ -254,9 +254,30 @@
       getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
     } from '/js/data-manager.js';
 
-    // ===== Auth =====
-    if (isAdminLoggedIn()) showDashboard();
+    // ===== Tab Navigation =====
+    document.querySelectorAll('.admin__nav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.admin__nav-btn').forEach(b => b.classList.remove('admin__nav-btn--active'));
+        btn.classList.add('admin__nav-btn--active');
+        document.querySelectorAll('.admin__tab').forEach(t => t.style.display = 'none');
+        document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+      });
+    });
 
+    // ===== Subtabs Navigation =====
+    document.querySelectorAll('.admin__subtab').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const parent = btn.closest('.admin__tab');
+        parent.querySelectorAll('.admin__subtab').forEach(b => b.classList.remove('admin__subtab--active'));
+        btn.classList.add('admin__subtab--active');
+        parent.querySelectorAll('.admin__subpanel').forEach(p => p.style.display = 'none');
+        document.getElementById('sub-' + btn.dataset.sub).style.display = 'block';
+      });
+    });
+
+    // ===== Auth =====
     document.getElementById('loginForm').addEventListener('submit', e => {
       e.preventDefault();
       if (adminLogin(document.getElementById('loginPassword').value)) {
@@ -266,24 +287,25 @@
       }
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => { adminLogout(); location.reload(); });
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      adminLogout();
+      location.reload();
+    });
 
     function showDashboard() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'flex';
-      loadAllTabs();
-      startChatPolling();
+      try {
+        loadAllTabs();
+        startChatPolling();
+      } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        showToast('Terdapat data corrupt yang gagal dimuat. Buka console untuk detailnya.');
+      }
     }
 
-    // ===== Tab Navigation =====
-    document.querySelectorAll('.admin__nav-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.admin__nav-btn').forEach(b => b.classList.remove('admin__nav-btn--active'));
-        btn.classList.add('admin__nav-btn--active');
-        document.querySelectorAll('.admin__tab').forEach(t => t.style.display = 'none');
-        document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
-      });
-    });
+    if (isAdminLoggedIn()) showDashboard();
 
     // ===== Load All CMS Data =====
     function loadAllTabs() {
