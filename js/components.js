@@ -18,7 +18,7 @@ export function getNavbar(activePage = '') {
     <div class="navbar__inner">
       <a href="/" class="navbar__logo">
         <img src="/assets/images/logo.png" alt="Logo ABAIS" />
-        <div class="navbar__logo-text">ABAIS<span>Islamic School</span></div>
+        <div class="navbar__logo-text">ABAIS<span>Bogor</span></div>
       </a>
       <div class="navbar__menu" id="navMenu">
         <a href="/" class="navbar__link ${activePage === 'home' ? 'navbar__link--active' : ''}" data-i18n="nav.home">Beranda</a>
@@ -100,7 +100,7 @@ export function getFooter() {
         <div class="footer__brand">
           <div class="footer__logo">
             <img src="/assets/images/logo.png" alt="Logo ABAIS" />
-            <span class="footer__logo-name">Abdurrahman Bin Auf<br/>Islamic School</span>
+            <span class="footer__logo-name">Abdurrahman Bin Auf<br/>Islamic School Bogor</span>
           </div>
           <p class="footer__tagline" data-i18n="footer.tagline">Sekolah Sunnah Fullday — Tahfidz, Entrepreneur, Beladiri. Mendidik generasi Qur'ani berakhlak mulia di Kota Bogor.</p>
           <div class="footer__social">
@@ -142,7 +142,7 @@ export function getFooter() {
           </div>
         </div>
       </div>
-      <div class="footer__bottom"><p>© ${new Date().getFullYear()} Abdurrahman Bin Auf Islamic School. All rights reserved.</p></div>
+      <div class="footer__bottom"><p>© ${new Date().getFullYear()} Abdurrahman Bin Auf Islamic School Bogor. All rights reserved.</p></div>
     </div>
   </footer>`;
 }

@@ -159,7 +159,7 @@ const DEFAULT_CONTENT = {
   },
   settings: {
     schoolName: 'ABAIS',
-    schoolFullName: 'Abdurrahman Bin Auf Islamic School',
+    schoolFullName: 'Abdurrahman Bin Auf Islamic School Bogor',
     tagline: "Sekolah Sunnah Fullday — Tahfidz, Entrepreneur, Beladiri. Mendidik generasi Qur'ani berakhlak mulia di Kota Bogor.",
     logo: '/assets/images/logo.png',
   },

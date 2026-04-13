@@ -1,1 +1,0 @@
-import{s as t}from"./data-manager-DOqBHwHB.js";import{g as e,a,b as o,_ as n,i as r}from"./chat-f9KCQYc7.js";document.getElementById("navbarSlot").innerHTML=e("about");document.getElementById("footerSlot").innerHTML=a();document.getElementById("waSlot").innerHTML=o();t();n(()=>import("./main-CQel7J0W.js"),[]);r();
