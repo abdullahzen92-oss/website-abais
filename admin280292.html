@@ -3,72 +3,175 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard — ABAIS</title>
+  <title>Admin Dashboard — ABAIS CMS</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" href="/assets/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/base.css" />
-  <link rel="stylesheet" href="/css/layout.css" />
-  <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/admin.css" />
 </head>
 <body>
-  <!-- Login Screen -->
+  <!-- Login -->
   <div id="loginScreen" class="admin-login">
     <div class="admin-login__card">
       <img src="/assets/images/logo.png" alt="ABAIS Logo" class="admin-login__logo" />
       <h2>Admin Dashboard</h2>
-      <p>Masukkan password untuk mengakses dashboard</p>
+      <p>Masukkan password untuk mengakses CMS</p>
       <form id="loginForm">
         <input type="password" id="loginPassword" class="form-input" placeholder="Password..." autocomplete="off" />
-        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:var(--space-md);">Masuk</button>
-        <p id="loginError" style="color:var(--clr-error);font-size:var(--fs-caption);margin-top:var(--space-sm);display:none;">Password salah!</p>
+        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:1rem;">Masuk</button>
+        <p id="loginError" style="color:#e74c3c;font-size:0.85rem;margin-top:0.5rem;display:none;">Password salah!</p>
       </form>
     </div>
   </div>
 
-  <!-- Admin Panel -->
+  <!-- Dashboard -->
   <div id="adminPanel" class="admin" style="display:none;">
     <aside class="admin__sidebar">
       <div class="admin__sidebar-header">
         <img src="/assets/images/logo.png" alt="ABAIS" />
-        <div><strong>ABAIS</strong><br/><small>Admin Panel</small></div>
+        <div><strong>ABAIS</strong><br/><small>CMS Panel</small></div>
       </div>
       <nav class="admin__nav">
-        <button class="admin__nav-btn admin__nav-btn--active" data-tab="gallery">🖼️ Galeri</button>
+        <button class="admin__nav-btn admin__nav-btn--active" data-tab="beranda">🏠 Beranda</button>
+        <button class="admin__nav-btn" data-tab="halaman">📄 Halaman</button>
+        <button class="admin__nav-btn" data-tab="kontak">📞 Kontak & Footer</button>
+        <button class="admin__nav-btn" data-tab="gallery">🖼️ Galeri</button>
         <button class="admin__nav-btn" data-tab="calendar">📅 Kalender</button>
         <button class="admin__nav-btn" data-tab="chat">💬 Live Chat <span id="chatBadgeSidebar" class="admin__badge" style="display:none;">0</span></button>
-        <button class="admin__nav-btn" data-tab="content">📝 Konten</button>
+        <button class="admin__nav-btn" data-tab="settings">⚙️ Pengaturan</button>
       </nav>
       <div class="admin__sidebar-footer">
         <a href="/" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website</a>
-        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:var(--space-sm);">Logout</button>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:0.5rem;">Logout</button>
       </div>
     </aside>
 
     <main class="admin__main">
-      <!-- ========== GALLERY TAB ========== -->
-      <div class="admin__tab" id="tab-gallery">
-        <div class="admin__header">
-          <h2>Manajemen Galeri</h2>
-          <button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button>
+
+      <!-- ========= BERANDA TAB ========= -->
+      <div class="admin__tab" id="tab-beranda">
+        <div class="admin__header"><h2>🏠 Beranda</h2><button class="btn btn--accent" id="saveHeroBtn">💾 Simpan Beranda</button></div>
+
+        <div class="admin__section">
+          <h3>Hero Section</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Badge Text</label><input class="form-input" id="heroBadge" /></div>
+            <div class="admin__form-group"><label>CTA Tombol 1</label><input class="form-input" id="heroCta1" /></div>
+          </div>
+          <div class="admin__form-group"><label>Judul Baris 1</label><input class="form-input" id="heroTitle1" /></div>
+          <div class="admin__form-group"><label>Judul Baris 2 (teks warna)</label><input class="form-input" id="heroTitle2" /></div>
+          <div class="admin__form-group"><label>Subtitle</label><textarea class="form-input" id="heroSubtitle" rows="3"></textarea></div>
+          <div class="admin__form-group">
+            <label>Gambar Hero</label>
+            <div class="admin__img-upload">
+              <img id="heroImagePreview" src="" alt="" class="admin__img-preview" />
+              <div class="admin__img-actions">
+                <input type="url" class="form-input" id="heroImageUrl" placeholder="Paste URL gambar..." />
+                <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="heroImageFile" style="display:none;" />📁 Upload File</label>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="admin__section">
+          <h3>Keunggulan (4 Fitur)</h3>
+          <div id="featuresEditor"></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Statistik (Counter)</h3>
+          <div id="countersEditor"></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Testimoni</h3>
+          <div id="testimoniEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addTestimoniBtn">+ Tambah Testimoni</button>
+        </div>
+      </div>
+
+      <!-- ========= HALAMAN TAB ========= -->
+      <div class="admin__tab" id="tab-halaman" style="display:none;">
+        <div class="admin__header"><h2>📄 Halaman</h2><button class="btn btn--accent" id="savePageBtn">💾 Simpan Halaman</button></div>
+
+        <div class="admin__subtabs">
+          <button class="admin__subtab admin__subtab--active" data-sub="about">Tentang Kami</button>
+        </div>
+
+        <div class="admin__subpanel" id="sub-about">
+          <div class="admin__section">
+            <h3>Visi</h3>
+            <textarea class="form-input" id="aboutVision" rows="3"></textarea>
+          </div>
+          <div class="admin__section">
+            <h3>Misi</h3>
+            <div id="missionEditor"></div>
+            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addMissionBtn">+ Tambah Misi</button>
+          </div>
+          <div class="admin__section">
+            <h3>Sambutan Kepala Sekolah</h3>
+            <div class="admin__form-group"><label>Nama</label><input class="form-input" id="principalName" /></div>
+            <div class="admin__form-group"><label>Pesan</label><textarea class="form-input" id="principalMessage" rows="4"></textarea></div>
+            <div class="admin__form-group">
+              <label>Foto Kepala Sekolah</label>
+              <div class="admin__img-upload">
+                <img id="principalImagePreview" src="" alt="" class="admin__img-preview" />
+                <div class="admin__img-actions">
+                  <input type="url" class="form-input" id="principalImageUrl" placeholder="Paste URL..." />
+                  <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="principalImageFile" style="display:none;" />📁 Upload</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========= KONTAK TAB ========= -->
+      <div class="admin__tab" id="tab-kontak" style="display:none;">
+        <div class="admin__header"><h2>📞 Kontak & Footer</h2><button class="btn btn--accent" id="saveContactBtn">💾 Simpan</button></div>
+
+        <div class="admin__section">
+          <h3>WhatsApp</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>WA Admin SMP-SMA</label><input class="form-input" id="ctWaNumber" placeholder="6285656117777" /></div>
+            <div class="admin__form-group"><label>WA Admin SDIT</label><input class="form-input" id="ctWaNumberSdit" placeholder="6281318686468" /></div>
+          </div>
+          <div class="admin__form-group"><label>Pesan Default WA</label><input class="form-input" id="ctWaMessage" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Alamat & Lokasi</h3>
+          <div class="admin__form-group"><label>Alamat</label><input class="form-input" id="ctAddress" /></div>
+          <div class="admin__form-group"><label>URL Google Maps</label><input class="form-input" id="ctMapsUrl" placeholder="https://maps.app.goo.gl/..." /></div>
+          <div class="admin__form-group"><label>Email</label><input class="form-input" id="ctEmail" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Sosial Media</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Instagram URL</label><input class="form-input" id="ctInstagram" /></div>
+            <div class="admin__form-group"><label>Facebook URL</label><input class="form-input" id="ctFacebook" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========= GALLERY TAB ========= -->
+      <div class="admin__tab" id="tab-gallery" style="display:none;">
+        <div class="admin__header"><h2>🖼️ Galeri</h2><button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button></div>
         <div class="admin__table-wrap">
           <table class="admin__table" id="galleryTable">
-            <thead><tr><th>Judul</th><th>Unit</th><th>Kategori</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <thead><tr><th>Foto</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
             <tbody id="galleryTbody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- ========== CALENDAR TAB ========== -->
+      <!-- ========= CALENDAR TAB ========= -->
       <div class="admin__tab" id="tab-calendar" style="display:none;">
-        <div class="admin__header">
-          <h2>Manajemen Kalender</h2>
-          <button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button>
-        </div>
+        <div class="admin__header"><h2>📅 Kalender</h2><button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button></div>
         <div class="admin__table-wrap">
           <table class="admin__table" id="calendarTable">
             <thead><tr><th>Judul</th><th>Tanggal</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
@@ -77,16 +180,13 @@
         </div>
       </div>
 
-      <!-- ========== CHAT TAB ========== -->
+      <!-- ========= CHAT TAB ========= -->
       <div class="admin__tab" id="tab-chat" style="display:none;">
-        <div class="admin__header"><h2>Live Chat</h2></div>
+        <div class="admin__header"><h2>💬 Live Chat</h2></div>
         <div class="admin__chat">
           <div class="admin__chat-list" id="chatList"></div>
-          <div class="admin__chat-window" id="chatWindow">
-            <div class="admin__chat-empty" id="chatEmpty">
-              <p>💬</p>
-              <p>Pilih percakapan dari daftar di samping untuk memulai membalas.</p>
-            </div>
+          <div class="admin__chat-window">
+            <div class="admin__chat-empty" id="chatEmpty"><p>💬</p><p>Pilih percakapan untuk membalas.</p></div>
             <div class="admin__chat-messages" id="chatMessages" style="display:none;"></div>
             <div class="admin__chat-reply" id="chatReply" style="display:none;">
               <input type="text" id="adminChatInput" class="form-input" placeholder="Ketik balasan..." />
@@ -96,16 +196,36 @@
         </div>
       </div>
 
-      <!-- ========== CONTENT TAB ========== -->
-      <div class="admin__tab" id="tab-content" style="display:none;">
-        <div class="admin__header"><h2>Manajemen Konten</h2></div>
-        <div class="admin__content-editor">
-          <p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-2xl);">
-            🚧 Fitur editor konten halaman akan segera hadir.<br/>
-            Untuk saat ini, konten dapat diubah langsung di file HTML.
-          </p>
+      <!-- ========= SETTINGS TAB ========= -->
+      <div class="admin__tab" id="tab-settings" style="display:none;">
+        <div class="admin__header"><h2>⚙️ Pengaturan</h2><button class="btn btn--accent" id="saveSettingsBtn">💾 Simpan</button></div>
+
+        <div class="admin__section">
+          <h3>Identitas Sekolah</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Nama Singkat</label><input class="form-input" id="stName" /></div>
+            <div class="admin__form-group"><label>Nama Lengkap</label><input class="form-input" id="stFullName" /></div>
+          </div>
+          <div class="admin__form-group"><label>Tagline</label><textarea class="form-input" id="stTagline" rows="2"></textarea></div>
+          <div class="admin__form-group">
+            <label>Logo Sekolah</label>
+            <div class="admin__img-upload">
+              <img id="logoPreview" src="" alt="" class="admin__img-preview admin__img-preview--sm" />
+              <div class="admin__img-actions">
+                <input type="url" class="form-input" id="logoUrl" placeholder="URL logo..." />
+                <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="logoFile" style="display:none;" />📁 Upload</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin__section" style="border-top:2px solid #e74c3c;padding-top:1rem;">
+          <h3 style="color:#e74c3c;">⚠️ Reset Data</h3>
+          <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Klik untuk mengembalikan konten halaman ke default. Galeri & Kalender tidak terpengaruh.</p>
+          <button class="btn btn--ghost" style="color:#e74c3c;border:1px solid #e74c3c;" id="resetContentBtn">Reset Semua Konten</button>
         </div>
       </div>
+
     </main>
   </div>
 
@@ -114,12 +234,16 @@
     <div class="admin__modal-content" id="adminModalContent"></div>
   </div>
 
+  <!-- Toast -->
+  <div class="admin__toast" id="adminToast"></div>
+
   <script type="module">
     import {
       adminLogin, isAdminLoggedIn, adminLogout,
       getGallery, saveGalleryItem, deleteGalleryItem,
       getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
-      getChatSessions, addChatMessage, markChatRead, getChats
+      getChatSessions, addChatMessage, markChatRead, getChats,
+      getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
     } from '/js/data-manager.js';
 
     // ===== Auth =====
@@ -127,25 +251,19 @@
 
     document.getElementById('loginForm').addEventListener('submit', e => {
       e.preventDefault();
-      const pw = document.getElementById('loginPassword').value;
-      if (adminLogin(pw)) {
+      if (adminLogin(document.getElementById('loginPassword').value)) {
         showDashboard();
       } else {
         document.getElementById('loginError').style.display = 'block';
       }
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      adminLogout();
-      location.reload();
-    });
+    document.getElementById('logoutBtn').addEventListener('click', () => { adminLogout(); location.reload(); });
 
     function showDashboard() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'flex';
-      loadGallery();
-      loadCalendar();
-      loadChat();
+      loadAllTabs();
       startChatPolling();
     }
 
@@ -159,18 +277,239 @@
       });
     });
 
-    // ===== Gallery Management =====
+    // ===== Load All CMS Data =====
+    function loadAllTabs() {
+      const data = getAllSiteContent();
+      loadBerandaTab(data);
+      loadHalamanTab(data);
+      loadKontakTab(data);
+      loadSettingsTab(data);
+      loadGallery();
+      loadCalendar();
+      loadChat();
+    }
+
+    // ========================================
+    // BERANDA TAB
+    // ========================================
+    function loadBerandaTab(data) {
+      const h = data.hero || {};
+      document.getElementById('heroBadge').value = h.badge || '';
+      document.getElementById('heroTitle1').value = h.title1 || '';
+      document.getElementById('heroTitle2').value = h.title2 || '';
+      document.getElementById('heroSubtitle').value = h.subtitle || '';
+      document.getElementById('heroCta1').value = h.cta1 || '';
+      document.getElementById('heroImageUrl').value = h.image || '';
+      setPreview('heroImagePreview', h.image);
+
+      // Features
+      const feats = data.features || [];
+      document.getElementById('featuresEditor').innerHTML = feats.map((f, i) => `
+        <div class="admin__form-row admin__repeat-item" style="align-items:end;">
+          <div class="admin__form-group" style="max-width:60px;"><label>Ikon</label><input class="form-input feat-icon" value="${f.icon}" maxlength="4" /></div>
+          <div class="admin__form-group"><label>Judul</label><input class="form-input feat-title" value="${escAttr(f.title)}" /></div>
+          <div class="admin__form-group" style="flex:2;"><label>Deskripsi</label><input class="form-input feat-desc" value="${escAttr(f.desc)}" /></div>
+        </div>
+      `).join('');
+
+      // Counters
+      const ctrs = data.counters || [];
+      document.getElementById('countersEditor').innerHTML = ctrs.map((c, i) => `
+        <div class="admin__form-row admin__repeat-item">
+          <div class="admin__form-group"><label>Angka</label><input type="number" class="form-input ctr-num" value="${c.number}" /></div>
+          <div class="admin__form-group"><label>Label</label><input class="form-input ctr-label" value="${escAttr(c.label)}" /></div>
+        </div>
+      `).join('');
+
+      // Testimonials
+      renderTestimoni(data.testimonials || []);
+    }
+
+    function renderTestimoni(testimonials) {
+      document.getElementById('testimoniEditor').innerHTML = testimonials.map((t, i) => `
+        <div class="admin__repeat-item admin__section" style="background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:0.5rem;">
+          <div class="admin__form-row" style="align-items:end;">
+            <div class="admin__form-group"><label>Nama</label><input class="form-input testi-name" value="${escAttr(t.name)}" /></div>
+            <div class="admin__form-group"><label>Role</label><input class="form-input testi-role" value="${escAttr(t.role)}" /></div>
+            <button class="btn btn--ghost btn--sm" style="color:#e74c3c;margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+          </div>
+          <div class="admin__form-group"><label>Teks Testimoni</label><textarea class="form-input testi-text" rows="2">${escHtml(t.text)}</textarea></div>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('addTestimoniBtn').addEventListener('click', () => {
+      const container = document.getElementById('testimoniEditor');
+      container.insertAdjacentHTML('beforeend', `
+        <div class="admin__repeat-item admin__section" style="background:#f8f9fa;padding:1rem;border-radius:8px;margin-bottom:0.5rem;">
+          <div class="admin__form-row" style="align-items:end;">
+            <div class="admin__form-group"><label>Nama</label><input class="form-input testi-name" value="" /></div>
+            <div class="admin__form-group"><label>Role</label><input class="form-input testi-role" value="" /></div>
+            <button class="btn btn--ghost btn--sm" style="color:#e74c3c;margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+          </div>
+          <div class="admin__form-group"><label>Teks Testimoni</label><textarea class="form-input testi-text" rows="2"></textarea></div>
+        </div>
+      `);
+    });
+
+    // Save Beranda
+    document.getElementById('saveHeroBtn').addEventListener('click', () => {
+      saveSiteContent('hero', {
+        badge: document.getElementById('heroBadge').value,
+        title1: document.getElementById('heroTitle1').value,
+        title2: document.getElementById('heroTitle2').value,
+        subtitle: document.getElementById('heroSubtitle').value,
+        cta1: document.getElementById('heroCta1').value,
+        cta2: document.getElementById('heroCta1').value, // keep same
+        image: document.getElementById('heroImageUrl').value,
+      });
+
+      const feats = [...document.querySelectorAll('#featuresEditor .admin__repeat-item')].map(row => ({
+        icon: row.querySelector('.feat-icon').value,
+        title: row.querySelector('.feat-title').value,
+        desc: row.querySelector('.feat-desc').value,
+      }));
+      saveSiteContent('features', feats);
+
+      const ctrs = [...document.querySelectorAll('#countersEditor .admin__repeat-item')].map(row => ({
+        number: parseInt(row.querySelector('.ctr-num').value) || 0,
+        label: row.querySelector('.ctr-label').value,
+      }));
+      saveSiteContent('counters', ctrs);
+
+      const testis = [...document.querySelectorAll('#testimoniEditor .admin__repeat-item')].map(row => ({
+        name: row.querySelector('.testi-name').value,
+        role: row.querySelector('.testi-role').value,
+        text: row.querySelector('.testi-text').value,
+      }));
+      saveSiteContent('testimonials', testis);
+
+      showToast('✅ Beranda berhasil disimpan!');
+    });
+
+    // Image uploads (hero)
+    setupImageUpload('heroImageFile', 'heroImageUrl', 'heroImagePreview');
+    setupImageUpload('principalImageFile', 'principalImageUrl', 'principalImagePreview');
+    setupImageUpload('logoFile', 'logoUrl', 'logoPreview');
+
+    // ========================================
+    // HALAMAN TAB
+    // ========================================
+    function loadHalamanTab(data) {
+      const a = data.about || {};
+      document.getElementById('aboutVision').value = a.vision || '';
+      document.getElementById('principalName').value = a.principalName || '';
+      document.getElementById('principalMessage').value = a.principalMessage || '';
+      document.getElementById('principalImageUrl').value = a.principalImage || '';
+      setPreview('principalImagePreview', a.principalImage);
+
+      const missions = a.mission || [];
+      renderMissions(missions);
+    }
+
+    function renderMissions(missions) {
+      document.getElementById('missionEditor').innerHTML = missions.map((m, i) => `
+        <div class="admin__form-row admin__repeat-item" style="align-items:center;">
+          <div class="admin__form-group" style="flex:1;"><input class="form-input mission-item" value="${escAttr(m)}" /></div>
+          <button class="btn btn--ghost btn--sm" style="color:#e74c3c;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('addMissionBtn').addEventListener('click', () => {
+      document.getElementById('missionEditor').insertAdjacentHTML('beforeend', `
+        <div class="admin__form-row admin__repeat-item" style="align-items:center;">
+          <div class="admin__form-group" style="flex:1;"><input class="form-input mission-item" value="" placeholder="Misi baru..." /></div>
+          <button class="btn btn--ghost btn--sm" style="color:#e74c3c;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+        </div>
+      `);
+    });
+
+    document.getElementById('savePageBtn').addEventListener('click', () => {
+      saveSiteContent('about', {
+        vision: document.getElementById('aboutVision').value,
+        principalName: document.getElementById('principalName').value,
+        principalMessage: document.getElementById('principalMessage').value,
+        principalImage: document.getElementById('principalImageUrl').value,
+        mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
+      });
+      showToast('✅ Halaman berhasil disimpan!');
+    });
+
+    // ========================================
+    // KONTAK TAB
+    // ========================================
+    function loadKontakTab(data) {
+      const c = data.contact || {};
+      document.getElementById('ctWaNumber').value = c.waNumber || '';
+      document.getElementById('ctWaNumberSdit').value = c.waNumberSdit || '';
+      document.getElementById('ctWaMessage').value = c.waMessage || '';
+      document.getElementById('ctAddress').value = c.address || '';
+      document.getElementById('ctMapsUrl').value = c.mapsUrl || '';
+      document.getElementById('ctEmail').value = c.email || '';
+      document.getElementById('ctInstagram').value = c.instagram || '';
+      document.getElementById('ctFacebook').value = c.facebook || '';
+    }
+
+    document.getElementById('saveContactBtn').addEventListener('click', () => {
+      saveSiteContent('contact', {
+        waNumber: document.getElementById('ctWaNumber').value,
+        waNumberSdit: document.getElementById('ctWaNumberSdit').value,
+        waMessage: document.getElementById('ctWaMessage').value,
+        address: document.getElementById('ctAddress').value,
+        mapsUrl: document.getElementById('ctMapsUrl').value,
+        email: document.getElementById('ctEmail').value,
+        instagram: document.getElementById('ctInstagram').value,
+        facebook: document.getElementById('ctFacebook').value,
+      });
+      showToast('✅ Kontak & Footer berhasil disimpan!');
+    });
+
+    // ========================================
+    // SETTINGS TAB
+    // ========================================
+    function loadSettingsTab(data) {
+      const s = data.settings || {};
+      document.getElementById('stName').value = s.schoolName || '';
+      document.getElementById('stFullName').value = s.schoolFullName || '';
+      document.getElementById('stTagline').value = s.tagline || '';
+      document.getElementById('logoUrl').value = s.logo || '';
+      setPreview('logoPreview', s.logo);
+    }
+
+    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+      saveSiteContent('settings', {
+        schoolName: document.getElementById('stName').value,
+        schoolFullName: document.getElementById('stFullName').value,
+        tagline: document.getElementById('stTagline').value,
+        logo: document.getElementById('logoUrl').value,
+      });
+      showToast('✅ Pengaturan berhasil disimpan!');
+    });
+
+    document.getElementById('resetContentBtn').addEventListener('click', () => {
+      if (!confirm('Yakin ingin reset semua konten ke default? Tidak bisa di-undo.')) return;
+      ['hero','features','counters','testimonials','about','contact','settings'].forEach(k => resetSiteContent(k));
+      loadAllTabs();
+      showToast('🔄 Konten direset ke default.');
+    });
+
+    // ========================================
+    // GALLERY TAB
+    // ========================================
     function loadGallery() {
       const items = getGallery();
-      document.getElementById('galleryTbody').innerHTML = items.map(item => `
+      document.getElementById('galleryTbody').innerHTML = items.length === 0
+        ? '<tr><td colspan="5" style="text-align:center;color:#999;padding:2rem;">Belum ada foto di galeri.</td></tr>'
+        : items.map(item => `
         <tr>
-          <td><strong>${item.title}</strong><br/><small style="color:var(--clr-text-muted)">${item.description || ''}</small></td>
+          <td>${item.image_url ? `<img src="${item.image_url}" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" />` : '<div style="width:48px;height:48px;background:#f1f3f5;border-radius:6px;display:flex;align-items:center;justify-content:center;">📷</div>'}</td>
+          <td><strong>${escHtml(item.title)}</strong><br/><small style="color:#999">${escHtml(item.description || '')}</small></td>
           <td><span class="admin__badge-unit">${(item.unit || '').toUpperCase()}</span></td>
           <td>${item.category}</td>
-          <td>${new Date(item.created_at).toLocaleDateString('id-ID')}</td>
           <td>
             <button class="btn btn--sm btn--outline" onclick="editGallery('${item.id}')">Edit</button>
-            <button class="btn btn--sm btn--ghost" style="color:var(--clr-error);" onclick="delGallery('${item.id}')">Hapus</button>
+            <button class="btn btn--sm btn--ghost" style="color:#e74c3c;" onclick="delGallery('${item.id}')">Hapus</button>
           </td>
         </tr>
       `).join('');
@@ -179,14 +518,23 @@
     window.editGallery = (id) => {
       const item = id ? getGallery().find(g => g.id === id) : {};
       showModal('Galeri', `
-        <div class="form-group"><label class="form-label">Judul *</label><input class="form-input" id="mTitle" value="${item.title || ''}" /></div>
-        <div class="form-group"><label class="form-label">Deskripsi</label><input class="form-input" id="mDesc" value="${item.description || ''}" /></div>
-        <div class="form-group"><label class="form-label">URL Gambar</label><input class="form-input" id="mImg" value="${item.image_url || ''}" placeholder="https://..." /></div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Unit</label>
+        <div class="admin__form-group"><label>Judul</label><input class="form-input" id="mTitle" value="${escAttr(item.title || '')}" /></div>
+        <div class="admin__form-group"><label>Deskripsi</label><input class="form-input" id="mDesc" value="${escAttr(item.description || '')}" /></div>
+        <div class="admin__form-group">
+          <label>Gambar</label>
+          <div class="admin__img-upload">
+            <img id="mGalleryPreview" src="${item.image_url || ''}" alt="" class="admin__img-preview" style="${item.image_url ? '' : 'display:none;'}" />
+            <div class="admin__img-actions">
+              <input type="url" class="form-input" id="mImg" value="${escAttr(item.image_url || '')}" placeholder="Paste URL..." />
+              <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="mGalleryFile" style="display:none;" />📁 Upload</label>
+            </div>
+          </div>
+        </div>
+        <div class="admin__form-row">
+          <div class="admin__form-group"><label>Unit</label>
             <select class="form-select" id="mUnit"><option value="sdit" ${item.unit === 'sdit' ? 'selected' : ''}>SDIT</option><option value="smp-sma" ${item.unit === 'smp-sma' ? 'selected' : ''}>SMP-SMA</option></select>
           </div>
-          <div class="form-group"><label class="form-label">Kategori</label>
+          <div class="admin__form-group"><label>Kategori</label>
             <select class="form-select" id="mCat"><option value="tahfidz" ${item.category === 'tahfidz' ? 'selected' : ''}>Tahfidz</option><option value="entrepreneur" ${item.category === 'entrepreneur' ? 'selected' : ''}>Entrepreneur</option><option value="beladiri" ${item.category === 'beladiri' ? 'selected' : ''}>Beladiri</option><option value="umum" ${item.category === 'umum' ? 'selected' : ''}>Umum</option></select>
           </div>
         </div>
@@ -201,27 +549,31 @@
         });
         closeModal();
         loadGallery();
+        showToast('✅ Item galeri disimpan.');
       });
+      // Setup file upload in modal
+      setTimeout(() => setupImageUpload('mGalleryFile', 'mImg', 'mGalleryPreview'), 100);
     };
 
-    window.delGallery = (id) => {
-      if (confirm('Hapus item galeri ini?')) { deleteGalleryItem(id); loadGallery(); }
-    };
-
+    window.delGallery = (id) => { if (confirm('Hapus?')) { deleteGalleryItem(id); loadGallery(); } };
     document.getElementById('addGalleryBtn').addEventListener('click', () => window.editGallery(null));
 
-    // ===== Calendar Management =====
+    // ========================================
+    // CALENDAR TAB
+    // ========================================
     function loadCalendar() {
       const items = getCalendarEvents();
-      document.getElementById('calendarTbody').innerHTML = items.map(item => `
+      document.getElementById('calendarTbody').innerHTML = items.length === 0
+        ? '<tr><td colspan="5" style="text-align:center;color:#999;padding:2rem;">Belum ada event.</td></tr>'
+        : items.map(item => `
         <tr>
-          <td><strong>${item.title}</strong></td>
+          <td><strong>${escHtml(item.title)}</strong></td>
           <td>${item.event_date}${item.end_date ? ' — ' + item.end_date : ''}</td>
           <td><span class="admin__badge-unit">${(item.unit || '').toUpperCase()}</span></td>
-          <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.color || '#2B8FBD'};margin-right:4px;"></span>${item.category}</td>
+          <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${item.color || '#2B8FBD'};margin-right:4px;vertical-align:middle;"></span>${item.category}</td>
           <td>
             <button class="btn btn--sm btn--outline" onclick="editCalendar('${item.id}')">Edit</button>
-            <button class="btn btn--sm btn--ghost" style="color:var(--clr-error);" onclick="delCalendar('${item.id}')">Hapus</button>
+            <button class="btn btn--sm btn--ghost" style="color:#e74c3c;" onclick="delCalendar('${item.id}')">Hapus</button>
           </td>
         </tr>
       `).join('');
@@ -230,20 +582,20 @@
     window.editCalendar = (id) => {
       const item = id ? getCalendarEvents().find(e => e.id === id) : {};
       showModal('Event Kalender', `
-        <div class="form-group"><label class="form-label">Judul *</label><input class="form-input" id="mEvTitle" value="${item.title || ''}" /></div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Tanggal Mulai *</label><input type="date" class="form-input" id="mEvDate" value="${item.event_date || ''}" /></div>
-          <div class="form-group"><label class="form-label">Tanggal Selesai</label><input type="date" class="form-input" id="mEvEnd" value="${item.end_date || ''}" /></div>
+        <div class="admin__form-group"><label>Judul</label><input class="form-input" id="mEvTitle" value="${escAttr(item.title || '')}" /></div>
+        <div class="admin__form-row">
+          <div class="admin__form-group"><label>Tanggal Mulai</label><input type="date" class="form-input" id="mEvDate" value="${item.event_date || ''}" /></div>
+          <div class="admin__form-group"><label>Tanggal Selesai</label><input type="date" class="form-input" id="mEvEnd" value="${item.end_date || ''}" /></div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label class="form-label">Unit</label>
+        <div class="admin__form-row">
+          <div class="admin__form-group"><label>Unit</label>
             <select class="form-select" id="mEvUnit"><option value="sdit" ${item.unit === 'sdit' ? 'selected' : ''}>SDIT</option><option value="smp-sma" ${item.unit === 'smp-sma' ? 'selected' : ''}>SMP-SMA</option></select>
           </div>
-          <div class="form-group"><label class="form-label">Kategori</label>
+          <div class="admin__form-group"><label>Kategori</label>
             <select class="form-select" id="mEvCat"><option value="akademik" ${item.category === 'akademik' ? 'selected' : ''}>Akademik</option><option value="ujian" ${item.category === 'ujian' ? 'selected' : ''}>Ujian</option><option value="kegiatan" ${item.category === 'kegiatan' ? 'selected' : ''}>Kegiatan</option><option value="libur" ${item.category === 'libur' ? 'selected' : ''}>Libur</option></select>
           </div>
         </div>
-        <div class="form-group"><label class="form-label">Warna</label><input type="color" id="mEvColor" value="${item.color || '#2B8FBD'}" style="width:60px;height:36px;border:none;cursor:pointer;" /></div>
+        <div class="admin__form-group"><label>Warna</label><input type="color" id="mEvColor" value="${item.color || '#2B8FBD'}" style="width:60px;height:36px;border:none;cursor:pointer;" /></div>
       `, () => {
         saveCalendarEvent({
           ...(id ? { id } : {}),
@@ -256,16 +608,16 @@
         });
         closeModal();
         loadCalendar();
+        showToast('✅ Event disimpan.');
       });
     };
 
-    window.delCalendar = (id) => {
-      if (confirm('Hapus event ini?')) { deleteCalendarEvent(id); loadCalendar(); }
-    };
-
+    window.delCalendar = (id) => { if (confirm('Hapus?')) { deleteCalendarEvent(id); loadCalendar(); } };
     document.getElementById('addCalendarBtn').addEventListener('click', () => window.editCalendar(null));
 
-    // ===== Chat Management =====
+    // ========================================
+    // CHAT TAB
+    // ========================================
     let activeSession = null;
 
     function loadChat() {
@@ -276,13 +628,13 @@
       else { badge.style.display = 'none'; }
 
       document.getElementById('chatList').innerHTML = sessions.length === 0
-        ? '<p style="text-align:center;color:var(--clr-text-muted);padding:var(--space-xl);">Belum ada chat masuk.</p>'
+        ? '<p style="text-align:center;color:#999;padding:2rem;">Belum ada chat.</p>'
         : sessions.map(s => `
           <div class="admin__chat-item ${s.session_id === activeSession ? 'admin__chat-item--active' : ''}" data-session="${s.session_id}">
             <div class="admin__chat-item-avatar">${(s.visitor_name || '?')[0].toUpperCase()}</div>
             <div class="admin__chat-item-info">
-              <strong>${s.visitor_name || 'Visitor'}</strong>
-              <small>${s.last_message.substring(0, 40)}${s.last_message.length > 40 ? '...' : ''}</small>
+              <strong>${escHtml(s.visitor_name || 'Visitor')}</strong>
+              <small>${escHtml(s.last_message.substring(0, 40))}</small>
             </div>
             ${s.unread > 0 ? `<span class="admin__badge">${s.unread}</span>` : ''}
           </div>
@@ -296,7 +648,6 @@
           loadChatMessages();
         });
       });
-
       if (activeSession) loadChatMessages();
     }
 
@@ -305,43 +656,34 @@
       document.getElementById('chatEmpty').style.display = 'none';
       document.getElementById('chatMessages').style.display = 'flex';
       document.getElementById('chatReply').style.display = 'flex';
-
       document.getElementById('chatMessages').innerHTML = msgs.map(m => `
         <div class="admin__chat-msg admin__chat-msg--${m.sender}">
-          <div class="admin__chat-bubble">${escapeHtml(m.message)}</div>
+          <div class="admin__chat-bubble">${escHtml(m.message)}</div>
           <small>${new Date(m.created_at).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}</small>
         </div>
       `).join('');
-
       const el = document.getElementById('chatMessages');
       el.scrollTop = el.scrollHeight;
     }
 
     document.getElementById('adminChatSend').addEventListener('click', sendAdminReply);
-    document.getElementById('adminChatInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendAdminReply();
-    });
+    document.getElementById('adminChatInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendAdminReply(); });
 
     function sendAdminReply() {
       const input = document.getElementById('adminChatInput');
       if (!input.value.trim() || !activeSession) return;
       const sessions = getChatSessions();
       const session = sessions.find(s => s.session_id === activeSession);
-      addChatMessage({
-        session_id: activeSession,
-        visitor_name: session?.visitor_name || 'Visitor',
-        message: input.value.trim(),
-        sender: 'admin',
-      });
+      addChatMessage({ session_id: activeSession, visitor_name: session?.visitor_name || 'Visitor', message: input.value.trim(), sender: 'admin' });
       input.value = '';
       loadChatMessages();
     }
 
-    function startChatPolling() {
-      setInterval(() => { loadChat(); }, 3000);
-    }
+    function startChatPolling() { setInterval(() => { loadChat(); }, 3000); }
 
-    // ===== Modal =====
+    // ========================================
+    // MODAL & TOAST
+    // ========================================
     function showModal(title, bodyHtml, onSave) {
       document.getElementById('adminModalContent').innerHTML = `
         <div class="admin__modal-header"><h3>${title}</h3><button class="admin__modal-close" onclick="document.getElementById('adminModal').style.display='none'">✕</button></div>
@@ -353,15 +695,60 @@
     }
 
     window.closeModal = () => { document.getElementById('adminModal').style.display = 'none'; };
+    document.getElementById('adminModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
 
-    document.getElementById('adminModal').addEventListener('click', e => {
-      if (e.target === e.currentTarget) closeModal();
-    });
+    function showToast(msg) {
+      const toast = document.getElementById('adminToast');
+      toast.textContent = msg;
+      toast.classList.add('admin__toast--show');
+      setTimeout(() => toast.classList.remove('admin__toast--show'), 3000);
+    }
 
-    function escapeHtml(text) {
+    // ========================================
+    // IMAGE UPLOAD HELPER
+    // ========================================
+    function setupImageUpload(fileInputId, urlInputId, previewId) {
+      const fileInput = document.getElementById(fileInputId);
+      const urlInput = document.getElementById(urlInputId);
+      if (!fileInput) return;
+
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { alert('Ukuran file maksimal 2MB!'); return; }
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const dataUrl = ev.target.result;
+          if (urlInput) urlInput.value = dataUrl;
+          setPreview(previewId, dataUrl);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      if (urlInput) {
+        urlInput.addEventListener('change', () => setPreview(previewId, urlInput.value));
+        urlInput.addEventListener('input', () => setPreview(previewId, urlInput.value));
+      }
+    }
+
+    function setPreview(id, src) {
+      const img = document.getElementById(id);
+      if (!img) return;
+      if (src) { img.src = src; img.style.display = 'block'; }
+      else { img.style.display = 'none'; }
+    }
+
+    // ========================================
+    // UTILITIES
+    // ========================================
+    function escHtml(text) {
       const el = document.createElement('div');
-      el.textContent = text;
+      el.textContent = text || '';
       return el.innerHTML;
+    }
+
+    function escAttr(text) {
+      return (text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
   </script>
 </body>

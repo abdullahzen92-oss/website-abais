@@ -1,6 +1,6 @@
 /* =============================================
    ABAIS Data Manager
-   localStorage-first with Supabase sync
+   localStorage-first with full CMS support
    ============================================= */
 
 const STORAGE_PREFIX = 'abais_';
@@ -107,16 +107,93 @@ export function getUnreadCount() {
   return getChats().filter(c => !c.is_read && c.sender === 'visitor').length;
 }
 
-// ===== Site Content =====
+// ===== Site Content (Full CMS) =====
+const DEFAULT_CONTENT = {
+  hero: {
+    badge: 'Pendaftaran PPDB 2026/2027 Dibuka',
+    title1: 'Mendidik Generasi',
+    title2: "Qur'ani & Berakhlak Mulia",
+    subtitle: 'Sekolah Sunnah Fullday dengan kurikulum Tahfidz Al-Qur\'an, Entrepreneur, dan Beladiri. Membangun fondasi iman dan kemandirian sejak dini di Kota Bogor.',
+    cta1: 'Daftar PPDB Sekarang',
+    cta2: 'Pelajari Selengkapnya',
+    image: '/assets/images/hero-banner.png',
+  },
+  features: [
+    { icon: '📖', title: 'Program Tahfidz', desc: 'Program unggulan hafalan Al-Qur\'an dengan metode talaqqi dan muroja\'ah yang terintegrasi dalam kegiatan harian.' },
+    { icon: '💼', title: 'Entrepreneur', desc: 'Menumbuhkan jiwa wirausaha sejak dini melalui program entrepreneur meneladani Abdurrahman bin Auf radhiyallahu anhu.' },
+    { icon: '🥋', title: 'Beladiri', desc: 'Program beladiri untuk membentuk karakter tangguh, disiplin, dan percaya diri sesuai ajaran Sunnah Nabi ﷺ.' },
+    { icon: '🕌', title: 'Berbasis Sunnah', desc: 'Seluruh kegiatan berpedoman pada Al-Qur\'an dan As-Sunnah dengan pemahaman Salafush Shalih.' },
+  ],
+  counters: [
+    { number: 200, label: 'Siswa Aktif' },
+    { number: 25, label: 'Tenaga Pengajar' },
+    { number: 8, label: 'Tahun Berdiri' },
+    { number: 30, label: 'Juz Rata-rata' },
+  ],
+  testimonials: [
+    { text: 'Alhamdulillah, anak saya sudah hafal 10 juz sejak bersekolah di ABAIS. Selain hafalan, akhlaknya pun semakin baik. Jazakumullahu khairan.', name: 'Ummu Fatimah', role: 'Orang Tua Siswa Kelas 5' },
+    { text: 'Saya sangat terkesan dengan program entrepreneur di ABAIS. Anak saya jadi mandiri dan punya semangat berwirausaha. MasyaaAllah barakallah.', name: 'Abu Hamzah', role: 'Orang Tua Siswa Kelas 4' },
+    { text: 'Lingkungan sekolah yang Islami dan guru-guru yang kompeten membuat kami yakin menitipkan anak di ABAIS. Alhamdulillah \'ala kulli haal.', name: 'Ummu Khadijah', role: 'Orang Tua Siswa Kelas 3' },
+  ],
+  about: {
+    vision: 'Menjadi lembaga pendidikan Islam terpadu yang melahirkan generasi Qur\'ani, mandiri, dan berakhlak mulia berdasarkan Al-Qur\'an dan As-Sunnah.',
+    mission: [
+      'Menyelenggarakan pendidikan hafalan Al-Qur\'an dengan metode talaqqi',
+      'Menanamkan jiwa entrepreneur meneladani Abdurrahman bin Auf',
+      'Membentuk karakter tangguh melalui program beladiri',
+      'Menerapkan kurikulum nasional berbasis nilai-nilai Islam',
+    ],
+    principalName: 'Ustadz Ahmad Fadhil, S.Pd.I',
+    principalMessage: 'Kami berkomitmen untuk mendidik putra-putri terbaik umat ini menjadi generasi yang mencintai Al-Qur\'an, berakhlak mulia, mandiri, dan siap menghadapi tantangan zaman dengan bekal iman dan ilmu yang kuat.',
+    principalImage: '',
+  },
+  contact: {
+    waNumber: '6285656117777',
+    waNumberSdit: '6281318686468',
+    waMessage: "Assalamu'alaikum, saya ingin bertanya tentang ABAIS",
+    address: 'Bogor, Jawa Barat',
+    email: 'info@abais.sch.id',
+    instagram: 'https://www.instagram.com/abais.bogor/',
+    facebook: 'https://www.facebook.com/sekolahsunnahbogor',
+    mapsUrl: 'https://maps.app.goo.gl/FAqK1fr4AahSeuH87',
+  },
+  settings: {
+    schoolName: 'ABAIS',
+    schoolFullName: 'Abdurrahman Bin Auf Islamic School',
+    tagline: "Sekolah Sunnah Fullday — Tahfidz, Entrepreneur, Beladiri. Mendidik generasi Qur'ani berakhlak mulia di Kota Bogor.",
+    logo: '/assets/images/logo.png',
+  },
+};
+
 export function getSiteContent(section) {
   const content = getFromStorage('site_content', {});
-  return content[section] || null;
+  return content[section] || DEFAULT_CONTENT[section] || null;
+}
+
+export function getAllSiteContent() {
+  const stored = getFromStorage('site_content', {});
+  // Merge with defaults
+  const merged = {};
+  for (const key of Object.keys(DEFAULT_CONTENT)) {
+    merged[key] = stored[key] || DEFAULT_CONTENT[key];
+  }
+  return merged;
 }
 
 export function saveSiteContent(section, data) {
   const content = getFromStorage('site_content', {});
-  content[section] = { ...data, updated_at: new Date().toISOString() };
+  content[section] = data;
   saveToStorage('site_content', content);
+}
+
+export function resetSiteContent(section) {
+  const content = getFromStorage('site_content', {});
+  delete content[section];
+  saveToStorage('site_content', content);
+}
+
+export function getDefaultContent() {
+  return JSON.parse(JSON.stringify(DEFAULT_CONTENT));
 }
 
 // ===== Admin Auth =====
@@ -148,7 +225,6 @@ function getFromStorage(key, fallback) {
 
 function saveToStorage(key, data) {
   localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(data));
-  // Dispatch storage event for cross-tab sync
   window.dispatchEvent(new CustomEvent('abais-data-change', { detail: { key } }));
 }
 
@@ -158,7 +234,6 @@ function generateId() {
 
 // ===== Seed initial data if empty =====
 export function seedInitialData() {
-  // Gallery seed
   if (getGallery().length === 0) {
     const seedGallery = [
       { title: 'Kegiatan Tahfidz Pagi', description: 'Program hafalan Al-Quran rutin setiap pagi', image_url: '', category: 'tahfidz', unit: 'sdit' },
@@ -169,7 +244,6 @@ export function seedInitialData() {
     seedGallery.forEach(item => saveGalleryItem(item));
   }
 
-  // Calendar seed
   if (getCalendarEvents().length === 0) {
     const now = new Date();
     const year = now.getFullYear();

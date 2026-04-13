@@ -403,11 +403,122 @@ body {
 }
 
 /* ========================
-   CONTENT EDITOR
+   CMS SECTIONS & FORMS
    ======================== */
-.admin__content-editor {
+.admin__section {
   background: white;
   border-radius: 12px;
-  min-height: 400px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
+
+.admin__section h3 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #14495f;
+  border-bottom: 1px solid #f1f3f5;
+  padding-bottom: 0.5rem;
+}
+
+.admin__form-group {
+  margin-bottom: 0.75rem;
+  flex: 1;
+}
+
+.admin__form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.admin__form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .admin__form-row { flex-direction: column; }
+}
+
+.admin__repeat-item {
+  margin-bottom: 0.5rem;
+}
+
+/* Image upload */
+.admin__img-upload {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.admin__img-preview {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+}
+
+.admin__img-preview--sm {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.admin__img-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+/* Subtabs */
+.admin__subtabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.admin__subtab {
+  padding: 0.5rem 1.2rem;
+  border: 2px solid #e9ecef;
+  border-radius: 50px;
+  background: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin__subtab:hover { border-color: #2B8FBD; color: #2B8FBD; }
+.admin__subtab--active { background: #2B8FBD; border-color: #2B8FBD; color: white; }
+
+/* Toast */
+.admin__toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #1a1d29;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.admin__toast--show {
+  opacity: 1;
+  transform: translateY(0);
+}
+

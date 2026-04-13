@@ -144,11 +144,13 @@
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
     import { seedInitialData } from '/js/data-manager.js';
     import { initChat } from '/js/chat.js';
+    import { loadPageContent } from '/js/content-loader.js';
 
     document.getElementById('navbarSlot').innerHTML = getNavbar('home');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
     seedInitialData();
+    loadPageContent('home');
 
     // Load main modules
     import('/js/main.js');

@@ -1,1 +1,0 @@
-import{s as t}from"./data-manager-DPhWVFTy.js";import{g as e,a,b as o,_ as n,i}from"./chat-FxvXKO3B.js";document.getElementById("navbarSlot").innerHTML=e("sdit");document.getElementById("footerSlot").innerHTML=a();document.getElementById("waSlot").innerHTML=o();t();n(()=>import("./main-CQel7J0W.js"),[]);i();

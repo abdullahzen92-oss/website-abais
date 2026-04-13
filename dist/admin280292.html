@@ -3,72 +3,177 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard — ABAIS</title>
+  <title>Admin Dashboard — ABAIS CMS</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" href="/assets/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="/assets/admin-Dob5_6sq.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/data-manager-DPhWVFTy.js">
-  <link rel="stylesheet" crossorigin href="/assets/data-manager-8zfr8NBT.css">
-  <link rel="stylesheet" crossorigin href="/assets/admin-Cwxf7vSN.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/assets/admin-_xVEaQXq.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/data-manager-DOqBHwHB.js">
+  <link rel="stylesheet" crossorigin href="/assets/data-manager-ehck1eFZ.css">
+  <link rel="stylesheet" crossorigin href="/assets/admin-BvnDltgq.css">
 </head>
 <body>
-  <!-- Login Screen -->
+  <!-- Login -->
   <div id="loginScreen" class="admin-login">
     <div class="admin-login__card">
       <img src="/assets/images/logo.png" alt="ABAIS Logo" class="admin-login__logo" />
       <h2>Admin Dashboard</h2>
-      <p>Masukkan password untuk mengakses dashboard</p>
+      <p>Masukkan password untuk mengakses CMS</p>
       <form id="loginForm">
         <input type="password" id="loginPassword" class="form-input" placeholder="Password..." autocomplete="off" />
-        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:var(--space-md);">Masuk</button>
-        <p id="loginError" style="color:var(--clr-error);font-size:var(--fs-caption);margin-top:var(--space-sm);display:none;">Password salah!</p>
+        <button type="submit" class="btn btn--primary" style="width:100%;margin-top:1rem;">Masuk</button>
+        <p id="loginError" style="color:#e74c3c;font-size:0.85rem;margin-top:0.5rem;display:none;">Password salah!</p>
       </form>
     </div>
   </div>
 
-  <!-- Admin Panel -->
+  <!-- Dashboard -->
   <div id="adminPanel" class="admin" style="display:none;">
     <aside class="admin__sidebar">
       <div class="admin__sidebar-header">
         <img src="/assets/images/logo.png" alt="ABAIS" />
-        <div><strong>ABAIS</strong><br/><small>Admin Panel</small></div>
+        <div><strong>ABAIS</strong><br/><small>CMS Panel</small></div>
       </div>
       <nav class="admin__nav">
-        <button class="admin__nav-btn admin__nav-btn--active" data-tab="gallery">🖼️ Galeri</button>
+        <button class="admin__nav-btn admin__nav-btn--active" data-tab="beranda">🏠 Beranda</button>
+        <button class="admin__nav-btn" data-tab="halaman">📄 Halaman</button>
+        <button class="admin__nav-btn" data-tab="kontak">📞 Kontak & Footer</button>
+        <button class="admin__nav-btn" data-tab="gallery">🖼️ Galeri</button>
         <button class="admin__nav-btn" data-tab="calendar">📅 Kalender</button>
         <button class="admin__nav-btn" data-tab="chat">💬 Live Chat <span id="chatBadgeSidebar" class="admin__badge" style="display:none;">0</span></button>
-        <button class="admin__nav-btn" data-tab="content">📝 Konten</button>
+        <button class="admin__nav-btn" data-tab="settings">⚙️ Pengaturan</button>
       </nav>
       <div class="admin__sidebar-footer">
         <a href="/" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website</a>
-        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:var(--space-sm);">Logout</button>
+        <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:0.5rem;">Logout</button>
       </div>
     </aside>
 
     <main class="admin__main">
-      <!-- ========== GALLERY TAB ========== -->
-      <div class="admin__tab" id="tab-gallery">
-        <div class="admin__header">
-          <h2>Manajemen Galeri</h2>
-          <button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button>
+
+      <!-- ========= BERANDA TAB ========= -->
+      <div class="admin__tab" id="tab-beranda">
+        <div class="admin__header"><h2>🏠 Beranda</h2><button class="btn btn--accent" id="saveHeroBtn">💾 Simpan Beranda</button></div>
+
+        <div class="admin__section">
+          <h3>Hero Section</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Badge Text</label><input class="form-input" id="heroBadge" /></div>
+            <div class="admin__form-group"><label>CTA Tombol 1</label><input class="form-input" id="heroCta1" /></div>
+          </div>
+          <div class="admin__form-group"><label>Judul Baris 1</label><input class="form-input" id="heroTitle1" /></div>
+          <div class="admin__form-group"><label>Judul Baris 2 (teks warna)</label><input class="form-input" id="heroTitle2" /></div>
+          <div class="admin__form-group"><label>Subtitle</label><textarea class="form-input" id="heroSubtitle" rows="3"></textarea></div>
+          <div class="admin__form-group">
+            <label>Gambar Hero</label>
+            <div class="admin__img-upload">
+              <img id="heroImagePreview" src="" alt="" class="admin__img-preview" />
+              <div class="admin__img-actions">
+                <input type="url" class="form-input" id="heroImageUrl" placeholder="Paste URL gambar..." />
+                <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="heroImageFile" style="display:none;" />📁 Upload File</label>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="admin__section">
+          <h3>Keunggulan (4 Fitur)</h3>
+          <div id="featuresEditor"></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Statistik (Counter)</h3>
+          <div id="countersEditor"></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Testimoni</h3>
+          <div id="testimoniEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addTestimoniBtn">+ Tambah Testimoni</button>
+        </div>
+      </div>
+
+      <!-- ========= HALAMAN TAB ========= -->
+      <div class="admin__tab" id="tab-halaman" style="display:none;">
+        <div class="admin__header"><h2>📄 Halaman</h2><button class="btn btn--accent" id="savePageBtn">💾 Simpan Halaman</button></div>
+
+        <div class="admin__subtabs">
+          <button class="admin__subtab admin__subtab--active" data-sub="about">Tentang Kami</button>
+        </div>
+
+        <div class="admin__subpanel" id="sub-about">
+          <div class="admin__section">
+            <h3>Visi</h3>
+            <textarea class="form-input" id="aboutVision" rows="3"></textarea>
+          </div>
+          <div class="admin__section">
+            <h3>Misi</h3>
+            <div id="missionEditor"></div>
+            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addMissionBtn">+ Tambah Misi</button>
+          </div>
+          <div class="admin__section">
+            <h3>Sambutan Kepala Sekolah</h3>
+            <div class="admin__form-group"><label>Nama</label><input class="form-input" id="principalName" /></div>
+            <div class="admin__form-group"><label>Pesan</label><textarea class="form-input" id="principalMessage" rows="4"></textarea></div>
+            <div class="admin__form-group">
+              <label>Foto Kepala Sekolah</label>
+              <div class="admin__img-upload">
+                <img id="principalImagePreview" src="" alt="" class="admin__img-preview" />
+                <div class="admin__img-actions">
+                  <input type="url" class="form-input" id="principalImageUrl" placeholder="Paste URL..." />
+                  <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="principalImageFile" style="display:none;" />📁 Upload</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========= KONTAK TAB ========= -->
+      <div class="admin__tab" id="tab-kontak" style="display:none;">
+        <div class="admin__header"><h2>📞 Kontak & Footer</h2><button class="btn btn--accent" id="saveContactBtn">💾 Simpan</button></div>
+
+        <div class="admin__section">
+          <h3>WhatsApp</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>WA Admin SMP-SMA</label><input class="form-input" id="ctWaNumber" placeholder="6285656117777" /></div>
+            <div class="admin__form-group"><label>WA Admin SDIT</label><input class="form-input" id="ctWaNumberSdit" placeholder="6281318686468" /></div>
+          </div>
+          <div class="admin__form-group"><label>Pesan Default WA</label><input class="form-input" id="ctWaMessage" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Alamat & Lokasi</h3>
+          <div class="admin__form-group"><label>Alamat</label><input class="form-input" id="ctAddress" /></div>
+          <div class="admin__form-group"><label>URL Google Maps</label><input class="form-input" id="ctMapsUrl" placeholder="https://maps.app.goo.gl/..." /></div>
+          <div class="admin__form-group"><label>Email</label><input class="form-input" id="ctEmail" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>Sosial Media</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Instagram URL</label><input class="form-input" id="ctInstagram" /></div>
+            <div class="admin__form-group"><label>Facebook URL</label><input class="form-input" id="ctFacebook" /></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========= GALLERY TAB ========= -->
+      <div class="admin__tab" id="tab-gallery" style="display:none;">
+        <div class="admin__header"><h2>🖼️ Galeri</h2><button class="btn btn--accent" id="addGalleryBtn">+ Tambah Foto</button></div>
         <div class="admin__table-wrap">
           <table class="admin__table" id="galleryTable">
-            <thead><tr><th>Judul</th><th>Unit</th><th>Kategori</th><th>Tanggal</th><th>Aksi</th></tr></thead>
+            <thead><tr><th>Foto</th><th>Judul</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
             <tbody id="galleryTbody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- ========== CALENDAR TAB ========== -->
+      <!-- ========= CALENDAR TAB ========= -->
       <div class="admin__tab" id="tab-calendar" style="display:none;">
-        <div class="admin__header">
-          <h2>Manajemen Kalender</h2>
-          <button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button>
-        </div>
+        <div class="admin__header"><h2>📅 Kalender</h2><button class="btn btn--accent" id="addCalendarBtn">+ Tambah Event</button></div>
         <div class="admin__table-wrap">
           <table class="admin__table" id="calendarTable">
             <thead><tr><th>Judul</th><th>Tanggal</th><th>Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
@@ -77,16 +182,13 @@
         </div>
       </div>
 
-      <!-- ========== CHAT TAB ========== -->
+      <!-- ========= CHAT TAB ========= -->
       <div class="admin__tab" id="tab-chat" style="display:none;">
-        <div class="admin__header"><h2>Live Chat</h2></div>
+        <div class="admin__header"><h2>💬 Live Chat</h2></div>
         <div class="admin__chat">
           <div class="admin__chat-list" id="chatList"></div>
-          <div class="admin__chat-window" id="chatWindow">
-            <div class="admin__chat-empty" id="chatEmpty">
-              <p>💬</p>
-              <p>Pilih percakapan dari daftar di samping untuk memulai membalas.</p>
-            </div>
+          <div class="admin__chat-window">
+            <div class="admin__chat-empty" id="chatEmpty"><p>💬</p><p>Pilih percakapan untuk membalas.</p></div>
             <div class="admin__chat-messages" id="chatMessages" style="display:none;"></div>
             <div class="admin__chat-reply" id="chatReply" style="display:none;">
               <input type="text" id="adminChatInput" class="form-input" placeholder="Ketik balasan..." />
@@ -96,16 +198,36 @@
         </div>
       </div>
 
-      <!-- ========== CONTENT TAB ========== -->
-      <div class="admin__tab" id="tab-content" style="display:none;">
-        <div class="admin__header"><h2>Manajemen Konten</h2></div>
-        <div class="admin__content-editor">
-          <p style="color:var(--clr-text-muted);text-align:center;padding:var(--space-2xl);">
-            🚧 Fitur editor konten halaman akan segera hadir.<br/>
-            Untuk saat ini, konten dapat diubah langsung di file HTML.
-          </p>
+      <!-- ========= SETTINGS TAB ========= -->
+      <div class="admin__tab" id="tab-settings" style="display:none;">
+        <div class="admin__header"><h2>⚙️ Pengaturan</h2><button class="btn btn--accent" id="saveSettingsBtn">💾 Simpan</button></div>
+
+        <div class="admin__section">
+          <h3>Identitas Sekolah</h3>
+          <div class="admin__form-row">
+            <div class="admin__form-group"><label>Nama Singkat</label><input class="form-input" id="stName" /></div>
+            <div class="admin__form-group"><label>Nama Lengkap</label><input class="form-input" id="stFullName" /></div>
+          </div>
+          <div class="admin__form-group"><label>Tagline</label><textarea class="form-input" id="stTagline" rows="2"></textarea></div>
+          <div class="admin__form-group">
+            <label>Logo Sekolah</label>
+            <div class="admin__img-upload">
+              <img id="logoPreview" src="" alt="" class="admin__img-preview admin__img-preview--sm" />
+              <div class="admin__img-actions">
+                <input type="url" class="form-input" id="logoUrl" placeholder="URL logo..." />
+                <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="logoFile" style="display:none;" />📁 Upload</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin__section" style="border-top:2px solid #e74c3c;padding-top:1rem;">
+          <h3 style="color:#e74c3c;">⚠️ Reset Data</h3>
+          <p style="font-size:0.85rem;color:#666;margin-bottom:1rem;">Klik untuk mengembalikan konten halaman ke default. Galeri & Kalender tidak terpengaruh.</p>
+          <button class="btn btn--ghost" style="color:#e74c3c;border:1px solid #e74c3c;" id="resetContentBtn">Reset Semua Konten</button>
         </div>
       </div>
+
     </main>
   </div>
 
@@ -113,6 +235,9 @@
   <div class="admin__modal" id="adminModal" style="display:none;">
     <div class="admin__modal-content" id="adminModalContent"></div>
   </div>
+
+  <!-- Toast -->
+  <div class="admin__toast" id="adminToast"></div>
 
 </body>
 </html>
