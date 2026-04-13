@@ -8,16 +8,25 @@ import { initCarousel } from './carousel.js';
 import { initForm } from './form.js';
 import { initAnimations } from './animations.js';
 
-// ===== DOM Ready =====
-document.addEventListener('DOMContentLoaded', () => {
+// ===== Initialize immediately (module is loaded dynamically after DOM is ready) =====
+function init() {
   initNavbar();
   initMobileMenu();
+  initDropdown();
   initCounter();
   initI18n();
   initCarousel();
   initForm();
   initAnimations();
-});
+}
+
+// Run init: if DOM is already loaded, run immediately; otherwise wait
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  // DOM already loaded (dynamic import case)
+  init();
+}
 
 // ===== Navbar Scroll Effect =====
 function initNavbar() {
@@ -68,6 +77,26 @@ function initMobileMenu() {
       mobileMenu.classList.remove('mobile-menu--open');
       document.body.style.overflow = '';
     }
+  });
+}
+
+// ===== Dropdown Menu (Desktop) =====
+function initDropdown() {
+  const dropdowns = document.querySelectorAll('.navbar__dropdown');
+  dropdowns.forEach(dd => {
+    const trigger = dd.querySelector('.navbar__link--dropdown');
+    const menu = dd.querySelector('.navbar__dropdown-menu');
+    if (!trigger || !menu) return;
+
+    // Desktop: hover
+    dd.addEventListener('mouseenter', () => menu.classList.add('navbar__dropdown-menu--open'));
+    dd.addEventListener('mouseleave', () => menu.classList.remove('navbar__dropdown-menu--open'));
+
+    // Mobile/Keyboard: click
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      menu.classList.toggle('navbar__dropdown-menu--open');
+    });
   });
 }
 

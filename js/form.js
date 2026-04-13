@@ -46,7 +46,7 @@ Saya ingin mendaftarkan anak saya ke ABAIS (PPDB 2026/2027).
 Mohon informasi selanjutnya. Jazakumullahu khairan.`;
 
     // Encode for WhatsApp
-    const waNumber = '6281234567890'; // Replace with actual number
+    const waNumber = '6285656117777';
     const encodedMessage = encodeURIComponent(message);
     const waURL = `https://wa.me/${waNumber}?text=${encodedMessage}`;
 
