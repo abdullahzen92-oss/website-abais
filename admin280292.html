@@ -254,6 +254,8 @@
       getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
     } from '/js/data-manager.js';
 
+    let activeSession = null;
+
     // ===== Tab Navigation =====
     document.querySelectorAll('.admin__nav-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -653,7 +655,6 @@
     // ========================================
     // CHAT TAB
     // ========================================
-    let activeSession = null;
 
     function loadChat() {
       const sessions = getChatSessions();
