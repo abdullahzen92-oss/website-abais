@@ -57,7 +57,7 @@ const DEFAULT_CONTENT = {
     waNumberSdit: '6281318686468',
     waMessage: "Assalamu'alaikum, saya ingin bertanya tentang ABAIS",
     address: 'Bogor, Jawa Barat',
-    email: 'info@abais.sch.id',
+    email: 'abaisbogor@gmail.com',
     instagram: 'https://www.instagram.com/abais.bogor/',
     facebook: 'https://www.facebook.com/sekolahsunnahbogor',
     mapsUrl: 'https://maps.app.goo.gl/FAqK1fr4AahSeuH87',
