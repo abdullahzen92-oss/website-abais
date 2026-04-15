@@ -515,3 +515,28 @@ function saveToLocalStorage(key, data) {
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
 }
+// =============================================
+// REALTIME SUBSCRIBE
+// =============================================
+
+export function subscribeRealtime(onChange) {
+  return supabase
+    .channel('site_content_changes')
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table: 'site_content',
+      },
+      payload => {
+        console.log('Realtime update:', payload);
+
+        if (payload.new && payload.new.content) {
+          _cache = mergeWithDefaults(payload.new.content);
+          if (onChange) onChange(_cache);
+        }
+      }
+    )
+    .subscribe();
+}
