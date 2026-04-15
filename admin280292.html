@@ -611,8 +611,8 @@
             <select class="form-select" id="mCat"><option value="tahfidz" ${item.category === 'tahfidz' ? 'selected' : ''}>Tahfidz</option><option value="entrepreneur" ${item.category === 'entrepreneur' ? 'selected' : ''}>Entrepreneur</option><option value="beladiri" ${item.category === 'beladiri' ? 'selected' : ''}>Beladiri</option><option value="umum" ${item.category === 'umum' ? 'selected' : ''}>Umum</option></select>
           </div>
         </div>
-      `, () => {
-        saveGalleryItem({
+      `, async () => {
+        await saveGalleryItem({
           ...(id ? { id } : {}),
           title: document.getElementById('mTitle').value,
           description: document.getElementById('mDesc').value,
@@ -622,7 +622,7 @@
         });
         closeModal();
         loadGallery();
-        showToast('✅ Item galeri disimpan.');
+        showToast('✅ Item galeri disimpan ke server.');
       });
       // Setup file upload in modal
       setTimeout(() => setupImageUpload('mGalleryFile', 'mImg', 'mGalleryPreview'), 100);
@@ -669,8 +669,8 @@
           </div>
         </div>
         <div class="admin__form-group"><label>Warna</label><input type="color" id="mEvColor" value="${item.color || '#2B8FBD'}" style="width:60px;height:36px;border:none;cursor:pointer;" /></div>
-      `, () => {
-        saveCalendarEvent({
+      `, async () => {
+        await saveCalendarEvent({
           ...(id ? { id } : {}),
           title: document.getElementById('mEvTitle').value,
           event_date: document.getElementById('mEvDate').value,
@@ -681,7 +681,7 @@
         });
         closeModal();
         loadCalendar();
-        showToast('✅ Event disimpan.');
+        showToast('✅ Event disimpan ke server.');
       });
     };
 
