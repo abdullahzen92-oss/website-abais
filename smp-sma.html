@@ -121,14 +121,16 @@
   </div>
   <script type="module">
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
-    import { seedInitialData } from '/js/data-manager.js';
+    import { loadPageContent } from '/js/content-loader.js';
     import { initChat } from '/js/chat.js';
     document.getElementById('navbarSlot').innerHTML = getNavbar('smp-sma');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
-    seedInitialData();
-    import('/js/main.js');
-    initChat();
+    (async () => {
+      await loadPageContent('smp-sma');
+      import('/js/main.js');
+      initChat();
+    })();
   </script>
 </body>
 </html>

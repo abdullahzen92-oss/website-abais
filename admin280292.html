@@ -252,6 +252,7 @@
       getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
       getChatSessions, addChatMessage, markChatRead, getChats,
       getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
+      preloadContent, refreshFromSupabase,
     } from '/js/data-manager.js';
 
     let activeSession = null;
@@ -295,10 +296,11 @@
       location.reload();
     });
 
-    function showDashboard() {
+    async function showDashboard() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'flex';
       try {
+        await preloadContent();
         loadAllTabs();
         startChatPolling();
       } catch (err) {
@@ -307,7 +309,7 @@
       }
     }
 
-    if (isAdminLoggedIn()) showDashboard();
+    if (isAdminLoggedIn()) { showDashboard(); }
 
     // ===== Load All CMS Data =====
     function loadAllTabs() {
@@ -390,38 +392,46 @@
     });
 
     // Save Beranda
-    document.getElementById('saveHeroBtn').addEventListener('click', () => {
-      saveSiteContent('hero', {
-        badge: document.getElementById('heroBadge').value,
-        title1: document.getElementById('heroTitle1').value,
-        title2: document.getElementById('heroTitle2').value,
-        subtitle: document.getElementById('heroSubtitle').value,
-        cta1: document.getElementById('heroCta1').value,
-        cta2: document.getElementById('heroCta1').value, // keep same
-        image: document.getElementById('heroImageUrl').value,
-      });
+    document.getElementById('saveHeroBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveHeroBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('hero', {
+          badge: document.getElementById('heroBadge').value,
+          title1: document.getElementById('heroTitle1').value,
+          title2: document.getElementById('heroTitle2').value,
+          subtitle: document.getElementById('heroSubtitle').value,
+          cta1: document.getElementById('heroCta1').value,
+          cta2: document.getElementById('heroCta1').value,
+          image: document.getElementById('heroImageUrl').value,
+        });
 
-      const feats = [...document.querySelectorAll('#featuresEditor .admin__repeat-item')].map(row => ({
-        icon: row.querySelector('.feat-icon').value,
-        title: row.querySelector('.feat-title').value,
-        desc: row.querySelector('.feat-desc').value,
-      }));
-      saveSiteContent('features', feats);
+        const feats = [...document.querySelectorAll('#featuresEditor .admin__repeat-item')].map(row => ({
+          icon: row.querySelector('.feat-icon').value,
+          title: row.querySelector('.feat-title').value,
+          desc: row.querySelector('.feat-desc').value,
+        }));
+        await saveSiteContent('features', feats);
 
-      const ctrs = [...document.querySelectorAll('#countersEditor .admin__repeat-item')].map(row => ({
-        number: parseInt(row.querySelector('.ctr-num').value) || 0,
-        label: row.querySelector('.ctr-label').value,
-      }));
-      saveSiteContent('counters', ctrs);
+        const ctrs = [...document.querySelectorAll('#countersEditor .admin__repeat-item')].map(row => ({
+          number: parseInt(row.querySelector('.ctr-num').value) || 0,
+          label: row.querySelector('.ctr-label').value,
+        }));
+        await saveSiteContent('counters', ctrs);
 
-      const testis = [...document.querySelectorAll('#testimoniEditor .admin__repeat-item')].map(row => ({
-        name: row.querySelector('.testi-name').value,
-        role: row.querySelector('.testi-role').value,
-        text: row.querySelector('.testi-text').value,
-      }));
-      saveSiteContent('testimonials', testis);
+        const testis = [...document.querySelectorAll('#testimoniEditor .admin__repeat-item')].map(row => ({
+          name: row.querySelector('.testi-name').value,
+          role: row.querySelector('.testi-role').value,
+          text: row.querySelector('.testi-text').value,
+        }));
+        await saveSiteContent('testimonials', testis);
 
-      showToast('✅ Beranda berhasil disimpan!');
+        showToast('✅ Beranda berhasil disimpan ke server!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan. Cek koneksi internet.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan Beranda';
     });
 
     // Image uploads (hero)
@@ -462,15 +472,23 @@
       `);
     });
 
-    document.getElementById('savePageBtn').addEventListener('click', () => {
-      saveSiteContent('about', {
-        vision: document.getElementById('aboutVision').value,
-        principalName: document.getElementById('principalName').value,
-        principalMessage: document.getElementById('principalMessage').value,
-        principalImage: document.getElementById('principalImageUrl').value,
-        mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
-      });
-      showToast('✅ Halaman berhasil disimpan!');
+    document.getElementById('savePageBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('savePageBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('about', {
+          vision: document.getElementById('aboutVision').value,
+          principalName: document.getElementById('principalName').value,
+          principalMessage: document.getElementById('principalMessage').value,
+          principalImage: document.getElementById('principalImageUrl').value,
+          mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
+        });
+        showToast('✅ Halaman berhasil disimpan ke server!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan Halaman';
     });
 
     // ========================================
@@ -488,18 +506,26 @@
       document.getElementById('ctFacebook').value = c.facebook || '';
     }
 
-    document.getElementById('saveContactBtn').addEventListener('click', () => {
-      saveSiteContent('contact', {
-        waNumber: document.getElementById('ctWaNumber').value,
-        waNumberSdit: document.getElementById('ctWaNumberSdit').value,
-        waMessage: document.getElementById('ctWaMessage').value,
-        address: document.getElementById('ctAddress').value,
-        mapsUrl: document.getElementById('ctMapsUrl').value,
-        email: document.getElementById('ctEmail').value,
-        instagram: document.getElementById('ctInstagram').value,
-        facebook: document.getElementById('ctFacebook').value,
-      });
-      showToast('✅ Kontak & Footer berhasil disimpan!');
+    document.getElementById('saveContactBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveContactBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('contact', {
+          waNumber: document.getElementById('ctWaNumber').value,
+          waNumberSdit: document.getElementById('ctWaNumberSdit').value,
+          waMessage: document.getElementById('ctWaMessage').value,
+          address: document.getElementById('ctAddress').value,
+          mapsUrl: document.getElementById('ctMapsUrl').value,
+          email: document.getElementById('ctEmail').value,
+          instagram: document.getElementById('ctInstagram').value,
+          facebook: document.getElementById('ctFacebook').value,
+        });
+        showToast('✅ Kontak & Footer berhasil disimpan ke server!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan';
     });
 
     // ========================================
@@ -514,19 +540,29 @@
       setPreview('logoPreview', s.logo);
     }
 
-    document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-      saveSiteContent('settings', {
-        schoolName: document.getElementById('stName').value,
-        schoolFullName: document.getElementById('stFullName').value,
-        tagline: document.getElementById('stTagline').value,
-        logo: document.getElementById('logoUrl').value,
-      });
-      showToast('✅ Pengaturan berhasil disimpan!');
+    document.getElementById('saveSettingsBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveSettingsBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('settings', {
+          schoolName: document.getElementById('stName').value,
+          schoolFullName: document.getElementById('stFullName').value,
+          tagline: document.getElementById('stTagline').value,
+          logo: document.getElementById('logoUrl').value,
+        });
+        showToast('✅ Pengaturan berhasil disimpan ke server!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan';
     });
 
-    document.getElementById('resetContentBtn').addEventListener('click', () => {
+    document.getElementById('resetContentBtn').addEventListener('click', async () => {
       if (!confirm('Yakin ingin reset semua konten ke default? Tidak bisa di-undo.')) return;
-      ['hero','features','counters','testimonials','about','contact','settings'].forEach(k => resetSiteContent(k));
+      for (const k of ['hero','features','counters','testimonials','about','contact','settings']) {
+        await resetSiteContent(k);
+      }
       loadAllTabs();
       showToast('🔄 Konten direset ke default.');
     });
@@ -592,7 +628,7 @@
       setTimeout(() => setupImageUpload('mGalleryFile', 'mImg', 'mGalleryPreview'), 100);
     };
 
-    window.delGallery = (id) => { if (confirm('Hapus?')) { deleteGalleryItem(id); loadGallery(); } };
+    window.delGallery = async (id) => { if (confirm('Hapus?')) { await deleteGalleryItem(id); loadGallery(); } };
     document.getElementById('addGalleryBtn').addEventListener('click', () => window.editGallery(null));
 
     // ========================================
@@ -649,7 +685,7 @@
       });
     };
 
-    window.delCalendar = (id) => { if (confirm('Hapus?')) { deleteCalendarEvent(id); loadCalendar(); } };
+    window.delCalendar = async (id) => { if (confirm('Hapus?')) { await deleteCalendarEvent(id); loadCalendar(); } };
     document.getElementById('addCalendarBtn').addEventListener('click', () => window.editCalendar(null));
 
     // ========================================
@@ -705,17 +741,22 @@
     document.getElementById('adminChatSend').addEventListener('click', sendAdminReply);
     document.getElementById('adminChatInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendAdminReply(); });
 
-    function sendAdminReply() {
+    async function sendAdminReply() {
       const input = document.getElementById('adminChatInput');
       if (!input.value.trim() || !activeSession) return;
       const sessions = getChatSessions();
       const session = sessions.find(s => s.session_id === activeSession);
-      addChatMessage({ session_id: activeSession, visitor_name: session?.visitor_name || 'Visitor', message: input.value.trim(), sender: 'admin' });
+      await addChatMessage({ session_id: activeSession, visitor_name: session?.visitor_name || 'Visitor', message: input.value.trim(), sender: 'admin' });
       input.value = '';
       loadChatMessages();
     }
 
-    function startChatPolling() { setInterval(() => { loadChat(); }, 3000); }
+    function startChatPolling() {
+      setInterval(async () => {
+        await refreshFromSupabase();
+        loadChat();
+      }, 5000);
+    }
 
     // ========================================
     // MODAL & TOAST

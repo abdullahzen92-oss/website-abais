@@ -403,15 +403,13 @@
 
   <script type="module">
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
-    import { seedInitialData, getCalendarEvents } from '/js/data-manager.js';
+    import { preloadContent, getCalendarEvents } from '/js/data-manager.js';
+    import { loadPageContent } from '/js/content-loader.js';
     import { initChat } from '/js/chat.js';
 
     document.getElementById('navbarSlot').innerHTML = getNavbar('calendar');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
-    seedInitialData();
-    import('/js/main.js');
-    initChat();
 
     // Calendar Logic
     const DAYS = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
@@ -557,7 +555,13 @@
       renderCalendar();
     });
 
-    renderCalendar();
+    // Init: load from Supabase, then render
+    (async () => {
+      await loadPageContent('calendar');
+      import('/js/main.js');
+      initChat();
+      renderCalendar();
+    })();
   </script>
 </body>
 </html>
