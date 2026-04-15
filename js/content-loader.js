@@ -3,14 +3,17 @@
    Applies CMS-managed content to ALL pages
    ============================================= */
 
-import { getSiteContent } from './data-manager.js';
+import { getSiteContent, preloadContent } from './data-manager.js';
 
 /**
  * Master loader — call on EVERY page after DOM is ready.
  * It auto-applies global content (navbar, footer, WA)
  * and page-specific content if applicable.
  */
-export function loadPageContent(page) {
+export async function loadPageContent(page) {
+  // Preload content from Supabase (fetches once, caches in memory)
+  await preloadContent();
+
   // Always load globals (navbar branding, footer, WA, socials)
   loadGlobals();
 

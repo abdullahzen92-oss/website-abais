@@ -59,15 +59,13 @@
   </div>
   <script type="module">
     import { getNavbar, getFooter, getWaFloat } from '/js/components.js';
-    import { seedInitialData, getGallery } from '/js/data-manager.js';
+    import { preloadContent, getGallery } from '/js/data-manager.js';
+    import { loadPageContent } from '/js/content-loader.js';
     import { initChat } from '/js/chat.js';
 
     document.getElementById('navbarSlot').innerHTML = getNavbar('gallery');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
-    seedInitialData();
-    import('/js/main.js');
-    initChat();
 
     // Gallery Logic
     let currentUnit = 'all';
@@ -155,7 +153,13 @@
       }
     });
 
-    renderGallery();
+    // Init: load from Supabase, then render
+    (async () => {
+      await loadPageContent('gallery');
+      import('/js/main.js');
+      initChat();
+      renderGallery();
+    })();
   </script>
 </body>
 </html>

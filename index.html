@@ -149,12 +149,15 @@
     document.getElementById('navbarSlot').innerHTML = getNavbar('home');
     document.getElementById('footerSlot').innerHTML = getFooter();
     document.getElementById('waSlot').innerHTML = getWaFloat();
-    seedInitialData();
-    loadPageContent('home');
 
-    // Load main modules
-    import('/js/main.js');
-    initChat();
+    // Async init: seed data, preload from Supabase, then render
+    (async () => {
+      await seedInitialData();
+      await loadPageContent('home');
+      // Load main modules after content is ready
+      import('/js/main.js');
+      initChat();
+    })();
   </script>
 </body>
 </html>
