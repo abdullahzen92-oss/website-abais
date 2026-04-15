@@ -73,7 +73,9 @@
     "entrepreneur": "Entrepreneur",
     "beladiri": "Beladiri",
     "fullday": "Fullday School",
-    "contact": { "title": "Kontak" },
+    "contact": {
+      "title": "Kontak"
+    },
     "address": "Jl. Raya Bogor, Kota Bogor, Jawa Barat"
   },
   "wa": {
@@ -133,7 +135,7 @@
     "kepsek": {
       "section_title": "Sambutan Kepala Sekolah",
       "quote": "\"Assalamu'alaikum warahmatullahi wabarakatuh. Selamat datang di Abdurrahman Bin Auf Islamic School. Kami berkomitmen mendidik putra-putri terbaik umat dengan landasan Al-Qur'an dan As-Sunnah, membekali mereka dengan ilmu, akhlak, dan keterampilan untuk menjadi pemimpin masa depan.\"",
-      "name": "Ustadz Ahmad Fadhil, S.Pd.I",
+      "name": "Ustadz Abdul Khobir BArokah, M.Pd",
       "role": "Kepala Sekolah ABAIS"
     }
   },
@@ -209,8 +211,12 @@
       "title": "Kontak & Lokasi",
       "subtitle": "Kami siap membantu Anda. Jangan ragu untuk menghubungi kami."
     },
-    "phone": { "title": "Telepon" },
-    "email": { "title": "Email" },
+    "phone": {
+      "title": "Telepon"
+    },
+    "email": {
+      "title": "Email"
+    },
     "hours": {
       "title": "Jam Operasional",
       "text": "Senin – Jum'at\n07:00 – 16:00 WIB"
@@ -228,7 +234,9 @@
       "label": "Alamat",
       "text": "Jl. Raya Bogor\nKota Bogor, Jawa Barat 16xxx\nIndonesia"
     },
-    "map": { "btn": "Buka di Google Maps" },
+    "map": {
+      "btn": "Buka di Google Maps"
+    },
     "social": {
       "title": "Ikuti Kami",
       "subtitle": "Dapatkan informasi terbaru tentang ABAIS di media sosial"
