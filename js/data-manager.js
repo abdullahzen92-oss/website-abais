@@ -370,7 +370,7 @@ export function getUnreadCount() {
 // ADMIN AUTH
 // =============================================
 
-const ADMIN_PASSWORD = 'ketikdisini_2025';
+const ADMIN_PASSWORD = 'abais2026';
 
 export function adminLogin(password) {
   if (password === ADMIN_PASSWORD) {
