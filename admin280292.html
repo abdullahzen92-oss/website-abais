@@ -107,8 +107,11 @@
 
         <div class="admin__subtabs">
           <button class="admin__subtab admin__subtab--active" data-sub="about">Tentang Kami</button>
+          <button class="admin__subtab" data-sub="sdit">🏫 SDIT</button>
+          <button class="admin__subtab" data-sub="smpsma">🎓 SMP-SMA</button>
         </div>
 
+        <!-- ABOUT SUB-TAB -->
         <div class="admin__subpanel" id="sub-about">
           <div class="admin__section">
             <h3>Visi</h3>
@@ -133,6 +136,32 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- SDIT SUB-TAB -->
+        <div class="admin__subpanel" id="sub-sdit" style="display:none;">
+          <div class="admin__section">
+            <h3>🏫 Program Unggulan SDIT</h3>
+            <div id="sditProgramsEditor"></div>
+          </div>
+          <div class="admin__section">
+            <h3>📋 Jadwal Kegiatan Harian SDIT</h3>
+            <div id="sditScheduleEditor"></div>
+            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSditScheduleBtn">+ Tambah Jadwal</button>
+          </div>
+        </div>
+
+        <!-- SMP-SMA SUB-TAB -->
+        <div class="admin__subpanel" id="sub-smpsma" style="display:none;">
+          <div class="admin__section">
+            <h3>🎓 Program Unggulan SMP-SMA</h3>
+            <div id="smpsmaProgramsEditor"></div>
+          </div>
+          <div class="admin__section">
+            <h3>📋 Jadwal Kegiatan Harian SMP-SMA</h3>
+            <div id="smpsmaScheduleEditor"></div>
+            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSmpsmaScheduleBtn">+ Tambah Jadwal</button>
           </div>
         </div>
       </div>
@@ -471,6 +500,65 @@
         </div>
       `);
     });
+
+    // ===== SDIT/SMP-SMA Editors =====
+    function renderProgramEditor(containerId, programs) {
+      document.getElementById(containerId).innerHTML = programs.map((p, i) => `
+        <div class="admin__form-row admin__repeat-item" style="align-items:end;">
+          <div class="admin__form-group" style="max-width:60px;"><label>Ikon</label><input class="form-input prog-icon" value="${p.icon}" maxlength="4" /></div>
+          <div class="admin__form-group"><label>Judul</label><input class="form-input prog-title" value="${escAttr(p.title)}" /></div>
+          <div class="admin__form-group" style="flex:2;"><label>Deskripsi</label><input class="form-input prog-desc" value="${escAttr(p.desc)}" /></div>
+        </div>
+      `).join('');
+    }
+
+    function renderScheduleEditor(containerId, schedule) {
+      document.getElementById(containerId).innerHTML = schedule.map((s, i) => `
+        <div class="admin__form-row admin__repeat-item" style="align-items:center;">
+          <div class="admin__form-group" style="max-width:50px;"><label>Ikon</label><input class="form-input sched-icon" value="${s.icon || '🕐'}" maxlength="4" /></div>
+          <div class="admin__form-group" style="max-width:150px;"><label>Waktu</label><input class="form-input sched-time" value="${escAttr(s.time)}" placeholder="07:00 - 08:00" /></div>
+          <div class="admin__form-group" style="flex:1;"><label>Kegiatan</label><input class="form-input sched-activity" value="${escAttr(s.activity)}" /></div>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+        </div>
+      `).join('');
+    }
+
+    function loadUnitTabs(data) {
+      renderProgramEditor('sditProgramsEditor', data.sdit_programs || getDefaultContent().sdit_programs);
+      renderScheduleEditor('sditScheduleEditor', data.sdit_schedule || getDefaultContent().sdit_schedule);
+      renderProgramEditor('smpsmaProgramsEditor', data.smpsma_programs || getDefaultContent().smpsma_programs);
+      renderScheduleEditor('smpsmaScheduleEditor', data.smpsma_schedule || getDefaultContent().smpsma_schedule);
+    }
+
+    function addScheduleRow(containerId) {
+      document.getElementById(containerId).insertAdjacentHTML('beforeend', `
+        <div class="admin__form-row admin__repeat-item" style="align-items:center;">
+          <div class="admin__form-group" style="max-width:50px;"><label>Ikon</label><input class="form-input sched-icon" value="🕐" maxlength="4" /></div>
+          <div class="admin__form-group" style="max-width:150px;"><label>Waktu</label><input class="form-input sched-time" value="" placeholder="07:00 - 08:00" /></div>
+          <div class="admin__form-group" style="flex:1;"><label>Kegiatan</label><input class="form-input sched-activity" value="" placeholder="Kegiatan baru..." /></div>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+        </div>
+      `);
+    }
+
+    document.getElementById('addSditScheduleBtn').addEventListener('click', () => addScheduleRow('sditScheduleEditor'));
+    document.getElementById('addSmpsmaScheduleBtn').addEventListener('click', () => addScheduleRow('smpsmaScheduleEditor'));
+
+    function collectPrograms(containerId) {
+      return [...document.querySelectorAll(`#${containerId} .admin__repeat-item`)].map(row => ({
+        icon: row.querySelector('.prog-icon').value,
+        title: row.querySelector('.prog-title').value,
+        desc: row.querySelector('.prog-desc').value,
+      }));
+    }
+
+    function collectSchedule(containerId) {
+      return [...document.querySelectorAll(`#${containerId} .admin__repeat-item`)].map(row => ({
+        icon: row.querySelector('.sched-icon').value,
+        time: row.querySelector('.sched-time').value,
+        activity: row.querySelector('.sched-activity').value,
+      }));
+    }
 
     document.getElementById('savePageBtn').addEventListener('click', async () => {
       const btn = document.getElementById('savePageBtn');
