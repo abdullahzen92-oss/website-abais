@@ -571,7 +571,11 @@
           principalImage: document.getElementById('principalImageUrl').value,
           mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
         });
-        showToast('✅ Halaman berhasil disimpan ke server!');
+        await saveSiteContent('sdit_programs', collectPrograms('sditProgramsEditor'));
+        await saveSiteContent('sdit_schedule', collectSchedule('sditScheduleEditor'));
+        await saveSiteContent('smpsma_programs', collectPrograms('smpsmaProgramsEditor'));
+        await saveSiteContent('smpsma_schedule', collectSchedule('smpsmaScheduleEditor'));
+        showToast('✅ Semua halaman berhasil disimpan ke server!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan.');
