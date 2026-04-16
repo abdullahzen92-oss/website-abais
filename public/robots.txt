@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin280292.html
+
+Sitemap: https://abaisbogor.vercel.app/sitemap.xml
