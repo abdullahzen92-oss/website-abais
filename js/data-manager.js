@@ -399,22 +399,42 @@ export function getUnreadCount() {
 // ADMIN AUTH
 // =============================================
 
-const ADMIN_PASSWORD = 'abais2026';
-
-export function adminLogin(password) {
-  if (password === ADMIN_PASSWORD) {
-    sessionStorage.setItem(STORAGE_PREFIX + 'admin_auth', 'true');
+export async function adminLogin(email, password) {
+  if (!supabase) return false;
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (error) {
+      console.error('Supabase login error:', error.message);
+      return false;
+    }
     return true;
+  } catch (err) {
+    console.error('Login exception:', err);
+    return false;
   }
-  return false;
 }
 
-export function isAdminLoggedIn() {
-  return sessionStorage.getItem(STORAGE_PREFIX + 'admin_auth') === 'true';
+export async function isAdminLoggedIn() {
+  if (!supabase) return false;
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    return !!session;
+  } catch (err) {
+    console.error('Session check failed:', err);
+    return false;
+  }
 }
 
-export function adminLogout() {
-  sessionStorage.removeItem(STORAGE_PREFIX + 'admin_auth');
+export async function adminLogout() {
+  if (!supabase) return;
+  try {
+    await supabase.auth.signOut();
+  } catch (err) {
+    console.error('Logout error:', err);
+  }
 }
 
 // =============================================

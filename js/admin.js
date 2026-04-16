@@ -18,21 +18,25 @@ const loginForm = document.getElementById('loginForm');
 const loginError = document.getElementById('loginError');
 
 function checkAuth() {
-  if (isAdminLoggedIn()) {
-    loginScreen.style.display = 'none';
-    dashboard.style.display = 'flex';
-    renderAll();
-    startChatPolling();
-  } else {
-    loginScreen.style.display = 'flex';
-    dashboard.style.display = 'none';
-  }
+  isAdminLoggedIn().then(loggedIn => {
+    if (loggedIn) {
+      loginScreen.style.display = 'none';
+      dashboard.style.display = 'flex';
+      renderAll();
+      startChatPolling();
+    } else {
+      loginScreen.style.display = 'flex';
+      dashboard.style.display = 'none';
+    }
+  });
 }
 
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+  const em = document.getElementById('loginEmail') ? document.getElementById('loginEmail').value : '';
   const pw = document.getElementById('loginPassword').value;
-  if (adminLogin(pw)) {
+  const success = await adminLogin(em, pw);
+  if (success) {
     checkAuth();
   } else {
     loginError.style.display = 'block';
@@ -41,8 +45,8 @@ loginForm.addEventListener('submit', (e) => {
   }
 });
 
-document.getElementById('adminLogout').addEventListener('click', () => {
-  adminLogout();
+document.getElementById('adminLogout').addEventListener('click', async () => {
+  await adminLogout();
   checkAuth();
 });
 
@@ -419,5 +423,5 @@ checkAuth();
 
 // Listen for storage changes from other tabs
 window.addEventListener('storage', () => {
-  if (isAdminLoggedIn()) renderAll();
+  isAdminLoggedIn().then(loggedIn => { if (loggedIn) renderAll(); });
 });

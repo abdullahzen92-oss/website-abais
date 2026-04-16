@@ -20,9 +20,10 @@
       <h2>Admin Dashboard</h2>
       <p>Masukkan password untuk mengakses CMS</p>
       <form id="loginForm">
-        <input type="password" id="loginPassword" class="form-input" placeholder="Password..." autocomplete="off" />
+        <input type="email" id="loginEmail" class="form-input" placeholder="Email admin..." required autocomplete="username" style="margin-bottom:0.5rem;" />
+        <input type="password" id="loginPassword" class="form-input" placeholder="Password..." required autocomplete="current-password" />
         <button type="submit" class="btn btn--primary" style="width:100%;margin-top:1rem;">Masuk</button>
-        <p id="loginError" style="color:#e74c3c;font-size:0.85rem;margin-top:0.5rem;display:none;">Password salah!</p>
+        <p id="loginError" style="color:#e74c3c;font-size:0.85rem;margin-top:0.5rem;display:none;">Gagal, periksa kembali email & password!</p>
       </form>
     </div>
   </div>
@@ -295,18 +296,30 @@
     });
 
     // ===== Auth =====
-    document.getElementById('loginForm').addEventListener('submit', e => {
+    document.getElementById('loginForm').addEventListener('submit', async e => {
       e.preventDefault();
-      if (adminLogin(document.getElementById('loginPassword').value)) {
+      const em = document.getElementById('loginEmail').value;
+      const pw = document.getElementById('loginPassword').value;
+      const btn = e.target.querySelector('button');
+      const err = document.getElementById('loginError');
+
+      btn.disabled = true;
+      btn.textContent = 'Memeriksa...';
+      err.style.display = 'none';
+
+      const success = await adminLogin(em, pw);
+      if (success) {
         showDashboard();
       } else {
         document.getElementById('loginError').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Masuk';
       }
     });
 
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
       e.preventDefault();
-      adminLogout();
+      await adminLogout();
       location.reload();
     });
 
@@ -323,7 +336,9 @@
       }
     }
 
-    if (isAdminLoggedIn()) { showDashboard(); }
+    isAdminLoggedIn().then(loggedIn => {
+      if (loggedIn) { showDashboard(); }
+    });
 
     // ===== Load All CMS Data =====
     function loadAllTabs() {
