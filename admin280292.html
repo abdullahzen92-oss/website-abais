@@ -122,21 +122,6 @@
             <div id="missionEditor"></div>
             <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addMissionBtn">+ Tambah Misi</button>
           </div>
-          <div class="admin__section">
-            <h3>Sambutan Kepala Sekolah</h3>
-            <div class="admin__form-group"><label>Nama</label><input class="form-input" id="principalName" /></div>
-            <div class="admin__form-group"><label>Pesan</label><textarea class="form-input" id="principalMessage" rows="4"></textarea></div>
-            <div class="admin__form-group">
-              <label>Foto Kepala Sekolah</label>
-              <div class="admin__img-upload">
-                <img id="principalImagePreview" src="" alt="" class="admin__img-preview" />
-                <div class="admin__img-actions">
-                  <input type="url" class="form-input" id="principalImageUrl" placeholder="Paste URL..." />
-                  <label class="btn btn--outline btn--sm"><input type="file" accept="image/*" id="principalImageFile" style="display:none;" />📁 Upload</label>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- SDIT SUB-TAB -->
@@ -466,7 +451,6 @@
 
     // Image uploads (hero)
     setupImageUpload('heroImageFile', 'heroImageUrl', 'heroImagePreview');
-    setupImageUpload('principalImageFile', 'principalImageUrl', 'principalImagePreview');
     setupImageUpload('logoFile', 'logoUrl', 'logoPreview');
 
     // ========================================
@@ -475,10 +459,6 @@
     function loadHalamanTab(data) {
       const a = data.about || {};
       document.getElementById('aboutVision').value = a.vision || '';
-      document.getElementById('principalName').value = a.principalName || '';
-      document.getElementById('principalMessage').value = a.principalMessage || '';
-      document.getElementById('principalImageUrl').value = a.principalImage || '';
-      setPreview('principalImagePreview', a.principalImage);
 
       const missions = a.mission || [];
       renderMissions(missions);
@@ -567,9 +547,6 @@
       try {
         await saveSiteContent('about', {
           vision: document.getElementById('aboutVision').value,
-          principalName: document.getElementById('principalName').value,
-          principalMessage: document.getElementById('principalMessage').value,
-          principalImage: document.getElementById('principalImageUrl').value,
           mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
         });
         await saveSiteContent('sdit_programs', collectPrograms('sditProgramsEditor'));
