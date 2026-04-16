@@ -9,18 +9,32 @@ import { getSiteContent, preloadContent } from '/js/data-manager.js';
    MAIN ENTRY POINT
    ========================= */
 export async function loadPageContent(pageName) {
-  await preloadContent();
-  loadGlobals();
-  switch (pageName) {
-    case 'home': loadHome(); break;
-    case 'about': loadAbout(); break;
-    case 'contact': loadContact(); break;
-    case 'sdit': loadSdit(); break;
-    case 'smp-sma': loadSmpSma(); break;
-    case 'admissions': loadAdmissions(); break;
-    case 'gallery': break;
-    case 'calendar': break;
-    default: break;
+  try {
+    await preloadContent();
+    loadGlobals();
+    switch (pageName) {
+      case 'home': loadHome(); break;
+      case 'about': loadAbout(); break;
+      case 'contact': loadContact(); break;
+      case 'sdit': loadSdit(); break;
+      case 'smp-sma': loadSmpSma(); break;
+      case 'admissions': loadAdmissions(); break;
+      case 'gallery': break;
+      case 'calendar': break;
+      default: break;
+    }
+  } finally {
+    hidePreloader();
+  }
+}
+
+function hidePreloader() {
+  const loader = document.getElementById('globalLoader');
+  if (loader) {
+    loader.classList.add('abais-preloader--hidden');
+    setTimeout(() => {
+      if (loader.parentNode) loader.parentNode.removeChild(loader);
+    }, 600);
   }
 }
 
