@@ -35,23 +35,40 @@ function renderIcon(iconStr) {
 /* =========================
    MAIN ENTRY POINT
    ========================= */
+let _realtimeInit = false;
 export async function loadPageContent(pageName) {
   try {
     await preloadContent();
-    loadGlobals();
-    switch (pageName) {
-      case 'home': loadHome(); break;
-      case 'about': loadAbout(); break;
-      case 'contact': loadContact(); break;
-      case 'sdit': loadSdit(); break;
-      case 'smp-sma': loadSmpSma(); break;
-      case 'admissions': loadAdmissions(); break;
-      case 'gallery': break;
-      case 'calendar': break;
-      default: break;
+    loadContentForPage(pageName);
+    
+    if (!_realtimeInit) {
+      _realtimeInit = true;
+      import('/js/data-manager.js').then(({subscribeRealtime}) => {
+        if(subscribeRealtime) {
+          subscribeRealtime(() => {
+            console.log("Real-time update received! Refreshing UI...");
+            loadContentForPage(pageName);
+          });
+        }
+      });
     }
+
   } finally {
     hidePreloader();
+  }
+}
+
+function loadContentForPage(pageName) {
+  loadGlobals();
+  switch (pageName) {
+    case 'home': loadHome(); break;
+    case 'about': loadAbout(); break;
+    case 'contact': loadContact(); break;
+    case 'sdit': loadSdit(); break;
+    case 'smp-sma': loadSmpSma(); break;
+    case 'admissions': loadAdmissions(); break;
+    case 'gallery': break;
+    case 'calendar': break;
   }
 }
 

@@ -242,6 +242,17 @@
           </div>
         </div>
 
+        <div class="admin__section">
+          <h3>Keamanan Akses Admin</h3>
+          <div class="admin__form-row" style="align-items:end;">
+            <div class="admin__form-group">
+              <label>Ganti Password Admin</label>
+              <input type="password" class="form-input" id="newAdminPassword" placeholder="Masukkan password baru..." />
+            </div>
+            <button class="btn btn--outline" id="changePasswordBtn">Ubah Password</button>
+          </div>
+        </div>
+
         <div class="admin__section" style="border-top:2px solid var(--admin-danger);">
           <h3 style="color:var(--admin-danger);">⚠️ Reset Data</h3>
           <p style="font-size:0.85rem;color:var(--admin-text-dim);margin-bottom:1rem;">Klik untuk mengembalikan konten halaman ke default. Galeri & Kalender tidak terpengaruh.</p>
@@ -267,7 +278,7 @@
       getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
       getChatSessions, addChatMessage, markChatRead, getChats,
       getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
-      preloadContent, refreshFromSupabase,
+      preloadContent, refreshFromSupabase, uploadImageToSupabase, adminChangePassword
     } from '/js/data-manager.js';
 
     let activeSession = null;
@@ -643,6 +654,24 @@
       btn.disabled = false; btn.textContent = '💾 Simpan';
     });
 
+    document.getElementById('changePasswordBtn')?.addEventListener('click', async () => {
+      const newPw = document.getElementById('newAdminPassword').value;
+      if (!newPw || newPw.length < 6) {
+        alert('Password minimal 6 karakter!');
+        return;
+      }
+      const btn = document.getElementById('changePasswordBtn');
+      btn.disabled = true; btn.textContent = '⏳ ...';
+      const success = await adminChangePassword(newPw);
+      if (success) {
+        showToast('✅ Password berhasil diubah!');
+        document.getElementById('newAdminPassword').value = '';
+      } else {
+        alert('❌ Gagal mengubah password.');
+      }
+      btn.disabled = false; btn.textContent = 'Ubah Password';
+    });
+
     document.getElementById('resetContentBtn').addEventListener('click', async () => {
       if (!confirm('Yakin ingin reset semua konten ke default? Tidak bisa di-undo.')) return;
       for (const k of ['hero','features','counters','testimonials','about','contact','settings']) {
@@ -874,17 +903,26 @@
       const urlInput = document.getElementById(urlInputId);
       if (!fileInput) return;
 
-      fileInput.addEventListener('change', (e) => {
+      fileInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (!file) return;
         if (file.size > 2 * 1024 * 1024) { alert('Ukuran file maksimal 2MB!'); return; }
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const dataUrl = ev.target.result;
-          if (urlInput) urlInput.value = dataUrl;
-          setPreview(previewId, dataUrl);
-        };
-        reader.readAsDataURL(file);
+        
+        try {
+          if (urlInput) {
+            urlInput.dataset.original = urlInput.value;
+            urlInput.value = "Mengunggah...";
+          }
+          const publicUrl = await uploadImageToSupabase(file);
+          if (publicUrl) {
+            if (urlInput) urlInput.value = publicUrl;
+            setPreview(previewId, publicUrl);
+            showToast('✅ Gambar berhasil diunggah!');
+          }
+        } catch (error) {
+          if (urlInput) urlInput.value = urlInput.dataset.original || "";
+          alert(error.message || 'Gagal mengunggah gambar. Pastikan bucket "images" tersedia.');
+        }
       });
 
       if (urlInput) {

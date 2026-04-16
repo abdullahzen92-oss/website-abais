@@ -261,6 +261,36 @@ export async function resetSiteContent(section) {
 }
 
 // =============================================
+// STORAGE (IMAGE UPLOAD)
+// =============================================
+
+export async function uploadImageToSupabase(file) {
+  if (!supabase) throw new Error("Supabase tidak aktif");
+  if (file.size > 2 * 1024 * 1024) throw new Error("Ukuran file maksimal 2MB!");
+  
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 10)}.${fileExt}`;
+  const filePath = `uploads/${fileName}`;
+
+  try {
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(filePath, file);
+
+    if (error) throw error;
+
+    const { data: publicUrlData } = supabase.storage
+      .from('images')
+      .getPublicUrl(filePath);
+
+    return publicUrlData.publicUrl;
+  } catch (err) {
+    console.error('Upload failed:', err);
+    throw err;
+  }
+}
+
+// =============================================
 // GALLERY
 // =============================================
 
@@ -424,6 +454,21 @@ export async function isAdminLoggedIn() {
     return !!session;
   } catch (err) {
     console.error('Session check failed:', err);
+    return false;
+  }
+}
+
+export async function adminChangePassword(newPassword) {
+  if (!supabase) return false;
+  try {
+    const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) {
+      console.error('Password update error:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error('Password update exception:', err);
     return false;
   }
 }
