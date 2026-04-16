@@ -406,8 +406,23 @@
 }
 
 .kurikulum-card__icon {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: var(--space-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kurikulum-card__icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--clr-primary);
+  stroke-width: 1.5;
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.kurikulum-card:hover .kurikulum-card__icon svg {
+  transform: scale(1.1);
 }
 
 .kurikulum-card__title {
