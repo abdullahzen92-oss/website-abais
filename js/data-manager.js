@@ -48,9 +48,6 @@ const DEFAULT_CONTENT = {
       'Membentuk karakter tangguh melalui program beladiri',
       'Menerapkan kurikulum nasional berbasis nilai-nilai Islam',
     ],
-    principalName: 'Ustadz Ahmad Fadhil, S.Pd.I',
-    principalMessage: 'Kami berkomitmen untuk mendidik putra-putri terbaik umat ini menjadi generasi yang mencintai Al-Qur\'an, berakhlak mulia, mandiri, dan siap menghadapi tantangan zaman dengan bekal iman dan ilmu yang kuat.',
-    principalImage: '',
   },
   contact: {
     waNumber: '6285656117777',
