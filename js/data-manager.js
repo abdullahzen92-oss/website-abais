@@ -430,7 +430,10 @@ export function getUnreadCount() {
 // =============================================
 
 export async function adminLogin(username, password) {
-  if (username === 'abaisop' && password === 'abais2026') {
+  const u = username ? username.trim() : '';
+  const p = password ? password.trim() : '';
+
+  if (u === 'abaisop' && p === 'abais2026') {
     localStorage.setItem('admin_bypass', 'true');
     return true;
   }
@@ -438,8 +441,8 @@ export async function adminLogin(username, password) {
   if (!supabase) return false;
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: username,
-      password: password,
+      email: u,
+      password: p,
     });
     if (error) {
       console.error('Supabase login error:', error.message);
