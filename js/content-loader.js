@@ -6,6 +6,32 @@
 import { getSiteContent, preloadContent } from '/js/data-manager.js';
 
 /* =========================
+   ICON RENDERER (Emoji to SVG Map)
+   ========================= */
+const iconMap = {
+  '📖': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+  '💼': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>',
+  '🥋': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+  '🕌': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>',
+  '🏛️': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 22 7 12 2"></polygon><polyline points="2 17 22 17"></polyline><polyline points="2 22 22 22"></polyline><line x1="6" y1="17" x2="6" y2="7"></line><line x1="10" y1="17" x2="10" y2="7"></line><line x1="14" y1="17" x2="14" y2="7"></line><line x1="18" y1="17" x2="18" y2="7"></line></svg>',
+  '🌐': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+  '🤲': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"></path></svg>',
+  '🎯': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>',
+  '🌍': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+  '📡': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>',
+  '🕖': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+  '🕛': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 12 8"></polyline></svg>',
+  '📚': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>',
+  '📝': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>',
+  '🕞': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+};
+
+function renderIcon(iconStr) {
+  if (!iconStr) return '';
+  return iconMap[iconStr] || iconStr;
+}
+
+/* =========================
    MAIN ENTRY POINT
    ========================= */
 export async function loadPageContent(pageName) {
@@ -137,7 +163,7 @@ function loadHome() {
         const icon = cards[i].querySelector('.card__icon');
         const title = cards[i].querySelector('.card__title');
         const text = cards[i].querySelector('.card__text');
-        if (icon) icon.textContent = f.icon;
+        if (icon) icon.innerHTML = renderIcon(f.icon);
         if (title) title.textContent = f.title;
         if (text) text.textContent = f.desc;
       }
@@ -281,7 +307,7 @@ function loadSdit() {
         const icon = cards[i].querySelector('.card__icon');
         const title = cards[i].querySelector('.card__title');
         const text = cards[i].querySelector('.card__text');
-        if (icon) icon.textContent = p.icon;
+        if (icon) icon.innerHTML = renderIcon(p.icon);
         if (title) title.textContent = p.title;
         if (text) text.textContent = p.desc;
       }
@@ -293,7 +319,7 @@ function loadSdit() {
     const list = document.querySelector('.checklist');
     if (list) {
       list.innerHTML = schedule.map(s =>
-        `<div class="checklist__item"><span class="checklist__icon">${s.icon || '🕐'}</span><span><strong>${escHtml(s.time)}</strong> — ${escHtml(s.activity)}</span></div>`
+        `<div class="checklist__item"><span class="checklist__icon">${renderIcon(s.icon || '🕐')}</span><span><strong>${escHtml(s.time)}</strong> — ${escHtml(s.activity)}</span></div>`
       ).join('');
     }
   }
@@ -321,7 +347,7 @@ function loadSmpSma() {
         const icon = cards[i].querySelector('.card__icon');
         const title = cards[i].querySelector('.card__title');
         const text = cards[i].querySelector('.card__text');
-        if (icon) icon.textContent = p.icon;
+        if (icon) icon.innerHTML = renderIcon(p.icon);
         if (title) title.textContent = p.title;
         if (text) text.textContent = p.desc;
       }
