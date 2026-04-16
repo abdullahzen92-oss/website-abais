@@ -453,6 +453,19 @@
   transition: all var(--duration-normal) var(--ease-out);
 }
 
+.card__icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: currentColor;
+}
+
+.checklist__icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  margin-right: 4px;
+}
+
 .card:hover .card__icon {
   background: var(--gradient-primary);
   color: var(--clr-white);
