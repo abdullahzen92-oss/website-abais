@@ -3,7 +3,6 @@
    applies it to HTML pages via selectors
    ============================================= */
 
-import '/css/style.css';
 import { getSiteContent, preloadContent } from '/js/data-manager.js';
 
 /* =========================
