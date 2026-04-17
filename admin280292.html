@@ -71,6 +71,7 @@
           <div class="admin__form-row">
             <div class="admin__form-group"><label>Badge Text</label><input class="form-input" id="heroBadge" /></div>
             <div class="admin__form-group"><label>CTA Tombol 1</label><input class="form-input" id="heroCta1" /></div>
+            <div class="admin__form-group"><label>CTA Tombol 2</label><input class="form-input" id="heroCta2" /></div>
           </div>
           <div class="admin__form-group"><label>Judul Baris 1</label><input class="form-input" id="heroTitle1" /></div>
           <div class="admin__form-group"><label>Judul Baris 2 (teks warna)</label><input class="form-input" id="heroTitle2" /></div>
@@ -359,6 +360,10 @@
         showToast('Gagal terhubung ke Supabase. Mode offline aktif.');
         loadAllTabs();
       }
+
+      // Initialize static file uploaders
+      setupImageUpload('heroImageFile', 'heroImageUrl', 'heroImagePreview');
+      setupImageUpload('logoFile', 'logoUrl', 'logoPreview');
     }
 
     isAdminLoggedIn().then(loggedIn => {
@@ -393,6 +398,7 @@
       document.getElementById('heroTitle2').value = h.title2 || '';
       document.getElementById('heroSubtitle').value = h.subtitle || '';
       document.getElementById('heroCta1').value = h.cta1 || '';
+      document.getElementById('heroCta2').value = h.cta2 || '';
       document.getElementById('heroImageUrl').value = h.image || '';
       setPreview('heroImagePreview', h.image);
 
@@ -457,7 +463,7 @@
           title2: document.getElementById('heroTitle2').value,
           subtitle: document.getElementById('heroSubtitle').value,
           cta1: document.getElementById('heroCta1').value,
-          cta2: document.getElementById('heroCta1').value,
+          cta2: document.getElementById('heroCta2').value,
           image: document.getElementById('heroImageUrl').value,
         });
 
