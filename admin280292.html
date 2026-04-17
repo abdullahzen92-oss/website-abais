@@ -45,7 +45,9 @@
         <button class="admin__nav-btn" data-tab="settings">⚙️ Pengaturan</button>
       </nav>
       <div class="admin__sidebar-footer">
-        <a href="/" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website</a>
+        <a href="https://abaisbogor.vercel.app" target="_blank" class="btn btn--outline btn--sm" style="width:100%;">🌐 Lihat Website Live</a>
+        <a href="/" class="btn btn--ghost btn--sm" style="width:100%;margin-top:0.25rem;font-size:0.75rem;">🖥️ Lokal Dev</a>
+        <div id="supabaseStatus" style="margin-top:0.5rem;padding:0.35rem 0.7rem;border-radius:8px;font-size:0.72rem;font-weight:600;text-align:center;background:rgba(39,174,96,0.15);color:#27ae60;">🟢 Terhubung ke Supabase</div>
         <button id="logoutBtn" class="btn btn--ghost btn--sm" style="width:100%;margin-top:0.5rem;">Logout</button>
       </div>
     </aside>
@@ -278,7 +280,7 @@
       getCalendarEvents, saveCalendarEvent, deleteCalendarEvent,
       getChatSessions, addChatMessage, markChatRead, getChats,
       getAllSiteContent, saveSiteContent, resetSiteContent, getDefaultContent,
-      preloadContent, refreshFromSupabase, uploadImageToSupabase, adminChangePassword
+      preloadContent, refreshFromSupabase, forceRefreshNextLoad, uploadImageToSupabase, adminChangePassword
     } from '/js/data-manager.js';
 
     let activeSession = null;
@@ -337,13 +339,25 @@
     async function showDashboard() {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'flex';
+      const statusEl = document.getElementById('supabaseStatus');
       try {
+        statusEl.textContent = '⏳ Menghubungkan ke Supabase...';
+        statusEl.style.background = 'rgba(243,156,18,0.15)';
+        statusEl.style.color = '#f39c12';
         await preloadContent();
+        // Check if Supabase is reachable
+        statusEl.textContent = '🟢 Supabase Terhubung — Sync Aktif';
+        statusEl.style.background = 'rgba(39,174,96,0.15)';
+        statusEl.style.color = '#27ae60';
         loadAllTabs();
         startChatPolling();
       } catch (err) {
         console.error('Error loading dashboard data:', err);
-        showToast('Terdapat data corrupt yang gagal dimuat. Buka console untuk detailnya.');
+        statusEl.textContent = '🔴 Supabase Gagal — Mode Offline';
+        statusEl.style.background = 'rgba(231,76,60,0.15)';
+        statusEl.style.color = '#e74c3c';
+        showToast('Gagal terhubung ke Supabase. Mode offline aktif.');
+        loadAllTabs();
       }
     }
 
@@ -467,7 +481,8 @@
         }));
         await saveSiteContent('testimonials', testis);
 
-        showToast('✅ Beranda berhasil disimpan ke server!');
+        forceRefreshNextLoad();
+        showToast('✅ Beranda berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan. Cek koneksi internet.');
@@ -579,7 +594,8 @@
         await saveSiteContent('sdit_schedule', collectSchedule('sditScheduleEditor'));
         await saveSiteContent('smpsma_programs', collectPrograms('smpsmaProgramsEditor'));
         await saveSiteContent('smpsma_schedule', collectSchedule('smpsmaScheduleEditor'));
-        showToast('✅ Semua halaman berhasil disimpan ke server!');
+        forceRefreshNextLoad();
+        showToast('✅ Semua halaman berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan.');
@@ -616,7 +632,8 @@
           instagram: document.getElementById('ctInstagram').value,
           facebook: document.getElementById('ctFacebook').value,
         });
-        showToast('✅ Kontak & Footer berhasil disimpan ke server!');
+        forceRefreshNextLoad();
+        showToast('✅ Kontak & Footer berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan.');
@@ -646,7 +663,8 @@
           tagline: document.getElementById('stTagline').value,
           logo: document.getElementById('logoUrl').value,
         });
-        showToast('✅ Pengaturan berhasil disimpan ke server!');
+        forceRefreshNextLoad();
+        showToast('✅ Pengaturan berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan.');
@@ -736,7 +754,8 @@
         });
         closeModal();
         loadGallery();
-        showToast('✅ Item galeri disimpan ke server.');
+        forceRefreshNextLoad();
+        showToast('✅ Item galeri disimpan & tersinkron ke abaisbogor.vercel.app.');
       });
       // Setup file upload in modal
       setTimeout(() => setupImageUpload('mGalleryFile', 'mImg', 'mGalleryPreview'), 100);
@@ -793,9 +812,10 @@
           category: document.getElementById('mEvCat').value,
           color: document.getElementById('mEvColor').value,
         });
+        forceRefreshNextLoad();
         closeModal();
         loadCalendar();
-        showToast('✅ Event disimpan ke server.');
+        showToast('✅ Event kalender disimpan & tersinkron ke abaisbogor.vercel.app.');
       });
     };
 

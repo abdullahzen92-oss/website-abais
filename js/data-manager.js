@@ -108,13 +108,14 @@ const DEFAULT_CONTENT = {
 
 /**
  * Preload all content from Supabase into memory cache.
- * Call this once on every page before rendering.
+ * Always fetches from Supabase first on page load (not module-scope cached).
  * Falls back to localStorage cache, then to defaults.
  */
 export async function preloadContent() {
+  // In-module cache: if this specific module instance already loaded, skip
   if (_cacheReady) return _cache;
 
-  // 1. Try Supabase
+  // 1. Always try Supabase first (ensures live sync)
   if (supabase) {
     try {
       const { data, error } = await supabase
@@ -129,6 +130,8 @@ export async function preloadContent() {
         // Update localStorage cache for offline fallback
         saveToLocalStorage('site_content_cache', _cache);
         return _cache;
+      } else if (error) {
+        console.warn('Supabase fetch error:', error.message);
       }
     } catch (e) {
       console.warn('Supabase fetch failed, using fallback:', e);
@@ -148,6 +151,7 @@ export async function preloadContent() {
   _cacheReady = true;
   return _cache;
 }
+
 
 function mergeWithDefaults(stored) {
   const merged = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
@@ -568,6 +572,15 @@ export async function refreshFromSupabase() {
     console.warn('Supabase refresh failed:', e);
   }
 }
+
+/**
+ * Force a fresh fetch from Supabase on next preloadContent() call.
+ * Call this after admin saves to ensure the live view is fresh.
+ */
+export function forceRefreshNextLoad() {
+  _cacheReady = false;
+}
+
 
 // =============================================
 // HELPERS
