@@ -885,7 +885,7 @@
 
     document.getElementById('resetContentBtn').addEventListener('click', async () => {
       if (!confirm('Yakin ingin reset semua konten ke default? Tidak bisa di-undo.')) return;
-      for (const k of ['hero','features','counters','testimonials','about','contact','settings']) {
+      for (const k of ['hero','features','counters','testimonials','about','contact','settings','sdit_hero','sdit_programs','sdit_schedule','sdit_cta','sdit_ppdb','smpsma_hero','smpsma_programs','smpsma_schedule','smpsma_cta','smpsma_ppdb']) {
         await resetSiteContent(k);
       }
       loadAllTabs();
