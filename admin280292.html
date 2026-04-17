@@ -42,6 +42,12 @@
         <button class="admin__nav-btn" data-tab="halaman">
           <svg viewBox="0 0 24 24" width="18" height="18" style="margin-right:8px;vertical-align:middle;stroke-width:2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> Halaman
         </button>
+        <button class="admin__nav-btn" data-tab="sdit">
+          <svg viewBox="0 0 24 24" width="18" height="18" style="margin-right:8px;vertical-align:middle;stroke-width:2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> 🏫 SDIT
+        </button>
+        <button class="admin__nav-btn" data-tab="smpsma">
+          <svg viewBox="0 0 24 24" width="18" height="18" style="margin-right:8px;vertical-align:middle;stroke-width:2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 10 3 12 0v-5"></path></svg> 🎓 SMP-SMA
+        </button>
         <button class="admin__nav-btn" data-tab="kontak">
           <svg viewBox="0 0 24 24" width="18" height="18" style="margin-right:8px;vertical-align:middle;stroke-width:2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> Kontak & Footer
         </button>
@@ -133,49 +139,92 @@
       <div class="admin__tab" id="tab-halaman" style="display:none;">
         <div class="admin__header"><h2>📄 Halaman</h2><button class="btn btn--accent" id="savePageBtn">💾 Simpan Halaman</button></div>
 
-        <div class="admin__subtabs">
-          <button class="admin__subtab admin__subtab--active" data-sub="about">Tentang Kami</button>
-          <button class="admin__subtab" data-sub="sdit">🏫 SDIT</button>
-          <button class="admin__subtab" data-sub="smpsma">🎓 SMP-SMA</button>
+        <div class="admin__section">
+          <h3>Visi</h3>
+          <textarea class="form-input" id="aboutVision" rows="3"></textarea>
+        </div>
+        <div class="admin__section">
+          <h3>Misi</h3>
+          <div id="missionEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addMissionBtn">+ Tambah Misi</button>
+        </div>
+      </div>
+
+      <!-- ========= SDIT TAB ========= -->
+      <div class="admin__tab" id="tab-sdit" style="display:none;">
+        <div class="admin__header"><h2>🏫 Unit SDIT</h2><button class="btn btn--accent" id="saveSditBtn">💾 Simpan SDIT</button></div>
+
+        <div class="admin__section">
+          <h3>🏫 Header Halaman SDIT</h3>
+          <div class="admin__form-group"><label>Badge Text</label><input class="form-input" id="sditBadge" placeholder="🏫 Sekolah Dasar Islam Terpadu" /></div>
+          <div class="admin__form-group"><label>Judul Halaman</label><input class="form-input" id="sditTitle" placeholder="SDIT ABAIS" /></div>
+          <div class="admin__form-group"><label>Deskripsi</label><textarea class="form-input" id="sditDesc" rows="2" placeholder="Program pendidikan dasar Islam terpadu..."></textarea></div>
         </div>
 
-        <!-- ABOUT SUB-TAB -->
-        <div class="admin__subpanel" id="sub-about">
-          <div class="admin__section">
-            <h3>Visi</h3>
-            <textarea class="form-input" id="aboutVision" rows="3"></textarea>
-          </div>
-          <div class="admin__section">
-            <h3>Misi</h3>
-            <div id="missionEditor"></div>
-            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addMissionBtn">+ Tambah Misi</button>
-          </div>
+        <div class="admin__section">
+          <h3>📚 Program Unggulan SDIT</h3>
+          <p style="font-size:0.82rem;color:var(--admin-text-dim);margin-bottom:0.75rem;">Edit ikon, judul, dan deskripsi program. Perubahan langsung tersinkron ke halaman live SDIT.</p>
+          <div id="sditProgramsEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSditProgramBtn">+ Tambah Program</button>
         </div>
 
-        <!-- SDIT SUB-TAB -->
-        <div class="admin__subpanel" id="sub-sdit" style="display:none;">
-          <div class="admin__section">
-            <h3>🏫 Program Unggulan SDIT</h3>
-            <div id="sditProgramsEditor"></div>
-          </div>
-          <div class="admin__section">
-            <h3>📋 Jadwal Kegiatan Harian SDIT</h3>
-            <div id="sditScheduleEditor"></div>
-            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSditScheduleBtn">+ Tambah Jadwal</button>
-          </div>
+        <div class="admin__section">
+          <h3>📋 Jadwal Kegiatan Harian SDIT</h3>
+          <div id="sditScheduleEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSditScheduleBtn">+ Tambah Jadwal</button>
         </div>
 
-        <!-- SMP-SMA SUB-TAB -->
-        <div class="admin__subpanel" id="sub-smpsma" style="display:none;">
-          <div class="admin__section">
-            <h3>🎓 Program Unggulan SMP-SMA</h3>
-            <div id="smpsmaProgramsEditor"></div>
-          </div>
-          <div class="admin__section">
-            <h3>📋 Jadwal Kegiatan Harian SMP-SMA</h3>
-            <div id="smpsmaScheduleEditor"></div>
-            <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSmpsmaScheduleBtn">+ Tambah Jadwal</button>
-          </div>
+        <div class="admin__section">
+          <h3>📣 CTA Section SDIT</h3>
+          <div class="admin__form-group"><label>Judul CTA</label><input class="form-input" id="sditCtaTitle" placeholder="Bergabung dengan SDIT ABAIS" /></div>
+          <div class="admin__form-group"><label>Subtitle CTA</label><textarea class="form-input" id="sditCtaSubtitle" rows="2" placeholder="Berikan fondasi pendidikan Islam terbaik..."></textarea></div>
+          <div class="admin__form-group"><label>Teks Tombol CTA</label><input class="form-input" id="sditCtaBtn" placeholder="Daftar PPDB Sekarang" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>📋 Info PPDB SDIT</h3>
+          <div class="admin__form-group"><label>Label Info</label><input class="form-input" id="sditPpdbLabel" placeholder="Info PPDB SDIT" /></div>
+          <div class="admin__form-group"><label>Status Pendaftaran</label><input class="form-input" id="sditPpdbStatus" placeholder="Pendaftaran Dibuka" /></div>
+          <div class="admin__form-group"><label>Catatan</label><textarea class="form-input" id="sditPpdbNote" rows="2" placeholder="Tahun Ajaran 2026/2027..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- ========= SMP-SMA TAB ========= -->
+      <div class="admin__tab" id="tab-smpsma" style="display:none;">
+        <div class="admin__header"><h2>🎓 Unit SMP-SMA</h2><button class="btn btn--accent" id="saveSmpsmaBtn">💾 Simpan SMP-SMA</button></div>
+
+        <div class="admin__section">
+          <h3>🎓 Header Halaman SMP-SMA</h3>
+          <div class="admin__form-group"><label>Badge Text</label><input class="form-input" id="smpsmaBadge" placeholder="🎓 Sekolah Menengah Islam" /></div>
+          <div class="admin__form-group"><label>Judul Halaman</label><input class="form-input" id="smpsmaTitle" placeholder="SMP — SMA ABAIS" /></div>
+          <div class="admin__form-group"><label>Deskripsi</label><textarea class="form-input" id="smpsmaDesc" rows="2" placeholder="Pendidikan menengah Islam terpadu..."></textarea></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>📚 Program Unggulan SMP-SMA</h3>
+          <p style="font-size:0.82rem;color:var(--admin-text-dim);margin-bottom:0.75rem;">Edit ikon, judul, dan deskripsi program. Perubahan langsung tersinkron ke halaman live SMP-SMA.</p>
+          <div id="smpsmaProgramsEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSmpsmaProgramBtn">+ Tambah Program</button>
+        </div>
+
+        <div class="admin__section">
+          <h3>📋 Jadwal Kegiatan Harian SMP-SMA</h3>
+          <div id="smpsmaScheduleEditor"></div>
+          <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addSmpsmaScheduleBtn">+ Tambah Jadwal</button>
+        </div>
+
+        <div class="admin__section">
+          <h3>📣 CTA Section SMP-SMA</h3>
+          <div class="admin__form-group"><label>Judul CTA</label><input class="form-input" id="smpsmaCtaTitle" placeholder="Bergabung dengan SMP-SMA ABAIS" /></div>
+          <div class="admin__form-group"><label>Subtitle CTA</label><textarea class="form-input" id="smpsmaCtaSubtitle" rows="2" placeholder="Siapkan masa depan putra-putri Anda..."></textarea></div>
+          <div class="admin__form-group"><label>Teks Tombol CTA</label><input class="form-input" id="smpsmaCtaBtn" placeholder="Daftar PPDB Sekarang" /></div>
+        </div>
+
+        <div class="admin__section">
+          <h3>📋 Info PPDB SMP-SMA</h3>
+          <div class="admin__form-group"><label>Label Info</label><input class="form-input" id="smpsmaPpdbLabel" placeholder="Info PPDB SMP-SMA" /></div>
+          <div class="admin__form-group"><label>Status Pendaftaran</label><input class="form-input" id="smpsmaPpdbStatus" placeholder="Pendaftaran Dibuka" /></div>
+          <div class="admin__form-group"><label>Catatan</label><textarea class="form-input" id="smpsmaPpdbNote" rows="2" placeholder="Tahun Ajaran 2026/2027..."></textarea></div>
         </div>
       </div>
 
@@ -565,13 +614,14 @@
       `);
     });
 
-    // ===== SDIT/SMP-SMA Editors =====
+    // ===== Program & Schedule Editors =====
     function renderProgramEditor(containerId, programs) {
       document.getElementById(containerId).innerHTML = programs.map((p, i) => `
         <div class="admin__form-row admin__repeat-item" style="align-items:end;">
           <div class="admin__form-group" style="max-width:60px;"><label>Ikon</label><input class="form-input prog-icon" value="${p.icon}" maxlength="4" /></div>
           <div class="admin__form-group"><label>Judul</label><input class="form-input prog-title" value="${escAttr(p.title)}" /></div>
           <div class="admin__form-group" style="flex:2;"><label>Deskripsi</label><input class="form-input prog-desc" value="${escAttr(p.desc)}" /></div>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
         </div>
       `).join('');
     }
@@ -587,11 +637,15 @@
       `).join('');
     }
 
-    function loadUnitTabs(data) {
-      renderProgramEditor('sditProgramsEditor', data.sdit_programs || getDefaultContent().sdit_programs);
-      renderScheduleEditor('sditScheduleEditor', data.sdit_schedule || getDefaultContent().sdit_schedule);
-      renderProgramEditor('smpsmaProgramsEditor', data.smpsma_programs || getDefaultContent().smpsma_programs);
-      renderScheduleEditor('smpsmaScheduleEditor', data.smpsma_schedule || getDefaultContent().smpsma_schedule);
+    function addProgramRow(containerId) {
+      document.getElementById(containerId).insertAdjacentHTML('beforeend', `
+        <div class="admin__form-row admin__repeat-item" style="align-items:end;">
+          <div class="admin__form-group" style="max-width:60px;"><label>Ikon</label><input class="form-input prog-icon" value="📖" maxlength="4" /></div>
+          <div class="admin__form-group"><label>Judul</label><input class="form-input prog-title" value="" placeholder="Judul program..." /></div>
+          <div class="admin__form-group" style="flex:2;"><label>Deskripsi</label><input class="form-input prog-desc" value="" placeholder="Deskripsi program..." /></div>
+          <button class="btn btn--ghost btn--sm" style="color:var(--admin-danger);margin-bottom:0.3rem;" onclick="this.closest('.admin__repeat-item').remove()">🗑️</button>
+        </div>
+      `);
     }
 
     function addScheduleRow(containerId) {
@@ -604,9 +658,6 @@
         </div>
       `);
     }
-
-    document.getElementById('addSditScheduleBtn').addEventListener('click', () => addScheduleRow('sditScheduleEditor'));
-    document.getElementById('addSmpsmaScheduleBtn').addEventListener('click', () => addScheduleRow('smpsmaScheduleEditor'));
 
     function collectPrograms(containerId) {
       return [...document.querySelectorAll(`#${containerId} .admin__repeat-item`)].map(row => ({
@@ -624,6 +675,121 @@
       }));
     }
 
+    // ========================================
+    // SDIT TAB
+    // ========================================
+    function loadSditTab(data) {
+      const hero = data.sdit_hero || {};
+      document.getElementById('sditBadge').value = hero.badge || '🏫 Sekolah Dasar Islam Terpadu';
+      document.getElementById('sditTitle').value = hero.title || 'SDIT ABAIS';
+      document.getElementById('sditDesc').value = hero.desc || 'Program pendidikan dasar Islam terpadu dengan kurikulum Tahfidz, Entrepreneur, dan Beladiri';
+
+      renderProgramEditor('sditProgramsEditor', data.sdit_programs || getDefaultContent().sdit_programs);
+      renderScheduleEditor('sditScheduleEditor', data.sdit_schedule || getDefaultContent().sdit_schedule);
+
+      const cta = data.sdit_cta || {};
+      document.getElementById('sditCtaTitle').value = cta.title || 'Bergabung dengan SDIT ABAIS';
+      document.getElementById('sditCtaSubtitle').value = cta.subtitle || 'Berikan fondasi pendidikan Islam terbaik untuk putra-putri Anda sejak usia dini.';
+      document.getElementById('sditCtaBtn').value = cta.btn || 'Daftar PPDB Sekarang';
+
+      const ppdb = data.sdit_ppdb || {};
+      document.getElementById('sditPpdbLabel').value = ppdb.label || 'Info PPDB SDIT';
+      document.getElementById('sditPpdbStatus').value = ppdb.status || 'Pendaftaran Dibuka';
+      document.getElementById('sditPpdbNote').value = ppdb.note || 'Tahun Ajaran 2026/2027. Kuota terbatas, segera daftarkan putra-putri Anda.';
+    }
+
+    document.getElementById('addSditProgramBtn').addEventListener('click', () => addProgramRow('sditProgramsEditor'));
+    document.getElementById('addSditScheduleBtn').addEventListener('click', () => addScheduleRow('sditScheduleEditor'));
+
+    document.getElementById('saveSditBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveSditBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('sdit_hero', {
+          badge: document.getElementById('sditBadge').value,
+          title: document.getElementById('sditTitle').value,
+          desc: document.getElementById('sditDesc').value,
+        });
+        await saveSiteContent('sdit_programs', collectPrograms('sditProgramsEditor'));
+        await saveSiteContent('sdit_schedule', collectSchedule('sditScheduleEditor'));
+        await saveSiteContent('sdit_cta', {
+          title: document.getElementById('sditCtaTitle').value,
+          subtitle: document.getElementById('sditCtaSubtitle').value,
+          btn: document.getElementById('sditCtaBtn').value,
+        });
+        await saveSiteContent('sdit_ppdb', {
+          label: document.getElementById('sditPpdbLabel').value,
+          status: document.getElementById('sditPpdbStatus').value,
+          note: document.getElementById('sditPpdbNote').value,
+        });
+        forceRefreshNextLoad();
+        showToast('✅ SDIT berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan SDIT.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan SDIT';
+    });
+
+    // ========================================
+    // SMP-SMA TAB
+    // ========================================
+    function loadSmpsmaTab(data) {
+      const hero = data.smpsma_hero || {};
+      document.getElementById('smpsmaBadge').value = hero.badge || '🎓 Sekolah Menengah Islam';
+      document.getElementById('smpsmaTitle').value = hero.title || 'SMP — SMA ABAIS';
+      document.getElementById('smpsmaDesc').value = hero.desc || 'Pendidikan menengah Islam terpadu dengan persiapan menuju generasi mandiri, hafidz, dan berdaya saing';
+
+      renderProgramEditor('smpsmaProgramsEditor', data.smpsma_programs || getDefaultContent().smpsma_programs);
+      renderScheduleEditor('smpsmaScheduleEditor', data.smpsma_schedule || getDefaultContent().smpsma_schedule);
+
+      const cta = data.smpsma_cta || {};
+      document.getElementById('smpsmaCtaTitle').value = cta.title || 'Bergabung dengan SMP-SMA ABAIS';
+      document.getElementById('smpsmaCtaSubtitle').value = cta.subtitle || 'Siapkan masa depan putra-putri Anda dengan pendidikan Islam yang berkualitas.';
+      document.getElementById('smpsmaCtaBtn').value = cta.btn || 'Daftar PPDB Sekarang';
+
+      const ppdb = data.smpsma_ppdb || {};
+      document.getElementById('smpsmaPpdbLabel').value = ppdb.label || 'Info PPDB SMP-SMA';
+      document.getElementById('smpsmaPpdbStatus').value = ppdb.status || 'Pendaftaran Dibuka';
+      document.getElementById('smpsmaPpdbNote').value = ppdb.note || 'Tahun Ajaran 2026/2027. Kuota terbatas, segera daftarkan putra-putri Anda.';
+    }
+
+    document.getElementById('addSmpsmaProgramBtn').addEventListener('click', () => addProgramRow('smpsmaProgramsEditor'));
+    document.getElementById('addSmpsmaScheduleBtn').addEventListener('click', () => addScheduleRow('smpsmaScheduleEditor'));
+
+    document.getElementById('saveSmpsmaBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('saveSmpsmaBtn');
+      btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
+      try {
+        await saveSiteContent('smpsma_hero', {
+          badge: document.getElementById('smpsmaBadge').value,
+          title: document.getElementById('smpsmaTitle').value,
+          desc: document.getElementById('smpsmaDesc').value,
+        });
+        await saveSiteContent('smpsma_programs', collectPrograms('smpsmaProgramsEditor'));
+        await saveSiteContent('smpsma_schedule', collectSchedule('smpsmaScheduleEditor'));
+        await saveSiteContent('smpsma_cta', {
+          title: document.getElementById('smpsmaCtaTitle').value,
+          subtitle: document.getElementById('smpsmaCtaSubtitle').value,
+          btn: document.getElementById('smpsmaCtaBtn').value,
+        });
+        await saveSiteContent('smpsma_ppdb', {
+          label: document.getElementById('smpsmaPpdbLabel').value,
+          status: document.getElementById('smpsmaPpdbStatus').value,
+          note: document.getElementById('smpsmaPpdbNote').value,
+        });
+        forceRefreshNextLoad();
+        showToast('✅ SMP-SMA berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
+      } catch (e) {
+        console.error(e);
+        showToast('❌ Gagal menyimpan SMP-SMA.');
+      }
+      btn.disabled = false; btn.textContent = '💾 Simpan SMP-SMA';
+    });
+
+    // ========================================
+    // HALAMAN (About) Save
+    // ========================================
     document.getElementById('savePageBtn').addEventListener('click', async () => {
       const btn = document.getElementById('savePageBtn');
       btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
@@ -632,12 +798,8 @@
           vision: document.getElementById('aboutVision').value,
           mission: [...document.querySelectorAll('#missionEditor .mission-item')].map(el => el.value).filter(v => v.trim()),
         });
-        await saveSiteContent('sdit_programs', collectPrograms('sditProgramsEditor'));
-        await saveSiteContent('sdit_schedule', collectSchedule('sditScheduleEditor'));
-        await saveSiteContent('smpsma_programs', collectPrograms('smpsmaProgramsEditor'));
-        await saveSiteContent('smpsma_schedule', collectSchedule('smpsmaScheduleEditor'));
         forceRefreshNextLoad();
-        showToast('✅ Semua halaman berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
+        showToast('✅ Halaman berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');
       } catch (e) {
         console.error(e);
         showToast('❌ Gagal menyimpan.');
