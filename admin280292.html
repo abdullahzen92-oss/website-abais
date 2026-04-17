@@ -370,18 +370,6 @@
       });
     });
 
-    // ===== Subtabs Navigation =====
-    document.querySelectorAll('.admin__subtab').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const parent = btn.closest('.admin__tab');
-        parent.querySelectorAll('.admin__subtab').forEach(b => b.classList.remove('admin__subtab--active'));
-        btn.classList.add('admin__subtab--active');
-        parent.querySelectorAll('.admin__subpanel').forEach(p => p.style.display = 'none');
-        document.getElementById('sub-' + btn.dataset.sub).style.display = 'block';
-      });
-    });
-
     // ===== Auth =====
     document.getElementById('loginForm').addEventListener('submit', async e => {
       e.preventDefault();
@@ -448,7 +436,8 @@
       const data = getAllSiteContent();
       loadBerandaTab(data);
       loadHalamanTab(data);
-      loadUnitTabs(data);
+      loadSditTab(data);
+      loadSmpsmaTab(data);
       loadKontakTab(data);
       loadSettingsTab(data);
       loadGallery();

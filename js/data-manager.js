@@ -102,6 +102,36 @@ const DEFAULT_CONTENT = {
     { icon: '📝', time: '13:00 - 15:00', activity: 'Pembelajaran / Praktikum' },
     { icon: '🕞', time: '15:00 - 16:30', activity: 'Sholat Ashar & Ekstrakulikuler' },
   ],
+  sdit_hero: {
+    badge: '🏫 Sekolah Dasar Islam Terpadu',
+    title: 'SDIT ABAIS',
+    desc: 'Program pendidikan dasar Islam terpadu dengan kurikulum Tahfidz, Entrepreneur, dan Beladiri',
+  },
+  sdit_cta: {
+    title: 'Bergabung dengan SDIT ABAIS',
+    subtitle: 'Berikan fondasi pendidikan Islam terbaik untuk putra-putri Anda sejak usia dini.',
+    btn: 'Daftar PPDB Sekarang',
+  },
+  sdit_ppdb: {
+    label: 'Info PPDB SDIT',
+    status: 'Pendaftaran Dibuka',
+    note: 'Tahun Ajaran 2026/2027. Kuota terbatas, segera daftarkan putra-putri Anda.',
+  },
+  smpsma_hero: {
+    badge: '🎓 Sekolah Menengah Islam',
+    title: 'SMP — SMA ABAIS',
+    desc: 'Pendidikan menengah Islam terpadu dengan persiapan menuju generasi mandiri, hafidz, dan berdaya saing',
+  },
+  smpsma_cta: {
+    title: 'Bergabung dengan SMP-SMA ABAIS',
+    subtitle: 'Siapkan masa depan putra-putri Anda dengan pendidikan Islam yang berkualitas.',
+    btn: 'Daftar PPDB Sekarang',
+  },
+  smpsma_ppdb: {
+    label: 'Info PPDB SMP-SMA',
+    status: 'Pendaftaran Dibuka',
+    note: 'Tahun Ajaran 2026/2027. Kuota terbatas, segera daftarkan putra-putri Anda.',
+  },
   gallery: [],
   calendar_events: [],
   chats: [],
