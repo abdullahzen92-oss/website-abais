@@ -30,14 +30,18 @@ export function getNavbar(activePage = '') {
           </a>
           <div class="navbar__dropdown-menu">
             <a href="/sdit.html" class="navbar__dropdown-link">
-              <span class="navbar__dropdown-icon">🏫</span>
+              <span class="navbar__dropdown-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 22 7 12 2"></polygon><polyline points="2 17 22 17"></polyline><polyline points="2 22 22 22"></polyline><line x1="6" y1="17" x2="6" y2="7"></line><line x1="10" y1="17" x2="10" y2="7"></line><line x1="14" y1="17" x2="14" y2="7"></line><line x1="18" y1="17" x2="18" y2="7"></line></svg>
+              </span>
               <div>
                 <strong>SDIT</strong>
                 <small>Sekolah Dasar Islam Terpadu</small>
               </div>
             </a>
             <a href="/smp-sma.html" class="navbar__dropdown-link">
-              <span class="navbar__dropdown-icon">🎓</span>
+              <span class="navbar__dropdown-icon" style="background: rgba(43, 143, 189, 0.15); color: var(--clr-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+              </span>
               <div>
                 <strong>SMP — SMA</strong>
                 <small>Sekolah Menengah Islam</small>
@@ -69,8 +73,14 @@ export function getNavbar(activePage = '') {
     <a href="/about.html" class="mobile-menu__link" data-i18n="nav.about">Tentang Kami</a>
     <div class="mobile-menu__group">
       <span class="mobile-menu__label">Unit Sekolah</span>
-      <a href="/sdit.html" class="mobile-menu__link mobile-menu__link--sub">🏫 SDIT</a>
-      <a href="/smp-sma.html" class="mobile-menu__link mobile-menu__link--sub">🎓 SMP — SMA</a>
+      <a href="/sdit.html" class="mobile-menu__link mobile-menu__link--sub" style="display:flex;align-items:center;gap:12px;">
+        <span style="color:#ef4444;display:flex;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 22 7 12 2"></polygon><polyline points="2 17 22 17"></polyline><polyline points="2 22 22 22"></polyline><line x1="6" y1="17" x2="6" y2="7"></line><line x1="10" y1="17" x2="10" y2="7"></line><line x1="14" y1="17" x2="14" y2="7"></line><line x1="18" y1="17" x2="18" y2="7"></line></svg></span>
+        SDIT
+      </a>
+      <a href="/smp-sma.html" class="mobile-menu__link mobile-menu__link--sub" style="display:flex;align-items:center;gap:12px;">
+        <span style="color:#2b8fbd;display:flex;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg></span>
+        SMP — SMA
+      </a>
     </div>
     <a href="/gallery.html" class="mobile-menu__link" data-i18n="nav.gallery">Galeri</a>
     <a href="/calendar.html" class="mobile-menu__link" data-i18n="nav.calendar">Kalender</a>
