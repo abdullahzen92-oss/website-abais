@@ -284,7 +284,11 @@ export async function uploadImageToSupabase(file) {
   try {
     const { data, error } = await supabase.storage
       .from('images')
-      .upload(filePath, file);
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+        contentType: file.type || 'image/jpeg'
+      });
 
     if (error) throw error;
 
