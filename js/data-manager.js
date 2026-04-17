@@ -16,8 +16,8 @@ let _cacheReady = false;
 const DEFAULT_CONTENT = {
   hero: {
     badge: 'Pendaftaran PPDB 2026/2027 Dibuka',
-    title1: 'Mendidik Generasi',
-    title2: "Qur'ani & Berakhlak Mulia",
+    title1: 'Mendidik Dengan Hati,',
+    title2: "Membimbing Sesuai Sunnah",
     subtitle: 'Sekolah Sunnah Fullday dengan kurikulum Tahfidz Al-Qur\'an, Entrepreneur, dan Beladiri. Membangun fondasi iman dan kemandirian sejak dini di Kota Bogor.',
     cta1: 'Daftar PPDB Sekarang',
     cta2: 'Pelajari Selengkapnya',
