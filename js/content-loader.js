@@ -331,21 +331,33 @@ function loadContact() {
    SDIT PAGE
    ========================= */
 function loadSdit() {
-  const programs = getSiteContent('sdit_programs');
-  if (programs && Array.isArray(programs)) {
-    const cards = document.querySelectorAll('#programSdit .card');
-    programs.forEach((p, i) => {
-      if (cards[i]) {
-        const icon = cards[i].querySelector('.card__icon');
-        const title = cards[i].querySelector('.card__title');
-        const text = cards[i].querySelector('.card__text');
-        if (icon) icon.innerHTML = renderIcon(p.icon);
-        if (title) title.textContent = p.title;
-        if (text) text.textContent = p.desc;
-      }
-    });
+  // Hero section
+  const hero = getSiteContent('sdit_hero');
+  if (hero) {
+    const badge = document.querySelector('.page-hero .badge');
+    const title = document.querySelector('.page-hero h1');
+    const desc = document.querySelector('.page-hero p');
+    if (badge && hero.badge) badge.textContent = hero.badge;
+    if (title && hero.title) title.textContent = hero.title;
+    if (desc && hero.desc) desc.textContent = hero.desc;
   }
 
+  // Programs — rebuild grid dynamically
+  const programs = getSiteContent('sdit_programs');
+  if (programs && Array.isArray(programs)) {
+    const grid = document.querySelector('#programSdit .grid');
+    if (grid) {
+      grid.innerHTML = programs.map((p, i) => `
+        <div class="card reveal${i % 3 !== 0 ? ` reveal-delay-${i % 3}` : ''}">
+          <div class="card__icon">${renderIcon(p.icon)}</div>
+          <h3 class="card__title">${escHtml(p.title)}</h3>
+          <p class="card__text">${escHtml(p.desc)}</p>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Schedule
   const schedule = getSiteContent('sdit_schedule');
   if (schedule && Array.isArray(schedule)) {
     const list = document.querySelector('.checklist');
@@ -354,6 +366,28 @@ function loadSdit() {
         `<div class="checklist__item"><span class="checklist__icon">${renderIcon(s.icon || '🕐')}</span><span><strong>${escHtml(s.time)}</strong> — ${escHtml(s.activity)}</span></div>`
       ).join('');
     }
+  }
+
+  // CTA section
+  const cta = getSiteContent('sdit_cta');
+  if (cta) {
+    const ctaTitle = document.querySelector('.cta-banner h2');
+    const ctaDesc = document.querySelector('.cta-banner p');
+    const ctaBtn = document.querySelector('.cta-banner .btn span');
+    if (ctaTitle && cta.title) ctaTitle.textContent = cta.title;
+    if (ctaDesc && cta.subtitle) ctaDesc.textContent = cta.subtitle;
+    if (ctaBtn && cta.btn) ctaBtn.textContent = cta.btn;
+  }
+
+  // PPDB Info
+  const ppdb = getSiteContent('sdit_ppdb');
+  if (ppdb) {
+    const label = document.querySelector('.cost-card__label');
+    const status = document.querySelector('.cost-card__price');
+    const note = document.querySelector('.cost-card__note');
+    if (label && ppdb.label) label.textContent = ppdb.label;
+    if (status && ppdb.status) status.textContent = ppdb.status;
+    if (note && ppdb.note) note.textContent = ppdb.note;
   }
 
   // Update WA link for SDIT
@@ -371,21 +405,33 @@ function loadSdit() {
    SMP-SMA PAGE
    ========================= */
 function loadSmpSma() {
-  const programs = getSiteContent('smpsma_programs');
-  if (programs && Array.isArray(programs)) {
-    const cards = document.querySelectorAll('#programSmpSma .card');
-    programs.forEach((p, i) => {
-      if (cards[i]) {
-        const icon = cards[i].querySelector('.card__icon');
-        const title = cards[i].querySelector('.card__title');
-        const text = cards[i].querySelector('.card__text');
-        if (icon) icon.innerHTML = renderIcon(p.icon);
-        if (title) title.textContent = p.title;
-        if (text) text.textContent = p.desc;
-      }
-    });
+  // Hero section
+  const hero = getSiteContent('smpsma_hero');
+  if (hero) {
+    const badge = document.querySelector('.page-hero .badge');
+    const title = document.querySelector('.page-hero h1');
+    const desc = document.querySelector('.page-hero p');
+    if (badge && hero.badge) badge.textContent = hero.badge;
+    if (title && hero.title) title.textContent = hero.title;
+    if (desc && hero.desc) desc.textContent = hero.desc;
   }
 
+  // Programs — rebuild grid dynamically
+  const programs = getSiteContent('smpsma_programs');
+  if (programs && Array.isArray(programs)) {
+    const grid = document.querySelector('#programSmpSma .grid');
+    if (grid) {
+      grid.innerHTML = programs.map((p, i) => `
+        <div class="card reveal${i % 3 !== 0 ? ` reveal-delay-${i % 3}` : ''}">
+          <div class="card__icon">${renderIcon(p.icon)}</div>
+          <h3 class="card__title">${escHtml(p.title)}</h3>
+          <p class="card__text">${escHtml(p.desc)}</p>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Schedule
   const schedule = getSiteContent('smpsma_schedule');
   if (schedule && Array.isArray(schedule)) {
     const list = document.querySelector('.checklist');
@@ -394,6 +440,28 @@ function loadSmpSma() {
         `<div class="checklist__item"><span class="checklist__icon">${renderIcon(s.icon || '🕐')}</span><span><strong>${escHtml(s.time)}</strong> — ${escHtml(s.activity)}</span></div>`
       ).join('');
     }
+  }
+
+  // CTA section
+  const cta = getSiteContent('smpsma_cta');
+  if (cta) {
+    const ctaTitle = document.querySelector('.cta-banner h2');
+    const ctaDesc = document.querySelector('.cta-banner p');
+    const ctaBtn = document.querySelector('.cta-banner .btn span');
+    if (ctaTitle && cta.title) ctaTitle.textContent = cta.title;
+    if (ctaDesc && cta.subtitle) ctaDesc.textContent = cta.subtitle;
+    if (ctaBtn && cta.btn) ctaBtn.textContent = cta.btn;
+  }
+
+  // PPDB Info
+  const ppdb = getSiteContent('smpsma_ppdb');
+  if (ppdb) {
+    const label = document.querySelector('.cost-card__label');
+    const status = document.querySelector('.cost-card__price');
+    const note = document.querySelector('.cost-card__note');
+    if (label && ppdb.label) label.textContent = ppdb.label;
+    if (status && ppdb.status) status.textContent = ppdb.status;
+    if (note && ppdb.note) note.textContent = ppdb.note;
   }
 }
 
