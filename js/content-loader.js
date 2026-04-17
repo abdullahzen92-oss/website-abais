@@ -153,6 +153,13 @@ function loadGlobals() {
       waFloatBtn.href = `https://wa.me/${contact.waNumber}?text=${msg}`;
     }
   }
+
+  const ctaBanner = getSiteContent('cta_banner');
+  if (ctaBanner) {
+    setContent('[data-i18n="cta.title"]', ctaBanner.title);
+    setContent('[data-i18n="cta.subtitle"]', ctaBanner.subtitle);
+    setContent('[data-i18n="cta.btn"]', ctaBanner.btn);
+  }
 }
 
 /* =========================

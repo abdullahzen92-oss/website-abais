@@ -120,6 +120,13 @@
           <div id="testimoniEditor"></div>
           <button class="btn btn--outline btn--sm" style="margin-top:0.75rem;" id="addTestimoniBtn">+ Tambah Testimoni</button>
         </div>
+
+        <div class="admin__section">
+          <h3>CTA Banner <small style="font-weight:400;color:var(--clr-gray)">(di bagian bawah setiap halaman)</small></h3>
+          <div class="admin__form-group"><label>Judul Baris 1 (CTA)</label><input class="form-input" id="ctaBannerTitle" /></div>
+          <div class="admin__form-group"><label>Judul Baris 2 (Subjudul)</label><textarea class="form-input" id="ctaBannerSubtitle" rows="2"></textarea></div>
+          <div class="admin__form-group"><label>Teks Tombol</label><input class="form-input" id="ctaBannerBtn" /></div>
+        </div>
       </div>
 
       <!-- ========= HALAMAN TAB ========= -->
@@ -440,6 +447,12 @@
 
       // Testimonials
       renderTestimoni(data.testimonials || []);
+
+      // CTA Banner
+      const cb = data.cta_banner || {};
+      document.getElementById('ctaBannerTitle').value = cb.title || '';
+      document.getElementById('ctaBannerSubtitle').value = cb.subtitle || '';
+      document.getElementById('ctaBannerBtn').value = cb.btn || '';
     }
 
     function renderTestimoni(testimonials) {
@@ -498,11 +511,17 @@
         await saveSiteContent('counters', ctrs);
 
         const testis = [...document.querySelectorAll('#testimoniEditor .admin__repeat-item')].map(row => ({
+          text: row.querySelector('.testi-text').value,
           name: row.querySelector('.testi-name').value,
           role: row.querySelector('.testi-role').value,
-          text: row.querySelector('.testi-text').value,
         }));
         await saveSiteContent('testimonials', testis);
+
+        await saveSiteContent('cta_banner', {
+          title: document.getElementById('ctaBannerTitle').value,
+          subtitle: document.getElementById('ctaBannerSubtitle').value,
+          btn: document.getElementById('ctaBannerBtn').value
+        });
 
         forceRefreshNextLoad();
         showToast('✅ Beranda berhasil disimpan & tersinkron ke abaisbogor.vercel.app!');

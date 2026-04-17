@@ -59,6 +59,11 @@ const DEFAULT_CONTENT = {
     facebook: 'https://www.facebook.com/sekolahsunnahbogor',
     mapsUrl: 'https://maps.app.goo.gl/FAqK1fr4AahSeuH87',
   },
+  cta_banner: {
+    title: 'Siap Bergabung dengan Keluarga Besar ABAIS?',
+    subtitle: 'Berikan pendidikan terbaik untuk putra-putri Anda. Pendaftaran PPDB 2026/2027 telah dibuka.',
+    btn: 'Daftar PPDB Sekarang'
+  },
   settings: {
     schoolName: 'ABAIS',
     schoolFullName: 'Abdurrahman Bin Auf Islamic School Bogor',
